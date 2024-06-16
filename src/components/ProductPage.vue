@@ -433,5 +433,6 @@ export default {
 .name-text {
   margin-top: 0;
   font-size: 50px; /* Adjust the font size as needed */
+  
 }
 </style>
