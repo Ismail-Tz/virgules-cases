@@ -222,7 +222,7 @@ export default {
         },
         {
           id: 3,
-          name: "Just Green Mshroom",
+          name: "Just Green Mushroom",
           colorName: "Green",
           colorHex: "#2EEA89",
           image: greenImg,
