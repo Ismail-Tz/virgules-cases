@@ -1,5 +1,5 @@
-<template>
-  <div class="flex justify-center min-h-screen" :style="{ fontCo: darkColor }">
+<template >
+  <div class="flex justify-center min-h-screen mt-12">
     <div style="width: calc(1680px - 540px)">
       <div class="grid grid-cols-12 gap-[40px]">
         <div class="relative col-span-7">
@@ -11,6 +11,7 @@
             />
             <!-- Customizing Cases -->
             <div
+              v-if="isCustomizable"
               class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
             >
               <span
@@ -54,8 +55,8 @@
             </h4>
           </div>
           <div
-            class="bg-[#F5F7F6] text-white p-[24px] rounded-[32px]"
-            :style="{ backgroundColor: lightColor }"
+            class="bg-[#F5F7F6] text-white border p-[24px] rounded-[32px]"
+            :style="{ backgroundColor: lightColor ,borderColor: darkColor+'20' }"
           >
             <h2
               class="text-black text-left font-[Visby] font-extrabold text-[20px] mb-[24px] leading-[100%] after"
@@ -65,12 +66,12 @@
             </h2>
             <div class="flex gap-[8px] mb-[8px]">
               <button
-                v-for="device in devices"
+                v-for="device in availableBrands"
                 :key="device"
                 class="border border-black text-black py-[17.5px] px-[20px] text-[15px] rounded-[62px] leading-[100%]"
                 @mouseenter="hoveredButton = device"
                 @mouseleave="hoveredButton = null"
-                @click="selectDevice(device)"
+                @click="selectBrand(device)"
                 :style="buttonStyles(device)"
               >
                 {{ device }}
@@ -80,11 +81,16 @@
               <label for="device-model-dropdown"></label>
               <div class="select-wrapper w-full">
                 <select
+                  v-model="selectedModel"
                   id="device-model-dropdown"
                   class="border border-black text-black bg-transparent py-[17.5px] px-[20px] text-[15px] leading-[100%] rounded-[62px] focus:outline-none appearance-none focus:ring-indigo-500 focus:border-indigo-500"
                   :style="{ borderColor: darkColor, color: darkColor }"
                 >
-                  <option v-for="model in currentDeviceModels" :key="model">
+                  <option
+                    v-for="model in currentBrandModels"
+                    :key="model"
+                    :value="model"
+                  >
                     {{ model }}
                   </option>
                 </select>
@@ -103,32 +109,34 @@
               </div>
             </div>
             <!-- Customize section (only in customizable products) -->
-            <h2
-              class="text-black text-left font-[Visby] font-extrabold text-[20px] my-[24px] leading-[100%] after"
-              :style="{ color: darkColor, borderColor: darkColor }"
-            >
-              Customize
-            </h2>
-            <div class="flex gap-[8px] mb-[8px]">
-              <div class="flex w-full space-x-2">
-                <input
-                  type="text"
-                  class="w-[30%] bg-transparent border border-black text-black py-[17.5px] px-[20px] text-[15px] italic rounded-[62px] leading-[100%] focus:outline-none focus:ring-1 focus:ring-[#0000006e]"
-                  placeholder="Number"
-                  v-model="customNumber"
-                  :style="{
-                    borderColor: darkColor,
-                    color: darkColor,
-                    focusBorderColor: darkColor,
-                  }"
-                />
-                <input
-                  type="text"
-                  class="w-[70%] bg-transparent border border-black text-black py-[17.5px] px-[20px] text-[15px] italic rounded-[62px] leading-[100%] focus:outline-none focus:ring-1 focus:ring-[#0000006e]"
-                  placeholder="Name"
-                  v-model="customName"
-                  :style="{ borderColor: darkColor, color: darkColor }"
-                />
+            <div v-if="isCustomizable">
+              <h2
+                class="text-black text-left font-[Visby] font-extrabold text-[20px] my-[24px] leading-[100%] after"
+                :style="{ color: darkColor, borderColor: darkColor }"
+              >
+                Customize
+              </h2>
+              <div class="flex gap-[8px] mb-[8px]">
+                <div class="flex w-full space-x-2">
+                  <input
+                    type="text"
+                    class="w-[30%] bg-transparent border border-black text-black py-[17.5px] px-[20px] text-[15px] italic rounded-[62px] leading-[100%] focus:outline-none focus:ring-1 focus:ring-[#0000006e]"
+                    placeholder="Number"
+                    v-model="customNumber"
+                    :style="{
+                      borderColor: darkColor,
+                      color: darkColor,
+                      focusBorderColor: darkColor,
+                    }"
+                  />
+                  <input
+                    type="text"
+                    class="w-[70%] bg-transparent border border-black text-black py-[17.5px] px-[20px] text-[15px] italic rounded-[62px] leading-[100%] focus:outline-none focus:ring-1 focus:ring-[#0000006e]"
+                    placeholder="Name"
+                    v-model="customName"
+                    :style="{ borderColor: darkColor, color: darkColor }"
+                  />
+                </div>
               </div>
             </div>
             <!-- Color/Style Selection -->
@@ -197,35 +205,118 @@
 </template>
 
 <script>
-import coolGreenImg from "@/assets/Images/Model1-coolGreen.png";
-import redImg from "@/assets/Images/Model1-Red.png";
-import greenImg from "@/assets/Images/Model1-Green.png";
+import p8_Red from "@/assets/Images/P8_Red.jpg";
+import p8_Green from "@/assets/Images/P8_Green.jpg";
+import p8_CoolGreen from "@/assets/Images/P8_CoolGreen.jpg";
+
+import p8Pro_Red from "@/assets/Images/P8Pro_Red.jpg";
+import p8Pro_Green from "@/assets/Images/P8Pro_Green.jpg";
+import p8Pro_CoolGreen from "@/assets/Images/P8Pro_CoolGreen.jpg";
+
+import iP15_Red from "@/assets/Images/iP15_Red.jpg";
+import iP15_Green from "@/assets/Images/iP15_Green.jpg";
+import iP15_CoolGreen from "@/assets/Images/iP15_CoolGreen.jpg";
+
+import iP15p_Red from "@/assets/Images/iP15+_Red.jpg";
+import iP15p_Green from "@/assets/Images/iP15+_Green.jpg";
+import iP15p_CoolGreen from "@/assets/Images/iP15+_CoolGreen.jpg";
+
+import iP15Pro_Red from "@/assets/Images/iP15Pro_Red.jpg";
+import iP15Pro_Green from "@/assets/Images/iP15Pro_Green.jpg";
+import iP15Pro_CoolGreen from "@/assets/Images/iP15Pro_CoolGreen.jpg";
+
+import iP15ProM_Red from "@/assets/Images/iP15ProM_Red.jpg";
+import iP15ProM_Green from "@/assets/Images/iP15ProM_Green.jpg";
+import iP15ProM_CoolGreen from "@/assets/Images/iP15ProM_CoolGreen.jpg";
+
+import s24_Red from "@/assets/Images/S24_Red.jpg";
+import s24_Green from "@/assets/Images/S24_Green.jpg";
+import s24_CoolGreen from "@/assets/Images/S24_CoolGreen.jpg";
+
+import s24p_Red from "@/assets/Images/S24+_Red.jpg";
+import s24p_Green from "@/assets/Images/S24+_Green.jpg";
+import s24p_CoolGreen from "@/assets/Images/S24+_CoolGreen.jpg";
+
+import s24U_Red from "@/assets/Images/S24U_Red.jpg";
+import s24U_Green from "@/assets/Images/S24U_Green.jpg";
+import s24U_CoolGreen from "@/assets/Images/S24U_CoolGreen.jpg";
+
 export default {
+
   name: "ProductPage",
+
   data() {
     return {
       message: "Hello, Vue with Tailwind CSS!",
       colors: [
         {
           id: 1,
-          name: "Cool Green Mushroom",
+          name: "Cool Green Virgules' OG",
           colorName: "Cool Green",
           colorHex: "#7EE5D8",
-          image: coolGreenImg,
+          availableModels: {
+            Apple: [
+              { name: "iPhone 15", image: iP15_CoolGreen },
+              { name: "iPhone 15 Plus", image: iP15p_CoolGreen },
+              { name: "iPhone 15 Pro", image: iP15Pro_CoolGreen },
+              { name: "iPhone 15 Pro Max", image: iP15ProM_CoolGreen },
+            ],
+            Samsung: [
+              { name: "Galaxy S24", image: s24_CoolGreen },
+              { name: "Galaxy S24+", image: s24p_CoolGreen },
+              { name: "Galaxy S24 Ultra", image: s24U_CoolGreen },
+            ],
+            Google: [
+              { name: "Pixel 8", image: p8_CoolGreen },
+              { name: "Pixel 8 Pro", image: p8Pro_CoolGreen },
+            ],
+          },
         },
         {
           id: 2,
-          name: "Red Mushroom",
+          name: "Red Virgules' OG",
           colorName: "Red",
           colorHex: "#FF6060",
-          image: redImg,
+          availableModels: {
+            Apple: [
+              { name: "iPhone 15", image: iP15_Red },
+              { name: "iPhone 15 Plus", image: iP15p_Red },
+              { name: "iPhone 15 Pro", image: iP15Pro_Red },
+              { name: "iPhone 15 Pro Max", image: iP15ProM_Red },
+            ],
+            Samsung: [
+              { name: "Galaxy S24", image: s24_Red },
+              { name: "Galaxy S24+", image: s24p_Red },
+              { name: "Galaxy S24 Ultra", image: s24U_Red },
+            ],
+            Google: [
+              { name: "Pixel 8", image: p8_Red },
+              { name: "Pixel 8 Pro", image: p8Pro_Red },
+            ],
+          },
         },
         {
           id: 3,
-          name: "Just Green Mushroom",
+          name: "Just Green Virgules' OG",
           colorName: "Green",
           colorHex: "#2EEA89",
-          image: greenImg,
+          availableModels: {
+            Apple: [
+              { name: "iPhone 15", image: iP15_Green },
+              { name: "iPhone 15 Plus", image: iP15p_Green },
+              { name: "iPhone 15 Pro", image: iP15Pro_Green },
+              { name: "iPhone 15 Pro Max", image: iP15ProM_Green },
+            ],
+            Samsung: [
+              { name: "Galaxy S24", image: s24_Green },
+              { name: "Galaxy S24+", image: s24p_Green },
+              { name: "Galaxy S24 Ultra", image: s24U_Green },
+            ],
+            Google: [
+              { name: "Pixel 8", image: p8_Green },
+              { name: "Pixel 8 Pro", image: p8Pro_Green },
+            ],
+          },
         },
       ],
       colorTitle: "",
@@ -234,27 +325,38 @@ export default {
       selectedColor: null,
       hoveredButton: null,
       isAddToCartHovered: false,
-      devices: ["Apple", "Samsung", "Google"],
-      selectedDevice: "Apple",
-      deviceModels: {
-        Apple: ["iPhone 15", "iPhone 15 Pro", "iPhone 15 Pro Max"],
-        Samsung: ["Galaxy S24", "Galaxy S24+", "Galaxy S24 Ultra"],
-        Google: ["Pixel 8a", "Pixel 8", "Pixel 8 Pro"],
-      },
+      availableBrands: [],
+      availableModels: [],
+      selectedBrand: "",
+      selectedModel: "", // Default selected model
 
       // Customizing Cases
+      isCustomizable: false, // Set to true or false based on whether the product is customizable
       customNumber: "",
       customName: "",
       customFont: "visby, sans-serif",
     };
+    
   },
+
   created() {
     // Set colorTitle to the colorName of the first color in the colors array
     this.colorTitle = this.colors[0].colorName;
-    this.imageSrc = this.colors[0].image;
+    this.imageSrc =
+      this.colors[0].availableModels[
+        Object.keys(this.colors[0].availableModels)[0]
+      ][0].image;
     this.productName = this.colors[0].name;
     this.selectedColor = this.colors[0].id;
+    this.$emit('lightColorEvent', this.colors[0]);
+    // Initialize available brands and models based on the first color in the colors array
+    this.availableBrands = Object.keys(this.colors[0].availableModels);
+    this.selectedBrand =
+      this.availableBrands.length > 0 ? this.availableBrands[0] : null;
+    this.selectedModel =
+      this.colors[0].availableModels[this.selectedBrand][0].name; // first model of the first brand
   },
+
   methods: {
     // Method to handle click event
     handleClick(color) {
@@ -262,13 +364,73 @@ export default {
       // Set clickedElement to the target element of the event
 
       this.colorTitle = color.colorName;
-      this.imageSrc = color.image;
       this.productName = color.name;
       this.selectedColor = color.id;
+      this.availableBrands = Object.keys(color.availableModels);
+
+
+      
+
+      const selectedColorData = this.colors.find(
+        (c) => c.id === this.selectedColor
+      );
+
+      
+      // this.$emit('colorEvent', selectedColorData);
+
+      if (!selectedColorData) {
+        // Handle the case where no matching color data is found
+        this.imageSrc = "";
+        return;
+      }
+
+      // Check if the selected brand exists for the new color
+      let modelsForSelectedBrand =
+        selectedColorData.availableModels[this.selectedBrand];
+
+      if (!modelsForSelectedBrand) {
+        // If the selected brand is not available, default to the first available brand
+        this.selectedBrand = this.availableBrands[0] || ""; // Default to the first available brand
+        modelsForSelectedBrand = selectedColorData.availableModels[this.selectedBrand];
+        this.selectedModel = modelsForSelectedBrand[0]?.name || ""; // Select the first model or reset if no models are available
+      }
+
+      // Find the image for the selected model and color
+      const modelData = modelsForSelectedBrand.find((model) => model.name === this.selectedModel);
+
+      // Update imageSrc based on selected model
+      this.imageSrc = modelData ? modelData.image : "";
     },
 
-    selectDevice(device) {
-      this.selectedDevice = device;
+    selectBrand(device) {
+      // Check if the selected brand is already the same as the new device
+      if (this.selectedBrand === device) {
+        return; // Exit the function if the same brand is selected
+      }
+
+      this.selectedBrand = device;
+
+      // Update the image source based on the selected brand and first model
+      const selectedColorData = this.colors.find(
+        (c) => c.id === this.selectedColor
+      );
+
+      if (!selectedColorData) {
+        // Handle the case where no matching color data is found
+        this.imageSrc = "";
+        return;
+      }
+
+      const firstModel =
+        selectedColorData.availableModels[this.selectedBrand]?.[0];
+      if (!firstModel) {
+        // Handle the case where no models are available for the selected brand
+        this.imageSrc = "";
+        return;
+      }
+
+      this.selectedModel = firstModel.name; // First model of the selected brand
+      this.imageSrc = firstModel.image || ""; // Fallback to empty string if no image is available
     },
 
     buttonStyles(device) {
@@ -279,7 +441,7 @@ export default {
           borderColor: this.darkColor,
         };
       }
-      if (this.selectedDevice === device) {
+      if (this.selectedBrand === device) {
         return {
           backgroundColor: this.darkColor,
           color: this.lightColor,
@@ -364,33 +526,58 @@ export default {
       const color = this.colors.find(
         (c) => c.id === this.selectedColor
       ).colorHex;
-      return this.lightenColor(color, 98); // Adjust the amount to get very light color
+      const lightColor = this.lightenColor(color, 98); // Adjust the amount to get very light color
+      this.$emit('lightColorEvent', lightColor);
+      return lightColor;
     },
     darkColor() {
       const color = this.colors.find(
         (c) => c.id === this.selectedColor
       ).colorHex;
-      return this.darkenColor(color, 12); // Adjust the amount to get a darker color
+      const darkColor = this.darkenColor(color, 12); // Adjust the amount to get a darker color
+      this.$emit('darkColorEvent', darkColor);
+      return darkColor;
     },
-    currentDeviceModels() {
-      return this.deviceModels[this.selectedDevice];
+    currentBrandModels() {
+      return this.selectedBrand
+        ? this.colors
+            .find((c) => c.id === this.selectedColor)
+            .availableModels[this.selectedBrand].map((model) => model.name)
+        : [];
     },
   },
 
-  // Watching for Customizing Cases Inputs
   watch: {
+    // Watching for Customizing Cases Inputs
     customNumber(value) {
       if (!/^\d{0,2}$/.test(value)) {
         this.customNumber = value.replace(/[^\d]/g, "").slice(0, 2);
       }
     },
     customName(value) {
-    // Remove extra spaces and ensure no more than 9 characters
-    value = value.trim().replace(/\s+/g, ' ').slice(0, 7);
+      // Remove extra spaces and ensure no more than 9 characters
+      value = value.trim().replace(/\s+/g, " ").slice(0, 8);
 
-    // Allow only uppercase letters and spaces between letters
-    this.customName = value.toUpperCase().replace(/[^A-Z ]|(?<=\b\s)\s+/g, '');
-  }
+      // Allow only uppercase letters and spaces between letters
+      this.customName = value
+        .toUpperCase()
+        .replace(/[^A-Z ]|(?<=\b\s)\s+/g, "");
+    },
+
+    selectedModel(newModel) {
+      // Find the selected color data
+      const selectedColorData = this.colors.find(
+        (c) => c.id === this.selectedColor
+      );
+
+      // Find the image for the selected model
+      const modelData = selectedColorData.availableModels[
+        this.selectedBrand
+      ].find((model) => model.name === newModel);
+
+      // Update imageSrc based on selected model
+      this.imageSrc = modelData ? modelData.image : "";
+    },
   },
 };
 </script>
@@ -432,6 +619,6 @@ export default {
 
 .name-text {
   margin-top: 0;
-  font-size: 50px; /* Adjust the font size as needed */
+  font-size: 40px; /* Adjust the font size as needed */
 }
 </style>

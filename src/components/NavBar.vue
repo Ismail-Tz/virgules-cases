@@ -1,0 +1,71 @@
+<template>
+  <nav
+    class="bg-[#F7FDFC] border-b border-[#0A332E20] py-4 h-[60px]"
+    :style="{ backgroundColor: lightColorMsg, borderColor: darkColorMsg + '20' }"
+  >
+    <div
+      class="container mx-auto flex justify-between items-center h-full"
+      style="width: calc(1680px - 540px)"
+    >
+      <!-- Left-aligned section (Logo) -->
+      <div class="flex items-center w-1/3">
+        <a href="#">
+          <svg
+            class="w-[36px]"
+            width="51"
+            height="39"
+            viewBox="0 0 51 39"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M34.6706 16.5134C34.6706 19.673 33.9071 22.8033 32.4625 25.5663C32.1723 26.1217 31.6074 26.4671 30.9879 26.4671C30.3909 26.4671 29.8515 26.1521 29.5453 25.6244C29.2396 25.0976 29.2255 24.4608 29.5081 23.9206C30.0694 22.847 30.5048 21.7143 30.8068 20.5431L30.7553 20.5434C28.7458 20.5434 27.0326 18.9348 26.8552 16.881C26.7562 15.7339 27.115 14.6368 27.8656 13.7924C28.6057 12.9599 29.6589 12.4823 30.7545 12.4823C31.072 12.4823 31.3894 12.5222 31.6977 12.6007C33.4479 13.0459 34.6706 14.655 34.6706 16.5134ZM21.1883 12.651C20.88 12.5726 20.5626 12.5326 20.2448 12.5326C19.1492 12.5326 18.0961 13.0103 17.3559 13.8428C16.6054 14.6871 16.2465 15.7842 16.3455 16.9314C16.523 18.9855 18.2361 20.594 20.2456 20.594L20.2971 20.5938C19.9951 21.7649 19.5598 22.8976 18.9987 23.971C18.7161 24.5109 18.7299 25.148 19.0356 25.6748C19.3418 26.2025 19.8812 26.5177 20.4782 26.5177C21.0974 26.5177 21.6627 26.1724 21.9531 25.6166C23.3974 22.8539 24.1609 19.7236 24.1609 16.5641C24.1609 14.7054 22.9382 13.0962 21.1883 12.651ZM33.6223 2.35807L45.8812 10.0912C52.7063 14.3965 52.7063 24.6035 45.8812 28.9088L33.6223 36.6419C28.6382 39.786 22.3618 39.786 17.3777 36.6419L5.11879 28.9088C-1.70626 24.6035 -1.70626 14.3965 5.11879 10.0912L17.3777 2.35807C22.3618 -0.786024 28.6382 -0.786024 33.6223 2.35807ZM8.3616 25.4368L17.3779 31.1239C22.362 34.2676 28.638 34.2674 33.6219 31.1235L42.6372 25.4367C46.9437 22.7201 46.9439 16.2796 42.6375 13.5627L33.6227 7.87536C28.6384 4.73077 22.3616 4.73065 17.3771 7.87504L8.36124 13.5626C4.05455 16.2794 4.05474 22.7202 8.3616 25.4368Z"
+              fill="#0A332E"
+              style="fill: rgb(10, 51, 46); fill-opacity: 1"
+            />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Center-aligned section (Text buttons) -->
+      <div class="flex justify-center w-1/3">
+        <a href="#" class="text-[#0A332E] hover:text-black px-3 text-[14px]" :style="{ color: darkColorMsg }"
+          >Devices</a
+        >
+        <a href="#" class="text-[#0A332E] hover:text-black px-3 text-[14px]" :style="{ color: darkColorMsg }"
+          >Customization</a
+        >
+        <a href="#" class="text-[#0A332E] hover:text-black px-3 text-[14px]" :style="{ color: darkColorMsg }"
+          >Featured</a
+        >
+      </div>
+
+      <!-- Right-aligned section (Symbol buttons) -->
+      <div class="flex justify-end items-center space-x-4 w-1/3">
+        <a href="#" class="text-[#0A332E] hover:text-black" >
+          <img src="../assets/Icons/Search.svg" class="w-[18px]" />
+        </a>
+        <a href="#" class="text-[#0A332E] hover:text-black">
+          <img src="../assets/Icons/Language.svg" class="w-[18px]" />
+        </a>
+        <a href="#" class="text-[#0A332E] hover:text-black">
+          <img src="../assets/Icons/Bag.svg" class="w-[18px]" />
+        </a>
+      </div>
+    </div>
+  </nav>
+</template>
+
+<script>
+export default {
+  name: "NavBar",
+  props: ["lightColorMsg", "darkColorMsg"],
+};
+</script>
+
+<style scoped>
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Additional styles if necessary */
+</style>
