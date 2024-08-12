@@ -1,4 +1,4 @@
-<template >
+<template>
   <div class="flex justify-center min-h-screen mt-12">
     <div style="width: calc(1680px - 540px)">
       <div class="grid grid-cols-12 gap-[40px]">
@@ -36,13 +36,13 @@
               {{ productName }}
             </h1>
             <h2
-               class="text-black text-left font-[Visby] font-bold text-[21px] mb-[8px] leading-[100%]"
+              class="text-black text-left font-[Visby] font-bold text-[21px] mb-[8px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
               Clear Case
             </h2>
             <h3
-               class="text-black text-left text-[18px] mb-[10px] leading-[100%]"
+              class="text-black text-left text-[18px] mb-[10px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
               200 Dhs
@@ -56,7 +56,10 @@
           </div>
           <div
             class="bg-[#F5F7F6] text-white border p-[24px] rounded-[32px]"
-            :style="{ backgroundColor: lightColor ,borderColor: darkColor+'20' }"
+            :style="{
+              backgroundColor: lightColor,
+              borderColor: darkColor + '20',
+            }"
           >
             <h2
               class="text-black text-left font-[Visby] font-extrabold text-[20px] mb-[24px] leading-[100%] after"
@@ -242,7 +245,6 @@ import s24U_Green from "@/assets/Images/S24U_Green.jpg";
 import s24U_CoolGreen from "@/assets/Images/S24U_CoolGreen.jpg";
 
 export default {
-
   name: "ProductPage",
 
   data() {
@@ -336,7 +338,6 @@ export default {
       customName: "",
       customFont: "visby, sans-serif",
     };
-    
   },
 
   created() {
@@ -348,13 +349,18 @@ export default {
       ][0].image;
     this.productName = this.colors[0].name;
     this.selectedColor = this.colors[0].id;
-  
+
     // Initialize available brands and models based on the first color in the colors array
     this.availableBrands = Object.keys(this.colors[0].availableModels);
     this.selectedBrand =
       this.availableBrands.length > 0 ? this.availableBrands[0] : null;
     this.selectedModel =
       this.colors[0].availableModels[this.selectedBrand][0].name; // first model of the first brand
+
+    // Initialize Safari tab bar color
+    this.updateSafariTabBarColor();
+
+
   },
 
   methods: {
@@ -368,15 +374,13 @@ export default {
       this.selectedColor = color.id;
       this.availableBrands = Object.keys(color.availableModels);
 
-
-      
-
       const selectedColorData = this.colors.find(
         (c) => c.id === this.selectedColor
       );
 
-      
-      // this.$emit('colorEvent', selectedColorData);
+  
+      // Update Safari tab bar color
+    this.updateSafariTabBarColor();
 
       if (!selectedColorData) {
         // Handle the case where no matching color data is found
@@ -391,12 +395,15 @@ export default {
       if (!modelsForSelectedBrand) {
         // If the selected brand is not available, default to the first available brand
         this.selectedBrand = this.availableBrands[0] || ""; // Default to the first available brand
-        modelsForSelectedBrand = selectedColorData.availableModels[this.selectedBrand];
+        modelsForSelectedBrand =
+          selectedColorData.availableModels[this.selectedBrand];
         this.selectedModel = modelsForSelectedBrand[0]?.name || ""; // Select the first model or reset if no models are available
       }
 
       // Find the image for the selected model and color
-      const modelData = modelsForSelectedBrand.find((model) => model.name === this.selectedModel);
+      const modelData = modelsForSelectedBrand.find(
+        (model) => model.name === this.selectedModel
+      );
 
       // Update imageSrc based on selected model
       this.imageSrc = modelData ? modelData.image : "";
@@ -519,6 +526,19 @@ export default {
       const hsl = this.hexToHSL(color);
       return this.hslToHex(hsl.h, hsl.s, lightness);
     },
+    
+    updateSafariTabBarColor() {
+    const metaTag = document.querySelector('meta[name="theme-color"]');
+    const color = this.themeColor;  // Use the computed themeColor
+    if (metaTag) {
+      metaTag.setAttribute('content', color);
+    } else {
+      const newMetaTag = document.createElement('meta');
+      newMetaTag.setAttribute('name', 'theme-color');
+      newMetaTag.setAttribute('content', color);
+      document.head.appendChild(newMetaTag);
+    }
+  },
   },
 
   computed: {
@@ -527,7 +547,7 @@ export default {
         (c) => c.id === this.selectedColor
       ).colorHex;
       const lightColor = this.lightenColor(color, 98); // Adjust the amount to get very light color
-      this.$emit('lightColorEvent', lightColor);
+      this.$emit("lightColorEvent", lightColor);
       return lightColor;
     },
     darkColor() {
@@ -535,7 +555,7 @@ export default {
         (c) => c.id === this.selectedColor
       ).colorHex;
       const darkColor = this.darkenColor(color, 12); // Adjust the amount to get a darker color
-      this.$emit('darkColorEvent', darkColor);
+      this.$emit("darkColorEvent", darkColor);
       return darkColor;
     },
     currentBrandModels() {
@@ -544,6 +564,19 @@ export default {
             .find((c) => c.id === this.selectedColor)
             .availableModels[this.selectedBrand].map((model) => model.name)
         : [];
+    },
+
+    //for safari tab bar color
+
+    isDarkMode() {
+      return (
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+      );
+    },
+
+    themeColor() {
+      return this.isDarkMode ? this.darkColor : this.lightColor;
     },
   },
 
