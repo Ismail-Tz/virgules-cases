@@ -36,13 +36,13 @@
               {{ productName }}
             </h1>
             <h2
-              class="text-black text-left font-[Visby] font-bold text-[21px] mb-[8px] leading-[100%]"
+               class="text-black text-left font-[Visby] font-bold text-[21px] mb-[8px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
               Clear Case
             </h2>
             <h3
-              class="text-black text-left text-[18px] mb-[10px] leading-[100%]"
+               class="text-black text-left text-[18px] mb-[10px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
               200 Dhs
@@ -348,7 +348,7 @@ export default {
       ][0].image;
     this.productName = this.colors[0].name;
     this.selectedColor = this.colors[0].id;
-    this.$emit('lightColorEvent', this.colors[0]);
+  
     // Initialize available brands and models based on the first color in the colors array
     this.availableBrands = Object.keys(this.colors[0].availableModels);
     this.selectedBrand =
