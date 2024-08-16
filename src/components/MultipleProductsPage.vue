@@ -5,8 +5,150 @@
         <div
           class="col-span-1 bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
         >
-          <!-- Content for the left column (1/3 width) -->
-          Filters
+          <!-- Dropdown for Customizable -->
+          <div
+            @click="toggleDropdown('customizable')"
+            class="flex justify-between items-center cursor-pointer py-[17.5px] px-[10px] h-[52px] border-b"
+          >
+            <span class="font-semibold text-[17px]">Customizable</span>
+            <svg
+              width="13"
+              height="8"
+              viewBox="0 0 13 8"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M0.497812 1.64518C0.218392 1.34935 0.218363 0.886876 0.497746 0.591005V0.591005C0.800665 0.27021 1.31101 0.270169 1.61398 0.590916L6.13652 5.37882C6.33382 5.58771 6.66618 5.58771 6.86348 5.37882L11.386 0.590916C11.689 0.27017 12.1993 0.27021 12.5023 0.591005V0.591005C12.7816 0.886876 12.7816 1.34935 12.5022 1.64518L7.22699 7.2303C6.83237 7.6481 6.16763 7.6481 5.77301 7.2303L0.497812 1.64518Z"
+                fill="black"
+                style="fill: black; fill-opacity: 1"
+              />
+            </svg>
+          </div>
+          <div v-if="openDropdowns.customizable" class="py-2">
+            <!-- List of checkable items for Customizable -->
+          </div>
+
+          <!-- Dropdown for Collection -->
+          <div
+            @click="toggleDropdown('collection')"
+            class="flex justify-between items-center cursor-pointer py-[17.5px] px-[10px] h-[52px] border-b"
+          >
+            <span class="font-semibold text-[17px]">Collection</span>
+            <svg
+              width="13"
+              height="8"
+              viewBox="0 0 13 8"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M0.497812 1.64518C0.218392 1.34935 0.218363 0.886876 0.497746 0.591005V0.591005C0.800665 0.27021 1.31101 0.270169 1.61398 0.590916L6.13652 5.37882C6.33382 5.58771 6.66618 5.58771 6.86348 5.37882L11.386 0.590916C11.689 0.27017 12.1993 0.27021 12.5023 0.591005V0.591005C12.7816 0.886876 12.7816 1.34935 12.5022 1.64518L7.22699 7.2303C6.83237 7.6481 6.16763 7.6481 5.77301 7.2303L0.497812 1.64518Z"
+                fill="black"
+                style="fill: black; fill-opacity: 1"
+              />
+            </svg>
+          </div>
+          <div v-if="openDropdowns.collection" class="py-2">
+            <!-- List of checkable items for Collection -->
+          </div>
+
+          <!-- Dropdown for Artist -->
+          <div
+            @click="toggleDropdown('artist')"
+            class="flex justify-between items-center cursor-pointer py-[17.5px] px-[10px] h-[52px] border-b"
+          >
+            <span class="font-semibold text-[17px]">Artist</span>
+            <svg
+              width="13"
+              height="8"
+              viewBox="0 0 13 8"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M0.497812 1.64518C0.218392 1.34935 0.218363 0.886876 0.497746 0.591005V0.591005C0.800665 0.27021 1.31101 0.270169 1.61398 0.590916L6.13652 5.37882C6.33382 5.58771 6.66618 5.58771 6.86348 5.37882L11.386 0.590916C11.689 0.27017 12.1993 0.27021 12.5023 0.591005V0.591005C12.7816 0.886876 12.7816 1.34935 12.5022 1.64518L7.22699 7.2303C6.83237 7.6481 6.16763 7.6481 5.77301 7.2303L0.497812 1.64518Z"
+                fill="black"
+                style="fill: black; fill-opacity: 1"
+              />
+            </svg>
+          </div>
+          <div v-if="openDropdowns.artist" class="py-2">
+            <!-- List of checkable items for Artist -->
+          </div>
+
+          <!-- Dropdown for Print Style -->
+          <div
+            @click="toggleDropdown('printStyle')"
+            class="flex justify-between items-center cursor-pointer py-[17.5px] px-[10px] h-[52px] border-b"
+          >
+            <span class="font-semibold text-[17px]">Print Style</span>
+            <svg
+              width="13"
+              height="8"
+              viewBox="0 0 13 8"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M0.497812 1.64518C0.218392 1.34935 0.218363 0.886876 0.497746 0.591005V0.591005C0.800665 0.27021 1.31101 0.270169 1.61398 0.590916L6.13652 5.37882C6.33382 5.58771 6.66618 5.58771 6.86348 5.37882L11.386 0.590916C11.689 0.27017 12.1993 0.27021 12.5023 0.591005V0.591005C12.7816 0.886876 12.7816 1.34935 12.5022 1.64518L7.22699 7.2303C6.83237 7.6481 6.16763 7.6481 5.77301 7.2303L0.497812 1.64518Z"
+                fill="black"
+                style="fill: black; fill-opacity: 1"
+              />
+            </svg>
+          </div>
+          <div v-if="openDropdowns.printStyle" class="py-2">
+            <!-- List of checkable items for Print Style -->
+          </div>
+
+          <!-- Dropdown for Color -->
+          <div
+            @click="toggleDropdown('color')"
+            class="flex justify-between items-center cursor-pointer py-[17.5px] px-[10px] h-[52px] border-b"
+          >
+            <span class="font-semibold text-[17px]">Color</span>
+            <svg
+              width="13"
+              height="8"
+              viewBox="0 0 13 8"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M0.497812 1.64518C0.218392 1.34935 0.218363 0.886876 0.497746 0.591005V0.591005C0.800665 0.27021 1.31101 0.270169 1.61398 0.590916L6.13652 5.37882C6.33382 5.58771 6.66618 5.58771 6.86348 5.37882L11.386 0.590916C11.689 0.27017 12.1993 0.27021 12.5023 0.591005V0.591005C12.7816 0.886876 12.7816 1.34935 12.5022 1.64518L7.22699 7.2303C6.83237 7.6481 6.16763 7.6481 5.77301 7.2303L0.497812 1.64518Z"
+                fill="black"
+                style="fill: black; fill-opacity: 1"
+              />
+            </svg>
+          </div>
+          <div v-if="openDropdowns.color" class="py-2">
+            <div class="grid grid-cols-3 gap-2">
+              <div
+                v-for="(option, index) in colorOptions"
+                :key="index"
+                class="flex items-center"
+              >
+                <input type="checkbox" :id="option.id" class="mr-2" />
+                <label :for="option.id" class="flex items-center">
+                  <span
+                    :class="['w-5 h-5 rounded-full', option.colorClass]"
+                    class="mr-2"
+                  ></span>
+                  {{ option.name }}
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="col-span-2 rounded-[32px]">
           <!-- Content for the right column (2/3 width) -->
@@ -21,10 +163,10 @@
                 class="mb-[24px] mt-[12px] h-[300px] w-auto object-contain"
               />
               <h1
-                class="text-black text-center font-[Visby] font-bold text-[16px] mb-[5px] leading-[100%]"
+                class="text-black text-center font-[Visby] font-bold text-[16px] mb-[3px] leading-[120%] truncate w-[100%]"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
-                CoolG Virgules' OG
+                Cool Greeeeen Virgules' OG
               </h1>
               <h2
                 class="text-black text-center font-[Visby] font-semibold text-[16px] mb-[5px] leading-[100%]"
@@ -55,10 +197,10 @@
                 class="mb-[24px] mt-[12px] h-[300px] w-auto object-contain"
               />
               <h1
-                class="text-black text-center font-[Visby] font-bold text-[16px] mb-[5px] leading-[100%]"
+                class="text-black text-center font-[Visby] font-bold text-[16px] mb-[3px] leading-[120%] truncate w-[100%]"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
-                CoolG Virgules' OG
+                Cool Greeeeen Virgules' OG
               </h1>
               <h2
                 class="text-black text-center font-[Visby] font-semibold text-[16px] mb-[5px] leading-[100%]"
@@ -89,10 +231,10 @@
                 class="mb-[24px] mt-[12px] h-[300px] w-auto object-contain"
               />
               <h1
-                class="text-black text-center font-[Visby] font-bold text-[16px] mb-[5px] leading-[100%]"
+                class="text-black text-center font-[Visby] font-bold text-[16px] mb-[3px] leading-[120%] truncate w-[100%]"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
-                CoolG Virgules' OG
+                Cool Greeeeen Virgules' OG
               </h1>
               <h2
                 class="text-black text-center font-[Visby] font-semibold text-[16px] mb-[5px] leading-[100%]"
@@ -123,10 +265,10 @@
                 class="mb-[24px] mt-[12px] h-[300px] w-auto object-contain"
               />
               <h1
-                class="text-black text-center font-[Visby] font-bold text-[16px] mb-[5px] leading-[100%]"
+                class="text-black text-center font-[Visby] font-bold text-[16px] mb-[3px] leading-[120%] truncate w-[100%]"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
-                CoolG Virgules' OG
+                Cool Greeeeen Virgules' OG
               </h1>
               <h2
                 class="text-black text-center font-[Visby] font-semibold text-[16px] mb-[5px] leading-[100%]"
@@ -156,14 +298,40 @@
 
 <script>
 export default {
+  name: "MultipleProductsPage",
+  data() {
+    return {
+      openDropdowns: {
+        customizable: false,
+        collection: false,
+        artist: false,
+        printStyle: false,
+        color: false,
+      },
+      colorOptions: [
+        { id: "black1", name: "Black", colorClass: "bg-black" },
+        { id: "black2", name: "Black", colorClass: "bg-black" },
+        { id: "black3", name: "Black", colorClass: "bg-black" },
+        // Add more options as needed
+      ],
+    };
+  },
   computed: {
     computedWidth() {
       return "width: calc(1680px - 540px)";
+    },
+  },
+  methods: {
+    toggleDropdown(dropdown) {
+      this.openDropdowns[dropdown] = !this.openDropdowns[dropdown];
     },
   },
 };
 </script>
 
 <style scoped>
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 /* Add any custom styles here if needed */
 </style>
