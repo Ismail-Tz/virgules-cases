@@ -1,18 +1,21 @@
 <template >
   <NavBar :lightColorMsg="lightColor" :darkColorMsg="darkColor"/>
   <ProductPage @lightColorEvent="lightColorEvent" @darkColorEvent="darkColorEvent"/>
+  <MultipleProductsPage />
 </template>
 
 <script>
 import NavBar from './components/NavBar.vue'
 import ProductPage from './components/ProductPage.vue'
+import MultipleProductsPage from './components/MultipleProductsPage.vue';
 
 
 export default {
   name: 'App',
   components: {
     NavBar,
-    ProductPage
+    ProductPage,
+    MultipleProductsPage,
   },
   methods: {
     lightColorEvent(lightColor) {

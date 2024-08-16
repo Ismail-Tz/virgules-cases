@@ -33,19 +33,19 @@
       <div class="flex justify-center w-1/3">
         <a
           href="#"
-          class="text-[#0A332E] hover:bg-[#00000010] px-3 py-2 text-[14px] rounded-xl"
+          class="text-[#0A332E] hover:bg-[#00000007] px-3 py-2 text-[14px] rounded-xl"
           :style="{ color: darkColorMsg }" 
           >Devices</a
         >
         <a
           href="#"
-          class="text-[#0A332E] hover:bg-[#00000010] px-3 py-2 text-[14px] rounded-xl"
+          class="text-[#0A332E] hover:bg-[#00000007] px-3 py-2 text-[14px] rounded-xl"
           :style="{ color: darkColorMsg }"
           >Customization</a
         >
         <a
           href="#"
-          class="text-[#0A332E] hover:bg-[#00000010] px-3 py-2 text-[14px] rounded-xl"
+          class="text-[#0A332E] hover:bg-[#00000007] px-3 py-2 text-[14px] rounded-xl"
           :style="{ color: darkColorMsg }"
           >Featured</a
         >

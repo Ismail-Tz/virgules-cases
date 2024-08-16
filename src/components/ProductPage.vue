@@ -45,7 +45,7 @@
               class="text-black text-left text-[18px] mb-[10px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
-              200 Dhs
+              MAD 199
             </h3>
             <h4
               class="text-gray-500 text-left text-[14px] leading-[100%]"
