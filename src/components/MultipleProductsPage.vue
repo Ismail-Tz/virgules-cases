@@ -5,215 +5,56 @@
         <div
           class="col-span-1 bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
         >
-          <!-- Dropdown for Customizable -->
-          <div class="cursor-pointer border-b border-[#00000020] px-[10px]">
-            <!-- Header Section -->
+          <div>
+            <!-- Loop over dropdown data -->
             <div
-              @click="toggleDropdown('customizable')"
-              class="flex justify-between items-center py-[17.5px] h-[52px]"
+              v-for="(dropdown, key) in dropdownsData"
+              :key="key"
+              class="cursor-pointer border-b border-[#00000020] px-[10px]"
             >
-              <span class="font-semibold text-[17px]">Customizable</span>
-              <svg
-                width="13"
-                height="8"
-                viewBox="0 0 13 8"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+              <div
+                @click="toggleDropdown(key)"
+                @mousedown.prevent
+                class="flex justify-between items-center py-[17.5px] h-[52px]"
               >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M0.497812 1.64518C0.218392 1.34935 0.218363 0.886876 0.497746 0.591005V0.591005C0.800665 0.27021 1.31101 0.270169 1.61398 0.590916L6.13652 5.37882C6.33382 5.58771 6.66618 5.58771 6.86348 5.37882L11.386 0.590916C11.689 0.27017 12.1993 0.27021 12.5023 0.591005V0.591005C12.7816 0.886876 12.7816 1.34935 12.5022 1.64518L7.22699 7.2303C6.83237 7.6481 6.16763 7.6481 5.77301 7.2303L0.497812 1.64518Z"
-                  fill="black"
-                  style="fill: black; fill-opacity: 1"
-                />
-              </svg>
-            </div>
-
-            <!-- Dropdown Content Section -->
-            <div v-if="openDropdowns.customizable" class="py-2 text-left">
-              <!-- List of checkable items for Customizable -->
-              <label class="text-[15px] cursor-pointer flex items-center">
-                <input type="checkbox" class="mr-2" />
-                Customizable
-              </label>
-            </div>
-          </div>
-
-          <!-- Dropdown for Collection -->
-          <div class="cursor-pointer border-b border-[#00000020] px-[10px]">
-            <!-- Header Section -->
-            <div
-              @click="toggleDropdown('collection')"
-              class="flex justify-between items-center py-[17.5px] h-[52px]"
-            >
-              <span class="font-semibold text-[17px]">Collection</span>
-              <svg
-                width="13"
-                height="8"
-                viewBox="0 0 13 8"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M0.497812 1.64518C0.218392 1.34935 0.218363 0.886876 0.497746 0.591005V0.591005C0.800665 0.27021 1.31101 0.270169 1.61398 0.590916L6.13652 5.37882C6.33382 5.58771 6.66618 5.58771 6.86348 5.37882L11.386 0.590916C11.689 0.27017 12.1993 0.27021 12.5023 0.591005V0.591005C12.7816 0.886876 12.7816 1.34935 12.5022 1.64518L7.22699 7.2303C6.83237 7.6481 6.16763 7.6481 5.77301 7.2303L0.497812 1.64518Z"
-                  fill="black"
-                  style="fill: black; fill-opacity: 1"
-                />
-              </svg>
-            </div>
-
-            <!-- Dropdown Content Section -->
-            <div v-if="openDropdowns.collection" class="py-2 text-left">
-              <!-- List of checkable items for Collection -->
-              <label class="text-[15px] cursor-pointer flex items-center">
-                <input type="checkbox" class="mr-2" />
-                Summer 2024
-              </label>
-              <label class="text-[15px] cursor-pointer flex items-center">
-                <input type="checkbox" class="mr-2" />
-                Fall/Winter 2024
-              </label>
-              <label class="text-[15px] cursor-pointer flex items-center">
-                <input type="checkbox" class="mr-2" />
-                Limited Edition
-              </label>
-            </div>
-          </div>
-
-          <!-- Dropdown for Artist -->
-          <div class="cursor-pointer border-b border-[#00000020] px-[10px]">
-            <!-- Header Section -->
-            <div
-              @click="toggleDropdown('artist')"
-              class="flex justify-between items-center py-[17.5px] h-[52px]"
-            >
-              <span class="font-semibold text-[17px]">Artist</span>
-              <svg
-                width="13"
-                height="8"
-                viewBox="0 0 13 8"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M0.497812 1.64518C0.218392 1.34935 0.218363 0.886876 0.497746 0.591005V0.591005C0.800665 0.27021 1.31101 0.270169 1.61398 0.590916L6.13652 5.37882C6.33382 5.58771 6.66618 5.58771 6.86348 5.37882L11.386 0.590916C11.689 0.27017 12.1993 0.27021 12.5023 0.591005V0.591005C12.7816 0.886876 12.7816 1.34935 12.5022 1.64518L7.22699 7.2303C6.83237 7.6481 6.16763 7.6481 5.77301 7.2303L0.497812 1.64518Z"
-                  fill="black"
-                  style="fill: black; fill-opacity: 1"
-                />
-              </svg>
-            </div>
-
-            <!-- Dropdown Content Section -->
-            <div v-if="openDropdowns.artist" class="py-2 text-left">
-              <!-- List of checkable items for Artist -->
-              <label class="text-[15px] cursor-pointer flex items-center">
-                <input type="checkbox" class="mr-2" />
-                John Doe
-              </label>
-              <label class="text-[15px] cursor-pointer flex items-center">
-                <input type="checkbox" class="mr-2" />
-                Jane Smith
-              </label>
-              <label class="text-[15px] cursor-pointer flex items-center">
-                <input type="checkbox" class="mr-2" />
-                Alex Carter
-              </label>
-            </div>
-          </div>
-
-          <!-- Dropdown for Print Style -->
-          <div class="cursor-pointer border-b border-[#00000020] px-[10px]">
-            <!-- Header Section -->
-            <div
-              @click="toggleDropdown('printStyle')"
-              class="flex justify-between items-center py-[17.5px] h-[52px]"
-            >
-              <span class="font-semibold text-[17px]">Print Style</span>
-              <svg
-                width="13"
-                height="8"
-                viewBox="0 0 13 8"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M0.497812 1.64518C0.218392 1.34935 0.218363 0.886876 0.497746 0.591005V0.591005C0.800665 0.27021 1.31101 0.270169 1.61398 0.590916L6.13652 5.37882C6.33382 5.58771 6.66618 5.58771 6.86348 5.37882L11.386 0.590916C11.689 0.27017 12.1993 0.27021 12.5023 0.591005V0.591005C12.7816 0.886876 12.7816 1.34935 12.5022 1.64518L7.22699 7.2303C6.83237 7.6481 6.16763 7.6481 5.77301 7.2303L0.497812 1.64518Z"
-                  fill="black"
-                  style="fill: black; fill-opacity: 1"
-                />
-              </svg>
-            </div>
-
-            <!-- Dropdown Content Section -->
-            <div v-if="openDropdowns.printStyle" class="py-2 text-left">
-              <!-- List of checkable items for Print Style -->
-              <label class="text-[15px] cursor-pointer flex items-center">
-                <input type="checkbox" class="mr-2" />
-                Minimalistic
-              </label>
-              <label class="text-[15px] cursor-pointer flex items-center">
-                <input type="checkbox" class="mr-2" />
-                Abstract
-              </label>
-              <label class="text-[15px] cursor-pointer flex items-center">
-                <input type="checkbox" class="mr-2" />
-                Geometric
-              </label>
-            </div>
-          </div>
-
-          <!-- Dropdown for Color -->
-          <div class="cursor-pointer border-b border-[#00000020] px-[10px]">
-            <!-- Header Section -->
-            <div
-              @click="toggleDropdown('color')"
-              class="flex justify-between items-center py-[17.5px] h-[52px]"
-            >
-              <span class="font-semibold text-[17px]">Color</span>
-              <svg
-                width="13"
-                height="8"
-                viewBox="0 0 13 8"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M0.497812 1.64518C0.218392 1.34935 0.218363 0.886876 0.497746 0.591005V0.591005C0.800665 0.27021 1.31101 0.270169 1.61398 0.590916L6.13652 5.37882C6.33382 5.58771 6.66618 5.58771 6.86348 5.37882L11.386 0.590916C11.689 0.27017 12.1993 0.27021 12.5023 0.591005V0.591005C12.7816 0.886876 12.7816 1.34935 12.5022 1.64518L7.22699 7.2303C6.83237 7.6481 6.16763 7.6481 5.77301 7.2303L0.497812 1.64518Z"
-                  fill="black"
-                  style="fill: black; fill-opacity: 1"
-                />
-              </svg>
-            </div>
-
-            <!-- Dropdown Content Section -->
-            <div v-if="openDropdowns.color" class="py-2 text-left">
-              <div class="grid grid-cols-3 gap-2">
-                <!-- List of checkable items for Color -->
-                <div
-                  v-for="(option, index) in colorOptions"
-                  :key="index"
-                  class="flex items-center"
+                <span class="font-semibold text-[17px]">{{
+                  dropdown.title
+                }}</span>
+                <svg
+                  width="13"
+                  height="8"
+                  viewBox="0 0 13 8"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <input type="checkbox" :id="option.id" class="mr-2" />
-                  <label
-                    :for="option.id"
-                    class="flex items-center cursor-pointer"
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M0.497812 1.64518C0.218392 1.34935 0.218363 0.886876 0.497746 0.591005V0.591005C0.800665 0.27021 1.31101 0.270169 1.61398 0.590916L6.13652 5.37882C6.33382 5.58771 6.66618 5.58771 6.86348 5.37882L11.386 0.590916C11.689 0.27017 12.1993 0.27021 12.5023 0.591005V0.591005C12.7816 0.886876 12.7816 1.34935 12.5022 1.64518L7.22699 7.2303C6.83237 7.6481 6.16763 7.6481 5.77301 7.2303L0.497812 1.64518Z"
+                    fill="black"
+                  />
+                </svg>
+              </div>
+              <div v-if="openDropdowns[key]" class="py-2 text-left">
+                <div
+                  v-for="(option, index) in dropdown.options"
+                  :key="index"
+                  class="flex items-center cursor-pointer py-1 px-2 mb-2 rounded-[32px]"
+                  :class="{
+                    'bg-blue-100': selectedOptions[key].includes(option),
+                    'hover:bg-blue-200': selectedOptions[key].includes(option),
+                    'hover:bg-gray-300': !selectedOptions[key].includes(option),
+                  }"
+                  @click="toggleSelection(key, option)"
+                >
+                  <span
+                    :class="{
+                      'text-blue-600': selectedOptions[key].includes(option),
+                      'text-gray-900': !selectedOptions[key].includes(option),
+                    }"
                   >
-                    <span
-                      :class="['w-5 h-5 rounded-full', option.colorClass]"
-                      class="mr-2"
-                    ></span>
-                    {{ option.name }}
-                  </label>
+                    {{ option }}
+                  </span>
                 </div>
               </div>
             </div>
@@ -377,8 +218,33 @@ export default {
         printStyle: false,
         color: false,
       },
-      
-      
+
+      selectedOptions: {
+        customizable: [],
+        collection: [],
+        artist: [],
+        printStyle: [],
+      },
+
+      dropdownsData: {
+        customizable: {
+          title: "Customizable",
+          options: ["Option 1", "Option 2", "Option 3"],
+        },
+        collection: {
+          title: "Collection",
+          options: ["Option A", "Option B", "Option C"],
+        },
+        artist: {
+          title: "Artist",
+          options: ["Artist X", "Artist Y", "Artist Z"],
+        },
+        printStyle: {
+          title: "Print Style",
+          options: ["Style 1", "Style 2", "Style 3"],
+        },
+      },
+
       colorOptions: [
         { id: "black1", name: "Black", colorClass: "bg-black" },
         { id: "black2", name: "Black", colorClass: "bg-black" },
@@ -395,6 +261,14 @@ export default {
   methods: {
     toggleDropdown(dropdown) {
       this.openDropdowns[dropdown] = !this.openDropdowns[dropdown];
+    },
+    toggleSelection(dropdown, option) {
+      const index = this.selectedOptions[dropdown].indexOf(option);
+      if (index === -1) {
+        this.selectedOptions[dropdown].push(option);
+      } else {
+        this.selectedOptions[dropdown].splice(index, 1);
+      }
     },
   },
 };
