@@ -3,7 +3,7 @@
     <div :style="computedWidth">
       <div class="grid grid-cols-3 gap-[40px]">
         <div
-          class="col-span-1 bg-[#F9F9F9] border border-[#00000010] rounded-[32px]"
+          class="col-span-1 bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
         >
           <!-- Content for the left column (1/3 width) -->
           Filters
@@ -12,7 +12,7 @@
           <!-- Content for the right column (2/3 width) -->
           <div class="grid grid-cols-3 gap-[24px]">
             <div
-              class="cursor-pointer bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px] hover:bg-[#F7FDFC] hover:border-[#0A332E20] flex flex-col items-center"
+              class="cursor-pointer bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px] hover:bg-[#F7FDFC] hover:border-[#0A332E50] flex flex-col items-center"
             >
               <!-- Content for the third sub-column -->
               <img
@@ -27,7 +27,7 @@
                 CoolG Virgules' OG
               </h1>
               <h2
-                class="text-black text-center font-[Visby] font-bold text-[16px] mb-[5px] leading-[100%]"
+                class="text-black text-center font-[Visby] font-semibold text-[16px] mb-[5px] leading-[100%]"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
                 Clear Case
@@ -46,7 +46,7 @@
               </h3>
             </div>
             <div
-              class="cursor-pointer bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px] hover:bg-[#F7FDFC] hover:border-[#0A332E20] flex flex-col items-center"
+              class="cursor-pointer bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px] hover:bg-[#F7FDFC] hover:border-[#0A332E50] flex flex-col items-center"
             >
               <!-- Content for the third sub-column -->
               <img
@@ -61,7 +61,7 @@
                 CoolG Virgules' OG
               </h1>
               <h2
-                class="text-black text-center font-[Visby] font-bold text-[16px] mb-[5px] leading-[100%]"
+                class="text-black text-center font-[Visby] font-semibold text-[16px] mb-[5px] leading-[100%]"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
                 Clear Case
@@ -80,7 +80,7 @@
               </h3>
             </div>
             <div
-              class="cursor-pointer bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px] hover:bg-[#F7FDFC] hover:border-[#0A332E20] flex flex-col items-center"
+              class="cursor-pointer bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px] hover:bg-[#F7FDFC] hover:border-[#0A332E50] flex flex-col items-center"
             >
               <!-- Content for the third sub-column -->
               <img
@@ -95,7 +95,7 @@
                 CoolG Virgules' OG
               </h1>
               <h2
-                class="text-black text-center font-[Visby] font-bold text-[16px] mb-[5px] leading-[100%]"
+                class="text-black text-center font-[Visby] font-semibold text-[16px] mb-[5px] leading-[100%]"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
                 Clear Case
@@ -114,7 +114,7 @@
               </h3>
             </div>
             <div
-              class="cursor-pointer bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px] hover:bg-[#F7FDFC] hover:border-[#0A332E20] flex flex-col items-center"
+              class="cursor-pointer bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px] hover:bg-[#F7FDFC] hover:border-[#0A332E50] flex flex-col items-center"
             >
               <!-- Content for the third sub-column -->
               <img
@@ -129,7 +129,7 @@
                 CoolG Virgules' OG
               </h1>
               <h2
-                class="text-black text-center font-[Visby] font-bold text-[16px] mb-[5px] leading-[100%]"
+                class="text-black text-center font-[Visby] font-semibold text-[16px] mb-[5px] leading-[100%]"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
                 Clear Case
