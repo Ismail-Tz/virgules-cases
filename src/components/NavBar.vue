@@ -1,8 +1,8 @@
 <template>
   <nav
-    class="bg-[#F7FDFC] border-b border-[#0A332E20] py-4 h-[60px]"
+    class="fixed top-0 left-0 w-full bg-[#F7FDFC] border-b border-[#0A332E20] py-4 h-[60px] z-50 blurry"
     :style="{
-      backgroundColor: lightColorMsg,
+      backgroundColor: lightColorTp, //tp stands for transparent
       borderColor: darkColorMsg + '20',
     }"
   >
@@ -34,7 +34,7 @@
         <a
           href="#"
           class="text-[#0A332E] hover:bg-[#00000007] px-3 py-2 text-[14px] rounded-xl"
-          :style="{ color: darkColorMsg }" 
+          :style="{ color: darkColorMsg }"
           >Devices</a
         >
         <a
@@ -118,6 +118,51 @@
 export default {
   name: "NavBar",
   props: ["lightColorMsg", "darkColorMsg"],
+
+  computed: {
+    lightColorTp() {
+      return this.calculateBlendedColor(this.lightColorMsg, 0.85, "#FFFFFF");
+    },
+  },
+
+  methods: {
+    calculateBlendedColor(colorX, opacity, baseColor) {
+      const hexToRgb = (hex) => {
+        let r = 0,
+          g = 0,
+          b = 0;
+        if (hex.length === 4) {
+          r = parseInt(hex[1] + hex[1], 16);
+          g = parseInt(hex[2] + hex[2], 16);
+          b = parseInt(hex[3] + hex[3], 16);
+        } else if (hex.length === 7) {
+          r = parseInt(hex[1] + hex[2], 16);
+          g = parseInt(hex[3] + hex[4], 16);
+          b = parseInt(hex[5] + hex[6], 16);
+        }
+        return [r, g, b];
+      };
+
+      const rgbToRgba = (r, g, b, a) => {
+        return `rgba(${r}, ${g}, ${b}, ${a})`;
+      };
+
+      const [rX, gX, bX] = hexToRgb(colorX);
+      const [rBase, gBase, bBase] = hexToRgb(baseColor);
+
+      const rY = Math.round((rX - (1 - opacity) * rBase) / opacity);
+      const gY = Math.round((gX - (1 - opacity) * gBase) / opacity);
+      const bY = Math.round((bX - (1 - opacity) * bBase) / opacity);
+
+      // Cap values to be within the 0-255 range
+      return rgbToRgba(
+        Math.min(255, Math.max(0, rY)),
+        Math.min(255, Math.max(0, gY)),
+        Math.min(255, Math.max(0, bY)),
+        opacity
+      );
+    },
+  },
 };
 </script>
 
@@ -126,4 +171,8 @@ export default {
 @tailwind components;
 @tailwind utilities;
 /* Additional styles if necessary */
+.blurry {
+  backdrop-filter: blur(30px); /* Apply blur effect */
+  -webkit-backdrop-filter: blur(30px); /* Safari compatibility */
+}
 </style>
