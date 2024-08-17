@@ -21,11 +21,13 @@
                   dropdown.title
                 }}</span>
                 <svg
+                  :class="{ 'rotate-180': openDropdowns[key] }"
                   width="13"
                   height="8"
                   viewBox="0 0 13 8"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
+                  class="transition-transform duration-300"
                 >
                   <path
                     fill-rule="evenodd"
@@ -61,142 +63,40 @@
           </div>
         </div>
         <div class="col-span-2 rounded-[32px]">
-          <!-- Content for the right column (2/3 width) -->
           <div class="grid grid-cols-3 gap-[24px]">
             <div
+              v-for="(item, index) in products"
+              :key="index"
               class="cursor-pointer bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px] hover:bg-[#F7FDFC] hover:border-[#0A332E50] flex flex-col items-center"
             >
-              <!-- Content for the third sub-column -->
               <img
-                src="../assets/Images/iP15Pro_CoolGreen.png"
-                alt="Case Image"
+                :src="item.image"
+                :alt="item.altText"
                 class="mb-[24px] mt-[12px] h-[300px] w-auto object-contain"
               />
               <h1
                 class="text-black text-center font-[Visby] font-bold text-[16px] mb-[3px] leading-[120%] truncate w-[100%]"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
-                Cool Greeeeen Virgules' OG
+                {{ item.title }}
               </h1>
               <h2
                 class="text-black text-center font-[Visby] font-semibold text-[16px] mb-[5px] leading-[100%]"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
-                Clear Case
+                {{ item.subtitle }}
               </h2>
               <h3
                 class="text-black text-center font-[Arial] text-[15px] mb-[5px] leading-[100%]"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
-                Customizable
+                {{ item.customizableText }}
               </h3>
               <h3
                 class="text-black text-center font-[Arial] text-[15px] leading-[100%]"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
-                MAD 199
-              </h3>
-            </div>
-            <div
-              class="cursor-pointer bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px] hover:bg-[#F7FDFC] hover:border-[#0A332E50] flex flex-col items-center"
-            >
-              <!-- Content for the third sub-column -->
-              <img
-                src="../assets/Images/iP15Pro_CoolGreen.png"
-                alt="Case Image"
-                class="mb-[24px] mt-[12px] h-[300px] w-auto object-contain"
-              />
-              <h1
-                class="text-black text-center font-[Visby] font-bold text-[16px] mb-[3px] leading-[120%] truncate w-[100%]"
-                :style="{ color: darkColor, borderColor: darkColor }"
-              >
-                Cool Greeeeen Virgules' OG
-              </h1>
-              <h2
-                class="text-black text-center font-[Visby] font-semibold text-[16px] mb-[5px] leading-[100%]"
-                :style="{ color: darkColor, borderColor: darkColor }"
-              >
-                Clear Case
-              </h2>
-              <h3
-                class="text-black text-center font-[Arial] text-[15px] mb-[5px] leading-[100%]"
-                :style="{ color: darkColor, borderColor: darkColor }"
-              >
-                Customizable
-              </h3>
-              <h3
-                class="text-black text-center font-[Arial] text-[15px] leading-[100%]"
-                :style="{ color: darkColor, borderColor: darkColor }"
-              >
-                MAD 199
-              </h3>
-            </div>
-            <div
-              class="cursor-pointer bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px] hover:bg-[#F7FDFC] hover:border-[#0A332E50] flex flex-col items-center"
-            >
-              <!-- Content for the third sub-column -->
-              <img
-                src="../assets/Images/iP15Pro_CoolGreen.png"
-                alt="Case Image"
-                class="mb-[24px] mt-[12px] h-[300px] w-auto object-contain"
-              />
-              <h1
-                class="text-black text-center font-[Visby] font-bold text-[16px] mb-[3px] leading-[120%] truncate w-[100%]"
-                :style="{ color: darkColor, borderColor: darkColor }"
-              >
-                Cool Greeeeen Virgules' OG
-              </h1>
-              <h2
-                class="text-black text-center font-[Visby] font-semibold text-[16px] mb-[5px] leading-[100%]"
-                :style="{ color: darkColor, borderColor: darkColor }"
-              >
-                Clear Case
-              </h2>
-              <h3
-                class="text-black text-center font-[Arial] text-[15px] mb-[5px] leading-[100%]"
-                :style="{ color: darkColor, borderColor: darkColor }"
-              >
-                Customizable
-              </h3>
-              <h3
-                class="text-black text-center font-[Arial] text-[15px] leading-[100%]"
-                :style="{ color: darkColor, borderColor: darkColor }"
-              >
-                MAD 199
-              </h3>
-            </div>
-            <div
-              class="cursor-pointer bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px] hover:bg-[#F7FDFC] hover:border-[#0A332E50] flex flex-col items-center"
-            >
-              <!-- Content for the third sub-column -->
-              <img
-                src="../assets/Images/iP15Pro_CoolGreen.png"
-                alt="Case Image"
-                class="mb-[24px] mt-[12px] h-[300px] w-auto object-contain"
-              />
-              <h1
-                class="text-black text-center font-[Visby] font-bold text-[16px] mb-[3px] leading-[120%] truncate w-[100%]"
-                :style="{ color: darkColor, borderColor: darkColor }"
-              >
-                Cool Greeeeen Virgules' OG
-              </h1>
-              <h2
-                class="text-black text-center font-[Visby] font-semibold text-[16px] mb-[5px] leading-[100%]"
-                :style="{ color: darkColor, borderColor: darkColor }"
-              >
-                Clear Case
-              </h2>
-              <h3
-                class="text-black text-center font-[Arial] text-[15px] mb-[5px] leading-[100%]"
-                :style="{ color: darkColor, borderColor: darkColor }"
-              >
-                Customizable
-              </h3>
-              <h3
-                class="text-black text-center font-[Arial] text-[15px] leading-[100%]"
-                :style="{ color: darkColor, borderColor: darkColor }"
-              >
-                MAD 199
+                {{ item.price }}
               </h3>
             </div>
           </div>
@@ -207,10 +107,39 @@
 </template>
 
 <script>
+import iP15Pro_CoolGreen_Transparent from "../assets/Images/iP15Pro_CoolGreen.png";
 export default {
   name: "MultipleProductsPage",
   data() {
     return {
+      products: [
+        {
+          image: iP15Pro_CoolGreen_Transparent,
+          altText: "Case Image",
+          title: "Cool Greeeeen Virgules' OG",
+          subtitle: "Clear Case",
+          customizableText: "Customizable",
+          price: "MAD 199",
+        },
+        {
+          image: iP15Pro_CoolGreen_Transparent,
+          altText: "Case Image",
+          title: "Zhit 3la had dwisik",
+          subtitle: "Clear Case",
+          customizableText: "Not Customizable",
+          price: "MAD 199",
+        },
+        {
+          image: iP15Pro_CoolGreen_Transparent,
+          altText: "Case Image",
+          title: "Tantarara rara",
+          subtitle: "Clear Case",
+          customizableText: "Customizable",
+          price: "MAD 199",
+        },
+        
+        // Add more product objects as needed
+      ],
       openDropdowns: {
         customizable: false,
         collection: false,
