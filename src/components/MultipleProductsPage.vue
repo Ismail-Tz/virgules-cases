@@ -84,7 +84,7 @@
                 class="text-black text-center font-[Visby] font-semibold text-[16px] mb-[5px] leading-[100%]"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
-                {{ item.subtitle }}
+                {{ item.type }}
               </h2>
               <h3
                 class="text-black text-center font-[Arial] text-[15px] mb-[5px] leading-[100%]"
@@ -107,39 +107,13 @@
 </template>
 
 <script>
-import iP15Pro_CoolGreen_Transparent from "../assets/Images/iP15Pro_CoolGreen.png";
+import { mapGetters } from 'vuex';
+
 export default {
   name: "MultipleProductsPage",
   data() {
     return {
-      products: [
-        {
-          image: iP15Pro_CoolGreen_Transparent,
-          altText: "Case Image",
-          title: "Cool Greeeeen Virgules' OG",
-          subtitle: "Clear Case",
-          customizableText: "Customizable",
-          price: "MAD 199",
-        },
-        {
-          image: iP15Pro_CoolGreen_Transparent,
-          altText: "Case Image",
-          title: "Zhit 3la had dwisik",
-          subtitle: "Clear Case",
-          customizableText: "Not Customizable",
-          price: "MAD 199",
-        },
-        {
-          image: iP15Pro_CoolGreen_Transparent,
-          altText: "Case Image",
-          title: "Tantarara rara",
-          subtitle: "Clear Case",
-          customizableText: "Customizable",
-          price: "MAD 199",
-        },
-        
-        // Add more product objects as needed
-      ],
+    
       openDropdowns: {
         customizable: false,
         collection: false,
@@ -183,6 +157,11 @@ export default {
     };
   },
   computed: {
+
+    // VUEX: Using mapGetters to access the colors array from the store
+    ...mapGetters(['products']),
+
+    
     computedWidth() {
       return "width: calc(1680px - 540px)";
     },
