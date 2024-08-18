@@ -33,25 +33,25 @@
               class="text-black text-left font-[Visby] font-extrabold text-[28px] mb-[10px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
-              {{ productName }}
+              {{ colorTitle + ' ' + this.products[0].title }}
             </h1>
             <h2
               class="text-black text-left font-[Visby] font-bold text-[21px] mb-[8px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
-              Clear Case
+              {{this.products[0].type}}
             </h2>
             <h3
               class="text-black text-left text-[18px] mb-[10px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
-              MAD 199
+              MAD {{ this.products[0].price }}
             </h3>
             <h4
               class="text-gray-500 text-left text-[14px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
-              By Ismail Touzzane
+              By {{ this.products[0].designer }}
             </h4>
           </div>
           <div
@@ -147,7 +147,7 @@
               class="text-black text-left font-[Visby] font-extrabold text-[15px] mt-[24px] mb-[10px] leading-[100%] after"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
-              Other Colors
+              Other colors
             </h4>
             <p
               class="text-black text-left text-[12px] mb-[6px]"
@@ -157,7 +157,7 @@
             </p>
             <div class="grid grid-cols-7 gap-[6px]">
               <div
-                v-for="color in colors"
+                v-for="color in products[0].colors"
                 :key="color.id"
                 @click="handleClick(color)"
                 :class="[
@@ -240,20 +240,20 @@ export default {
 
   created() {
     // Set colorTitle to the colorName of the first color in the colors array
-    this.colorTitle = this.colors[0].colorName;
+    this.colorTitle = this.products[0].colors[0].colorName;
     this.imageSrc =
-      this.colors[0].availableModels[
-        Object.keys(this.colors[0].availableModels)[0]
+      this.products[0].colors[0].availableModels[
+        Object.keys(this.products[0].colors[0].availableModels)[0]
       ][0].image;
-    this.productName = this.colors[0].name;
-    this.selectedColor = this.colors[0].id;
+    this.productName = this.products[0].colors[0].name;
+    this.selectedColor = this.products[0].colors[0].id;
 
     // Initialize available brands and models based on the first color in the colors array
-    this.availableBrands = Object.keys(this.colors[0].availableModels);
+    this.availableBrands = Object.keys(this.products[0].colors[0].availableModels);
     this.selectedBrand =
       this.availableBrands.length > 0 ? this.availableBrands[0] : null;
     this.selectedModel =
-      this.colors[0].availableModels[this.selectedBrand][0].name; // first model of the first brand
+      this.products[0].colors[0].availableModels[this.selectedBrand][0].name; // first model of the first brand
 
     // Initialize Safari tab bar color
     this.updateSafariTabBarColor();
@@ -272,7 +272,7 @@ export default {
       this.selectedColor = color.id;
       this.availableBrands = Object.keys(color.availableModels);
 
-      const selectedColorData = this.colors.find(
+      const selectedColorData = this.products[0].colors.find(
         (c) => c.id === this.selectedColor
       );
 
@@ -316,7 +316,7 @@ export default {
       this.selectedBrand = device;
 
       // Update the image source based on the selected brand and first model
-      const selectedColorData = this.colors.find(
+      const selectedColorData = this.products[0].colors.find(
         (c) => c.id === this.selectedColor
       );
 
@@ -442,11 +442,11 @@ export default {
   computed: {
 
     // VUEX: Using mapGetters to access the colors array from the store
-    ...mapGetters(['colors']),
+    ...mapGetters(['products']),
 
 
     lightColor() {
-      const color = this.colors.find(
+      const color = this.products[0].colors.find(
         (c) => c.id === this.selectedColor
       ).colorHex;
       const lightColor = this.lightenColor(color, 98); // Adjust the amount to get very light color
@@ -454,7 +454,7 @@ export default {
       return lightColor;
     },
     darkColor() {
-      const color = this.colors.find(
+      const color = this.products[0].colors.find(
         (c) => c.id === this.selectedColor
       ).colorHex;
       const darkColor = this.darkenColor(color, 12); // Adjust the amount to get a darker color
@@ -463,7 +463,7 @@ export default {
     },
     currentBrandModels() {
       return this.selectedBrand
-        ? this.colors
+        ? this.products[0].colors
             .find((c) => c.id === this.selectedColor)
             .availableModels[this.selectedBrand].map((model) => model.name)
         : [];
@@ -502,7 +502,7 @@ export default {
 
     selectedModel(newModel) {
       // Find the selected color data
-      const selectedColorData = this.colors.find(
+      const selectedColorData = this.products[0].colors.find(
         (c) => c.id === this.selectedColor
       );
 
