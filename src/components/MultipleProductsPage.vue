@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center min-h-screen mt-12">
+  <div class="flex justify-center min-h-screen mt-[108px]">
     <div :style="computedWidth">
       <div class="grid grid-cols-3 gap-[40px]">
         <div
@@ -67,6 +67,7 @@
             <div
               v-for="(item, index) in products"
               :key="index"
+              @click="goToProductPage(index)"
               class="cursor-pointer bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px] hover:bg-[#F7FDFC] hover:border-[#0A332E50] flex flex-col items-center"
             >
               <img
@@ -96,7 +97,7 @@
                 class="text-black text-center font-[Arial] text-[15px] leading-[100%]"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
-                {{ item.price }}
+                MAD {{ item.price }}
               </h3>
             </div>
           </div>
@@ -178,6 +179,11 @@ export default {
         this.selectedOptions[dropdown].splice(index, 1);
       }
     },
+
+    // Method to navigate to the product page
+    goToProductPage(productId) {
+      this.$router.push({ path: `/product/${productId}` });
+    }
   },
 };
 </script>

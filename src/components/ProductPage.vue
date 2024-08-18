@@ -33,25 +33,25 @@
               class="text-black text-left font-[Visby] font-extrabold text-[28px] mb-[10px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
-              {{ colorTitle + ' ' + this.products[0].title }}
+              {{ colorTitle + ' ' + this.products[this.id].title }}
             </h1>
             <h2
               class="text-black text-left font-[Visby] font-bold text-[21px] mb-[8px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
-              {{this.products[0].type}}
+              {{this.products[this.id].type}}
             </h2>
             <h3
               class="text-black text-left text-[18px] mb-[10px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
-              MAD {{ this.products[0].price }}
+              MAD {{ this.products[this.id].price }}
             </h3>
             <h4
               class="text-gray-500 text-left text-[14px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
-              By {{ this.products[0].designer }}
+              By {{ this.products[this.id].designer }}
             </h4>
           </div>
           <div
@@ -157,7 +157,7 @@
             </p>
             <div class="grid grid-cols-7 gap-[6px]">
               <div
-                v-for="color in products[0].colors"
+                v-for="color in products[this.id].colors"
                 :key="color.id"
                 @click="handleClick(color)"
                 :class="[
@@ -212,6 +212,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: "ProductPage",
+  props: ['id'], // Add id prop to receive the product ID
 
   
 
@@ -239,21 +240,27 @@ export default {
   },
 
   created() {
+
+    console.log('Product ID:', this.id); // Verify this ID is correct
+    console.log('Product:', this.$store.state.products[this.id]); // Check if product exists
+    this.product = this.$store.state.products[this.id];
+
+
     // Set colorTitle to the colorName of the first color in the colors array
-    this.colorTitle = this.products[0].colors[0].colorName;
+    this.colorTitle = this.products[this.id].colors[0].colorName;
     this.imageSrc =
-      this.products[0].colors[0].availableModels[
-        Object.keys(this.products[0].colors[0].availableModels)[0]
+      this.products[this.id].colors[0].availableModels[
+        Object.keys(this.products[this.id].colors[0].availableModels)[0]
       ][0].image;
-    this.productName = this.products[0].colors[0].name;
-    this.selectedColor = this.products[0].colors[0].id;
+    this.productName = this.products[this.id].colors[0].name;
+    this.selectedColor = this.products[this.id].colors[0].id;
 
     // Initialize available brands and models based on the first color in the colors array
-    this.availableBrands = Object.keys(this.products[0].colors[0].availableModels);
+    this.availableBrands = Object.keys(this.products[this.id].colors[0].availableModels);
     this.selectedBrand =
       this.availableBrands.length > 0 ? this.availableBrands[0] : null;
     this.selectedModel =
-      this.products[0].colors[0].availableModels[this.selectedBrand][0].name; // first model of the first brand
+      this.products[this.id].colors[0].availableModels[this.selectedBrand][0].name; // first model of the first brand
 
     // Initialize Safari tab bar color
     this.updateSafariTabBarColor();
@@ -272,7 +279,7 @@ export default {
       this.selectedColor = color.id;
       this.availableBrands = Object.keys(color.availableModels);
 
-      const selectedColorData = this.products[0].colors.find(
+      const selectedColorData = this.products[this.id].colors.find(
         (c) => c.id === this.selectedColor
       );
 
@@ -316,7 +323,7 @@ export default {
       this.selectedBrand = device;
 
       // Update the image source based on the selected brand and first model
-      const selectedColorData = this.products[0].colors.find(
+      const selectedColorData = this.products[this.id].colors.find(
         (c) => c.id === this.selectedColor
       );
 
@@ -446,7 +453,7 @@ export default {
 
 
     lightColor() {
-      const color = this.products[0].colors.find(
+      const color = this.products[this.id].colors.find(
         (c) => c.id === this.selectedColor
       ).colorHex;
       const lightColor = this.lightenColor(color, 98); // Adjust the amount to get very light color
@@ -454,7 +461,7 @@ export default {
       return lightColor;
     },
     darkColor() {
-      const color = this.products[0].colors.find(
+      const color = this.products[this.id].colors.find(
         (c) => c.id === this.selectedColor
       ).colorHex;
       const darkColor = this.darkenColor(color, 12); // Adjust the amount to get a darker color
@@ -463,7 +470,7 @@ export default {
     },
     currentBrandModels() {
       return this.selectedBrand
-        ? this.products[0].colors
+        ? this.products[this.id].colors
             .find((c) => c.id === this.selectedColor)
             .availableModels[this.selectedBrand].map((model) => model.name)
         : [];
@@ -502,7 +509,7 @@ export default {
 
     selectedModel(newModel) {
       // Find the selected color data
-      const selectedColorData = this.products[0].colors.find(
+      const selectedColorData = this.products[this.id].colors.find(
         (c) => c.id === this.selectedColor
       );
 
