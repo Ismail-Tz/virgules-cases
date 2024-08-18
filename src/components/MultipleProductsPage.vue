@@ -75,7 +75,7 @@
                 class="mb-[24px] mt-[12px] h-[300px] w-auto object-contain"
               />
               <h1
-                class="text-black text-center font-[Visby] font-bold text-[16px] mb-[3px] leading-[120%] truncate w-[100%]"
+                class="text-black text-center font-[Visby] font-bold text-[16px] mb-[3px] leading-[125%] truncate w-[100%]"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
                 {{ item.title }}
