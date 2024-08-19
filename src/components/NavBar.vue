@@ -117,22 +117,64 @@
     <!-- Cart Content -->
     <div
       v-if="isBagOpen"
-      class="p-4 overflow-y-auto transition-opacity duration-300 ease-in-out"
+      class="w-full overflow-y-auto transition-opacity duration-500 ease-in-out"
       :class="isBagOpen ? 'opacity-100' : 'opacity-0'"
     >
-      <h2 class="text-xl font-bold">Your Cart</h2>
-      <p>Some items in the cart...</p>
+      <div style="width: calc(1680px - 540px)" class="mx-auto">
+        <h2 class="text-[26px] text-left font-[Visby] font-bold">Bag</h2>
+        <div class="relative overflow-x-auto whitespace-nowrap py-4">
+          <div class="flex gap-[24px]">
+            <div
+              v-for="(item, index) in products"
+              :key="index"
+              class="bg-[#F9F9F9] border border-[#00000020] rounded-[32px] w-[233px] h-[465px] p-[24px] flex flex-col items-center"
+    
+            >
+              <img
+                :src="item.image"
+                :alt="item.altText"
+                class="mb-[18px] mt-[12px] h-[300px] w-auto object-contain"
+              />
+              <h1
+                class="text-black text-left font-[Visby] font-bold text-[16px] mb-[5px] leading-[125%] truncate w-[100%]"
+
+              >
+                {{ item.title }}
+              </h1>
+              <h2
+                class="text-black opacity-[60%] text-left font-[Visby] font-semibold text-[14px] mb-[5px] leading-[100%] w-[100%]"
+                
+              >
+                {{ item.type }}
+              </h2>
+              <h3
+                class="text-black opacity-[60%] text-left font-[Arial] text-[14px] mb-[5px] leading-[100%] w-[100%]"
+               
+              >
+              {{ item.colors[0].colorName }} {{ item.isCustomizable ? "- Customized" : "" }}
+              </h3>
+              <h3
+                class="text-black text-left font-[Arial] text-[15px] leading-[100%] w-[100%] mt-auto"
+              
+              >
+                MAD {{ item.price }}
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </nav>
   <!-- Overlay for blur and darkness -->
   <div
     v-if="isBagOpen"
-    class="fixed inset-0 bg-black bg-opacity-[0.02] z-40 transition-opacity duration-500 ease-in-out"
+    class="fixed inset-0 bg-black bg-opacity-[0.035] z-40 transition-opacity duration-500 ease-in-out"
     :class="isBagOpen ? 'backdrop-blur-[50px] opacity-100' : 'opacity-0'"
   ></div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "NavBar",
   props: ["lightColorMsg", "darkColorMsg"],
@@ -163,6 +205,9 @@ export default {
   },
 
   computed: {
+    //using them as placeholders to test Bag
+    ...mapGetters(["products"]),
+
     lightColorTp() {
       return this.calculateBlendedColor(this.navBarLightColor, 0.8, "#FFFFFF");
     },
@@ -182,7 +227,6 @@ export default {
     closeBag() {
       this.isBagOpen = false;
     },
-    
 
     checkIfOnProductPage(route) {
       if (route.name === "ProductPage" || route.path.startsWith("/product/")) {
