@@ -11,7 +11,7 @@
             />
             <!-- Customizing Cases -->
             <div
-              v-if="isCustomizable"
+              v-if="products[id].isCustomizable"
               class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
             >
               <span
@@ -112,7 +112,7 @@
               </div>
             </div>
             <!-- Customize section (only in customizable products) -->
-            <div v-if="isCustomizable">
+            <div v-if="products[id].isCustomizable">
               <h2
                 class="text-black text-left font-[Visby] font-extrabold text-[20px] my-[24px] leading-[100%] after"
                 :style="{ color: darkColor, borderColor: darkColor }"
@@ -232,7 +232,6 @@ export default {
       selectedModel: "", // Default selected model
 
       // Customizing Cases
-      isCustomizable: false, // Set to true or false based on whether the product is customizable
       customNumber: "",
       customName: "",
       customFont: "visby, sans-serif",

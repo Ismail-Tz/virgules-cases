@@ -48,7 +48,7 @@ export const store = createStore({
         title: "OG Virgules",
         type: "Clear Case",
         designer: "Ismail Touzzane",
-        customizableText: "Customizable",
+        isCustomizable: true,
         price: 199,
         colors: [
           {
@@ -127,7 +127,7 @@ export const store = createStore({
         title: "Case Model 2",
         type: "Clear Case",
         designer: "Ismail Touzzane",
-        customizableText: "Customizable",
+        isCustomizable: false,
         price: 199,
         colors: [
           {
@@ -206,7 +206,7 @@ export const store = createStore({
         title: "Case Model 3",
         type: "Clear Case",
         designer: "Ismail Touzzane",
-        customizableText: "Customizable",
+        isCustomizable: false,
         price: 199,
         colors: [
           {

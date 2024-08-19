@@ -91,7 +91,7 @@
                 class="text-black text-center font-[Arial] text-[15px] mb-[5px] leading-[100%]"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
-                {{ item.customizableText }}
+              {{ item.isCustomizable ? 'Customizable' : 'Not Customizable' }}
               </h3>
               <h3
                 class="text-black text-center font-[Arial] text-[15px] leading-[100%]"
