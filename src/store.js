@@ -116,7 +116,6 @@ export const store = createStore({
                 { name: "Pixel 8 Pro", image: p8Pro_Green },
               ],
             },
-            
           },
           // Add more color options as needed
         ],
@@ -130,8 +129,30 @@ export const store = createStore({
         isCustomizable: false,
         price: 199,
         colors: [
+            {
+                id: 1,
+                colorName: "Green",
+                colorHex: "#2EEA89",
+                availableModels: {
+                  Apple: [
+                    { name: "iPhone 15", image: iP15_Green },
+                    { name: "iPhone 15 Plus", image: iP15p_Green },
+                    { name: "iPhone 15 Pro", image: iP15Pro_Green },
+                    { name: "iPhone 15 Pro Max", image: iP15ProM_Green },
+                  ],
+                  Samsung: [
+                    { name: "Galaxy S24", image: s24_Green },
+                    { name: "Galaxy S24+", image: s24p_Green },
+                    { name: "Galaxy S24 Ultra", image: s24U_Green },
+                  ],
+                  Google: [
+                    { name: "Pixel 8", image: p8_Green },
+                    { name: "Pixel 8 Pro", image: p8Pro_Green },
+                  ],
+                },
+              },
           {
-            id: 1,
+            id: 2,
             colorName: "Cool Green",
             colorHex: "#7EE5D8",
             availableModels: {
@@ -153,7 +174,7 @@ export const store = createStore({
             },
           },
           {
-            id: 2,
+            id: 3,
             colorName: "Red",
             colorHex: "#FF6060",
             availableModels: {
@@ -174,29 +195,7 @@ export const store = createStore({
               ],
             },
           },
-          {
-            id: 3,
-            colorName: "Green",
-            colorHex: "#2EEA89",
-            availableModels: {
-              Apple: [
-                { name: "iPhone 15", image: iP15_Green },
-                { name: "iPhone 15 Plus", image: iP15p_Green },
-                { name: "iPhone 15 Pro", image: iP15Pro_Green },
-                { name: "iPhone 15 Pro Max", image: iP15ProM_Green },
-              ],
-              Samsung: [
-                { name: "Galaxy S24", image: s24_Green },
-                { name: "Galaxy S24+", image: s24p_Green },
-                { name: "Galaxy S24 Ultra", image: s24U_Green },
-              ],
-              Google: [
-                { name: "Pixel 8", image: p8_Green },
-                { name: "Pixel 8 Pro", image: p8Pro_Green },
-              ],
-            },
-            
-          },
+          
           // Add more color options as needed
         ],
       },
@@ -211,28 +210,6 @@ export const store = createStore({
         colors: [
           {
             id: 1,
-            colorName: "Cool Green",
-            colorHex: "#7EE5D8",
-            availableModels: {
-              Apple: [
-                { name: "iPhone 15", image: iP15_CoolGreen },
-                { name: "iPhone 15 Plus", image: iP15p_CoolGreen },
-                { name: "iPhone 15 Pro", image: iP15Pro_CoolGreen },
-                { name: "iPhone 15 Pro Max", image: iP15ProM_CoolGreen },
-              ],
-              Samsung: [
-                { name: "Galaxy S24", image: s24_CoolGreen },
-                { name: "Galaxy S24+", image: s24p_CoolGreen },
-                { name: "Galaxy S24 Ultra", image: s24U_CoolGreen },
-              ],
-              Google: [
-                { name: "Pixel 8", image: p8_CoolGreen },
-                { name: "Pixel 8 Pro", image: p8Pro_CoolGreen },
-              ],
-            },
-          },
-          {
-            id: 2,
             colorName: "Red",
             colorHex: "#FF6060",
             availableModels: {
@@ -254,6 +231,29 @@ export const store = createStore({
             },
           },
           {
+            id: 2,
+            colorName: "Cool Green",
+            colorHex: "#7EE5D8",
+            availableModels: {
+              Apple: [
+                { name: "iPhone 15", image: iP15_CoolGreen },
+                { name: "iPhone 15 Plus", image: iP15p_CoolGreen },
+                { name: "iPhone 15 Pro", image: iP15Pro_CoolGreen },
+                { name: "iPhone 15 Pro Max", image: iP15ProM_CoolGreen },
+              ],
+              Samsung: [
+                { name: "Galaxy S24", image: s24_CoolGreen },
+                { name: "Galaxy S24+", image: s24p_CoolGreen },
+                { name: "Galaxy S24 Ultra", image: s24U_CoolGreen },
+              ],
+              Google: [
+                { name: "Pixel 8", image: p8_CoolGreen },
+                { name: "Pixel 8 Pro", image: p8Pro_CoolGreen },
+              ],
+            },
+          },
+
+          {
             id: 3,
             colorName: "Green",
             colorHex: "#2EEA89",
@@ -274,14 +274,12 @@ export const store = createStore({
                 { name: "Pixel 8 Pro", image: p8Pro_Green },
               ],
             },
-            
           },
           // Add more color options as needed
         ],
       },
       // Add more products as needed
     ],
-
   },
   getters: {
     products: (state) => state.products,

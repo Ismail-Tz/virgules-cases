@@ -68,7 +68,13 @@
               v-for="(item, index) in products"
               :key="index"
               @click="goToProductPage(index)"
+              @mouseover="applyHoverColors(index)"
+              @mouseleave="clearHoverColors"
               class="cursor-pointer bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px] hover:bg-[#F7FDFC] hover:border-[#0A332E50] flex flex-col items-center"
+              :style="{
+                backgroundColor: hoveredIndex === index ? lightColor : '#F9F9F9',
+                borderColor: hoveredIndex === index ? darkColor + 50 : '#00000010',
+              }"
             >
               <img
                 :src="item.image"
@@ -91,7 +97,7 @@
                 class="text-black text-center font-[Arial] text-[15px] mb-[5px] leading-[100%]"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
-              {{ item.isCustomizable ? 'Customizable' : 'Not Customizable' }}
+                {{ item.isCustomizable ? "Customizable" : "Not Customizable" }}
               </h3>
               <h3
                 class="text-black text-center font-[Arial] text-[15px] leading-[100%]"
@@ -108,13 +114,13 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
+import { lightenColor, darkenColor } from "@/utils";
 
 export default {
   name: "MultipleProductsPage",
   data() {
     return {
-    
       openDropdowns: {
         customizable: false,
         collection: false,
@@ -155,19 +161,33 @@ export default {
         { id: "black3", name: "Black", colorClass: "bg-black" },
         // Add more options as needed
       ],
+
+      hoveredIndex: null,
+    lightColor: '#F9F9F9', // default light color
+    darkColor: '#000000', // default dark color
     };
   },
   computed: {
-
     // VUEX: Using mapGetters to access the colors array from the store
-    ...mapGetters(['products']),
+    ...mapGetters(["products"]),
 
-    
     computedWidth() {
       return "width: calc(1680px - 540px)";
     },
   },
   methods: {
+    applyHoverColors(index) {
+      const color = this.products[index].colors[0].colorHex;
+      this.lightColor = lightenColor(color, 98); // Adjust to your preference
+      this.darkColor = darkenColor(color, 12); // Adjust to your preference
+      this.hoveredIndex = index;
+    },
+    clearHoverColors() {
+      this.hoveredIndex = null;
+      this.lightColor = "#F9F9F9"; // Reset to default background
+      this.darkColor = "#000000"; // Reset to default border
+    },
+
     toggleDropdown(dropdown) {
       this.openDropdowns[dropdown] = !this.openDropdowns[dropdown];
     },
@@ -183,7 +203,7 @@ export default {
     // Method to navigate to the product page
     goToProductPage(productId) {
       this.$router.push({ path: `/product/${productId}` });
-    }
+    },
   },
 };
 </script>
