@@ -3,7 +3,7 @@
     class="fixed top-0 left-0 w-full bg-[#F7FDFC] border-b border-[#0A332E20] py-4 h-[60px] z-50 blurry"
     :style="{
       backgroundColor: lightColorTp, //tp stands for transparent
-      borderColor: darkColorMsg + '20',
+      borderColor: navBarDarkColor + '20',
     }"
   >
     <div
@@ -12,7 +12,7 @@
     >
       <!-- Left-aligned section (Logo) -->
       <div class="flex items-center w-1/3">
-        <a href="#" :style="{ color: darkColorMsg }">
+        <a href="#" :style="{ color: navBarDarkColor }">
           <svg
             class="w-[36px]"
             width="51"
@@ -34,26 +34,26 @@
         <a
           href="#"
           class="text-[#0A332E] hover:bg-[#00000007] px-3 py-2 text-[14px] rounded-xl"
-          :style="{ color: darkColorMsg }"
+          :style="{ color: navBarDarkColor }"
           >Devices</a
         >
         <a
           href="#"
           class="text-[#0A332E] hover:bg-[#00000007] px-3 py-2 text-[14px] rounded-xl"
-          :style="{ color: darkColorMsg }"
+          :style="{ color: navBarDarkColor }"
           >Customization</a
         >
         <a
           href="#"
           class="text-[#0A332E] hover:bg-[#00000007] px-3 py-2 text-[14px] rounded-xl"
-          :style="{ color: darkColorMsg }"
+          :style="{ color: navBarDarkColor }"
           >Featured</a
         >
       </div>
 
       <!-- Right-aligned section (Symbol buttons) -->
       <div class="flex justify-end items-center space-x-4 w-1/3">
-        <a href="#" :style="{ color: darkColorMsg }">
+        <a href="#" :style="{ color: navBarDarkColor }">
           <svg
             id="Layer_2"
             data-name="Layer 2"
@@ -72,7 +72,7 @@
         <a
           href="#"
           class="text-[#0A332E] hover:text-black"
-          :style="{ color: darkColorMsg }"
+          :style="{ color: navBarDarkColor }"
         >
           <svg
             id="Layer_2"
@@ -92,7 +92,7 @@
         <a
           href="#"
           class="text-[#0A332E] hover:text-black"
-          :style="{ color: darkColorMsg }"
+          :style="{ color: navBarDarkColor }"
         >
           <svg
             id="Layer_2"
@@ -119,13 +119,70 @@ export default {
   name: "NavBar",
   props: ["lightColorMsg", "darkColorMsg"],
 
+  data() {
+    return {
+      navBarLightColor: "",
+      navBarDarkColor: "",
+    };
+  },
+
+  watch: {
+    // Watch for route changes
+    $route(to) {
+      this.checkIfOnProductPage(to);
+      
+    },
+    lightColorMsg(newVal) {
+      this.navBarLightColor = newVal;
+    },
+    darkColorMsg(newVal) {
+      this.navBarDarkColor = newVal;
+    }
+  },
+  mounted() {
+    // Check on initial load
+    this.checkIfOnProductPage(this.$route);
+  },
+
   computed: {
     lightColorTp() {
-      return this.calculateBlendedColor(this.lightColorMsg, 0.85, "#FFFFFF");
+      return this.calculateBlendedColor(this.navBarLightColor, 0.8, "#FFFFFF");
+    },
+    isDarkMode() {
+      return (
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+      );
     },
   },
 
   methods: {
+    checkIfOnProductPage(route) {
+      if (route.name === 'ProductPage' || route.path.startsWith('/product/')) {
+        console.log('You are on the Product Page');
+        this.navBarLightColor = this.lightColorMsg;
+        this.navBarDarkColor = this.darkColorMsg;
+      } else {
+        console.log('You are NOT on the Product Page');
+        this.navBarLightColor = '#F9F9F9';
+        this.navBarDarkColor = '#000000';
+        this.updateSafariTabColor(this.isDarkMode ? '#000000' : '#F9F9F9'); // Reset the color of the tab in Safari
+      }
+    },
+
+    //Reset the color of the tab in Safari
+    updateSafariTabColor(color) {
+    let metaTag = document.querySelector("meta[name='theme-color']");
+    if (metaTag) {
+      metaTag.setAttribute('content', color);
+    } else {
+      metaTag = document.createElement('meta');
+      metaTag.name = 'theme-color';
+      metaTag.content = color;
+      document.head.appendChild(metaTag);
+    }
+  },
+    
     calculateBlendedColor(colorX, opacity, baseColor) {
       const hexToRgb = (hex) => {
         let r = 0,
