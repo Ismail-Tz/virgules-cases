@@ -1,13 +1,14 @@
 <template>
   <nav
-    class="fixed top-0 left-0 w-full bg-[#F7FDFC] border-b border-[#0A332E20] py-4 h-[60px] z-50 blurry"
+    class="fixed top-0 left-0 w-full bg-[#F7FDFC] border-b border-[#0A332E20] h-[60px] z-50 blurry transition-all duration-500 ease-in-out"
+    :class="isBagOpen ? 'h-[80vh]' : 'h-[60px]'"
     :style="{
       backgroundColor: lightColorTp, //tp stands for transparent
       borderColor: navBarDarkColor + '20',
     }"
   >
     <div
-      class="container mx-auto flex justify-between items-center h-full"
+      class="container mx-auto flex justify-between items-center h-[60px]"
       style="width: calc(1680px - 540px)"
     >
       <!-- Left-aligned section (Logo) -->
@@ -93,6 +94,7 @@
           href="#"
           class="text-[#0A332E] hover:text-black"
           :style="{ color: navBarDarkColor }"
+          @click="toggleCart"
         >
           <svg
             id="Layer_2"
@@ -111,7 +113,22 @@
         </a>
       </div>
     </div>
+    <!-- Cart Content -->
+    <div
+      v-if="isBagOpen"
+      class="p-4 overflow-y-auto transition-opacity duration-300 ease-in-out"
+      :class="isBagOpen ? 'opacity-100' : 'opacity-0'"
+    >
+      <h2 class="text-xl font-bold">Your Cart</h2>
+      <p>Some items in the cart...</p>
+    </div>
   </nav>
+  <!-- Overlay for blur and darkness -->
+  <div
+    v-if="isBagOpen"
+    class="fixed inset-0 bg-black bg-opacity-10 z-40 transition-opacity duration-500 ease-in-out"
+    :class="isBagOpen ? 'backdrop-blur-md opacity-100' : 'opacity-0'"
+  ></div>
 </template>
 
 <script>
@@ -123,6 +140,7 @@ export default {
     return {
       navBarLightColor: "",
       navBarDarkColor: "",
+      isBagOpen: false,
     };
   },
 
@@ -130,14 +148,13 @@ export default {
     // Watch for route changes
     $route(to) {
       this.checkIfOnProductPage(to);
-      
     },
     lightColorMsg(newVal) {
       this.navBarLightColor = newVal;
     },
     darkColorMsg(newVal) {
       this.navBarDarkColor = newVal;
-    }
+    },
   },
   mounted() {
     // Check on initial load
@@ -157,32 +174,37 @@ export default {
   },
 
   methods: {
+    // Toggle the cart
+    toggleCart() {
+      this.isBagOpen = !this.isBagOpen;
+    },
+
     checkIfOnProductPage(route) {
-      if (route.name === 'ProductPage' || route.path.startsWith('/product/')) {
-        console.log('You are on the Product Page');
+      if (route.name === "ProductPage" || route.path.startsWith("/product/")) {
+        console.log("You are on the Product Page");
         this.navBarLightColor = this.lightColorMsg;
         this.navBarDarkColor = this.darkColorMsg;
       } else {
-        console.log('You are NOT on the Product Page');
-        this.navBarLightColor = '#F9F9F9';
-        this.navBarDarkColor = '#000000';
-        this.updateSafariTabColor(this.isDarkMode ? '#000000' : '#F9F9F9'); // Reset the color of the tab in Safari
+        console.log("You are NOT on the Product Page");
+        this.navBarLightColor = "#F9F9F9";
+        this.navBarDarkColor = "#000000";
+        this.updateSafariTabColor(this.isDarkMode ? "#000000" : "#F9F9F9"); // Reset the color of the tab in Safari
       }
     },
 
     //Reset the color of the tab in Safari
     updateSafariTabColor(color) {
-    let metaTag = document.querySelector("meta[name='theme-color']");
-    if (metaTag) {
-      metaTag.setAttribute('content', color);
-    } else {
-      metaTag = document.createElement('meta');
-      metaTag.name = 'theme-color';
-      metaTag.content = color;
-      document.head.appendChild(metaTag);
-    }
-  },
-    
+      let metaTag = document.querySelector("meta[name='theme-color']");
+      if (metaTag) {
+        metaTag.setAttribute("content", color);
+      } else {
+        metaTag = document.createElement("meta");
+        metaTag.name = "theme-color";
+        metaTag.content = color;
+        document.head.appendChild(metaTag);
+      }
+    },
+
     calculateBlendedColor(colorX, opacity, baseColor) {
       const hexToRgb = (hex) => {
         let r = 0,
