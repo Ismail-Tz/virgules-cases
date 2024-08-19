@@ -6,6 +6,7 @@
       backgroundColor: lightColorTp, //tp stands for transparent
       borderColor: navBarDarkColor + '20',
     }"
+    @mouseleave="closeBag"
   >
     <div
       class="container mx-auto flex justify-between items-center h-[60px]"
@@ -94,7 +95,7 @@
           href="#"
           class="text-[#0A332E] hover:text-black"
           :style="{ color: navBarDarkColor }"
-          @click="toggleCart"
+          @click="toggleBag"
         >
           <svg
             id="Layer_2"
@@ -126,8 +127,8 @@
   <!-- Overlay for blur and darkness -->
   <div
     v-if="isBagOpen"
-    class="fixed inset-0 bg-black bg-opacity-10 z-40 transition-opacity duration-500 ease-in-out"
-    :class="isBagOpen ? 'backdrop-blur-md opacity-100' : 'opacity-0'"
+    class="fixed inset-0 bg-black bg-opacity-[0.02] z-40 transition-opacity duration-500 ease-in-out"
+    :class="isBagOpen ? 'backdrop-blur-[50px] opacity-100' : 'opacity-0'"
   ></div>
 </template>
 
@@ -175,9 +176,13 @@ export default {
 
   methods: {
     // Toggle the cart
-    toggleCart() {
+    toggleBag() {
       this.isBagOpen = !this.isBagOpen;
     },
+    closeBag() {
+      this.isBagOpen = false;
+    },
+    
 
     checkIfOnProductPage(route) {
       if (route.name === "ProductPage" || route.path.startsWith("/product/")) {
