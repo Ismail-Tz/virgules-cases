@@ -83,25 +83,33 @@
               />
               <h1
                 class="text-black text-center font-[Visby] font-bold text-[16px] mb-[3px] leading-[125%] truncate w-[100%]"
-                :style="{ color: darkColor, borderColor: darkColor }"
+                :style="{
+                color: hoveredIndex === index ? darkColor : '#000000',
+              }"
               >
                 {{ item.title }}
               </h1>
               <h2
                 class="text-black text-center font-[Visby] font-semibold text-[16px] mb-[5px] leading-[100%]"
-                :style="{ color: darkColor, borderColor: darkColor }"
+                :style="{
+                color: hoveredIndex === index ? darkColor : '#000000',
+              }"
               >
                 {{ item.type }}
               </h2>
               <h3
                 class="text-black text-center font-[Arial] text-[15px] mb-[5px] leading-[100%]"
-                :style="{ color: darkColor, borderColor: darkColor }"
+                :style="{
+                color: hoveredIndex === index ? darkColor : '#000000',
+              }"
               >
                 {{ item.isCustomizable ? "Customizable" : "Not Customizable" }}
               </h3>
               <h3
                 class="text-black text-center font-[Arial] text-[15px] leading-[100%]"
-                :style="{ color: darkColor, borderColor: darkColor }"
+                :style="{
+                color: hoveredIndex === index ? darkColor : '#000000',
+              }"
               >
                 MAD {{ item.price }}
               </h3>
