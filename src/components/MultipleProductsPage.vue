@@ -70,10 +70,12 @@
               @click="goToProductPage(index)"
               @mouseover="applyHoverColors(index)"
               @mouseleave="clearHoverColors"
+              @mousemove="updateMouseGradient(index, $event)"
               class="cursor-pointer bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px] hover:bg-[#F7FDFC] hover:border-[#0A332E50] flex flex-col items-center"
               :style="{
-                backgroundColor: hoveredIndex === index ? lightColor : '#F9F9F9',
-                borderColor: hoveredIndex === index ? darkColor + 50 : '#00000010',
+                backgroundImage: hoveredIndex === index ? gradient : 'none',
+                borderColor:
+                  hoveredIndex === index ? darkColor + 60 : '#00000020',
               }"
             >
               <img
@@ -84,32 +86,32 @@
               <h1
                 class="text-black text-center font-[Visby] font-bold text-[16px] mb-[3px] leading-[125%] truncate w-[100%]"
                 :style="{
-                color: hoveredIndex === index ? darkColor : '#000000',
-              }"
+                  color: hoveredIndex === index ? darkColor : '#000000',
+                }"
               >
                 {{ item.title }}
               </h1>
               <h2
                 class="text-black text-center font-[Visby] font-semibold text-[16px] mb-[5px] leading-[100%]"
                 :style="{
-                color: hoveredIndex === index ? darkColor : '#000000',
-              }"
+                  color: hoveredIndex === index ? darkColor : '#000000',
+                }"
               >
                 {{ item.type }}
               </h2>
               <h3
                 class="text-black text-center font-[Arial] text-[15px] mb-[5px] leading-[100%]"
                 :style="{
-                color: hoveredIndex === index ? darkColor : '#000000',
-              }"
+                  color: hoveredIndex === index ? darkColor : '#000000',
+                }"
               >
                 {{ item.isCustomizable ? "Customizable" : "Not Customizable" }}
               </h3>
               <h3
                 class="text-black text-center font-[Arial] text-[15px] leading-[100%]"
                 :style="{
-                color: hoveredIndex === index ? darkColor : '#000000',
-              }"
+                  color: hoveredIndex === index ? darkColor : '#000000',
+                }"
               >
                 MAD {{ item.price }}
               </h3>
@@ -171,8 +173,9 @@ export default {
       ],
 
       hoveredIndex: null,
-    lightColor: '#F9F9F9', // default light color
-    darkColor: '#000000', // default dark color
+      gradient: "",
+      lightColor: "#F9F9F9", // default light color
+      darkColor: "#000000", // default dark color
     };
   },
   computed: {
@@ -194,6 +197,18 @@ export default {
       this.hoveredIndex = null;
       this.lightColor = "#F9F9F9"; // Reset to default background
       this.darkColor = "#000000"; // Reset to default border
+      this.gradient = ""; // Clear gradient when mouse leaves
+    },
+    updateMouseGradient(index, event) {
+      if (this.hoveredIndex !== index) return;
+
+      const target = event.currentTarget;
+      const rect = target.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+
+      // Dynamically generate the gradient
+      this.gradient = `radial-gradient(circle at ${x}px ${y}px, ${this.lightColor} 30%, #F9F9F9 90%)`;
     },
 
     toggleDropdown(dropdown) {
