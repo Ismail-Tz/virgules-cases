@@ -1,7 +1,7 @@
 <template>
   <nav
     class="fixed top-0 left-0 w-full bg-[#F7FDFC] border-b border-[#0A332E20] h-[60px] z-50 blurry transition-all duration-500 ease-in-out"
-    :class="isBagOpen ? 'h-[80vh]' : 'h-[60px]'"
+    :class="isBagOpen ? 'h-[85vh]' : 'h-[60px]'"
     :style="{
       backgroundColor: lightColorTp, //tp stands for transparent
       borderColor: navBarDarkColor + '20',
@@ -120,14 +120,14 @@
       class="w-full overflow-hidden transition-all duration-500 ease-in-out"
       :style="{ height: bagContentHeight }"
     >
-      <div style="width: calc(1680px - 540px)" class="mx-auto">
-        <h2 class="text-[26px] text-left font-[Visby] font-bold">Bag</h2>
+      <div style="width: calc(1680px - 540px)" class="mx-auto mt-[24px]">
+        <h2 class="text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]">Bag</h2>
         <div class="relative rounded-[32px] overflow-x-auto whitespace-nowrap hide-scrollbar">
-          <div class="flex gap-[24px] w-max  ">
+          <div class="flex gap-[24px] w-max">
             <div
               v-for="(item, index) in products"
               :key="index"
-              class="bg-[#F9F9F9] border border-[#00000020] rounded-[32px] w-[233px] h-[465px] p-[24px] flex flex-col items-center"
+              class="bg-[#FFFFFF] border border-[#00000020] rounded-[32px] w-[233px] h-[465px] p-[24px] flex flex-col items-center"
     
             >
               <img
@@ -162,6 +162,7 @@
             </div>
           </div>
         </div>
+        <div class="mt-[24px] bg-[#FFFFFF] rounded-[32px] h-[93px] border border-[#00000020]">checkouty</div>
       </div>
     </div>
   </nav>
