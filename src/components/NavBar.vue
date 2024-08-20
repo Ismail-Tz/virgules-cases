@@ -122,8 +122,8 @@
     >
       <div style="width: calc(1680px - 540px)" class="mx-auto">
         <h2 class="text-[26px] text-left font-[Visby] font-bold">Bag</h2>
-        <div class="relative overflow-x-auto whitespace-nowrap py-4">
-          <div class="flex gap-[24px]">
+        <div class="relative rounded-[32px] overflow-x-auto whitespace-nowrap hide-scrollbar">
+          <div class="flex gap-[24px] w-max  ">
             <div
               v-for="(item, index) in products"
               :key="index"
@@ -329,4 +329,15 @@ export default {
   backdrop-filter: blur(30px); /* Apply blur effect */
   -webkit-backdrop-filter: blur(30px); /* Safari compatibility */
 }
+/* Hide scrollbar for Chrome, Safari, and Opera */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge, and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 </style>

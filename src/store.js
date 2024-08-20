@@ -278,7 +278,246 @@ export const store = createStore({
           // Add more color options as needed
         ],
       },
+      {
+        image: iP15Pro_CoolGreen_Transparent,
+        altText: "Case Image",
+        title: "Case Model 4",
+        type: "Clear Case",
+        designer: "Ismail Touzzane",
+        isCustomizable: false,
+        price: 199,
+        colors: [
+          {
+            id: 1,
+            colorName: "Rose",
+            colorHex: "#FFC0CB",
+            availableModels: {
+              Apple: [
+                { name: "iPhone 15", image: iP15_Red },
+                { name: "iPhone 15 Plus", image: iP15p_Red },
+                { name: "iPhone 15 Pro", image: iP15Pro_Red },
+                { name: "iPhone 15 Pro Max", image: iP15ProM_Red },
+              ],
+              Samsung: [
+                { name: "Galaxy S24", image: s24_Red },
+                { name: "Galaxy S24+", image: s24p_Red },
+                { name: "Galaxy S24 Ultra", image: s24U_Red },
+              ],
+              Google: [
+                { name: "Pixel 8", image: p8_Red },
+                { name: "Pixel 8 Pro", image: p8Pro_Red },
+              ],
+            },
+          },
+          {
+            id: 2,
+            colorName: "Hot Pink",
+            colorHex: "#FF69B4",
+            availableModels: {
+              Apple: [
+                { name: "iPhone 15", image: iP15_CoolGreen },
+                { name: "iPhone 15 Plus", image: iP15p_CoolGreen },
+                { name: "iPhone 15 Pro", image: iP15Pro_CoolGreen },
+                { name: "iPhone 15 Pro Max", image: iP15ProM_CoolGreen },
+              ],
+              Samsung: [
+                { name: "Galaxy S24", image: s24_CoolGreen },
+                { name: "Galaxy S24+", image: s24p_CoolGreen },
+                { name: "Galaxy S24 Ultra", image: s24U_CoolGreen },
+              ],
+              Google: [
+                { name: "Pixel 8", image: p8_CoolGreen },
+                { name: "Pixel 8 Pro", image: p8Pro_CoolGreen },
+              ],
+            },
+          },
+
+          {
+            id: 3,
+            colorName: "Lime Yellow",
+            colorHex: "#DFFF00",
+            availableModels: {
+              Apple: [
+                { name: "iPhone 15", image: iP15_Green },
+                { name: "iPhone 15 Plus", image: iP15p_Green },
+                { name: "iPhone 15 Pro", image: iP15Pro_Green },
+                { name: "iPhone 15 Pro Max", image: iP15ProM_Green },
+              ],
+              Samsung: [
+                { name: "Galaxy S24", image: s24_Green },
+                { name: "Galaxy S24+", image: s24p_Green },
+                { name: "Galaxy S24 Ultra", image: s24U_Green },
+              ],
+              Google: [
+                { name: "Pixel 8", image: p8_Green },
+                { name: "Pixel 8 Pro", image: p8Pro_Green },
+              ],
+            },
+          },
+          // Add more color options as needed
+        ],
+      },
+      {
+        image: iP15Pro_CoolGreen_Transparent,
+        altText: "Case Image",
+        title: "Case Model 5",
+        type: "Clear Case",
+        designer: "Ismail Touzzane",
+        isCustomizable: false,
+        price: 199,
+        colors: [
+          {
+            id: 1,
+            colorName: "Magenta",
+            colorHex: "#FF00FF",
+            availableModels: {
+              Apple: [
+                { name: "iPhone 15", image: iP15_Red },
+                { name: "iPhone 15 Plus", image: iP15p_Red },
+                { name: "iPhone 15 Pro", image: iP15Pro_Red },
+                { name: "iPhone 15 Pro Max", image: iP15ProM_Red },
+              ],
+              Samsung: [
+                { name: "Galaxy S24", image: s24_Red },
+                { name: "Galaxy S24+", image: s24p_Red },
+                { name: "Galaxy S24 Ultra", image: s24U_Red },
+              ],
+              Google: [
+                { name: "Pixel 8", image: p8_Red },
+                { name: "Pixel 8 Pro", image: p8Pro_Red },
+              ],
+            },
+          },
+          {
+            id: 2,
+            colorName: "Violet",
+            colorHex: "#EE82EE",
+            availableModels: {
+              Apple: [
+                { name: "iPhone 15", image: iP15_CoolGreen },
+                { name: "iPhone 15 Plus", image: iP15p_CoolGreen },
+                { name: "iPhone 15 Pro", image: iP15Pro_CoolGreen },
+                { name: "iPhone 15 Pro Max", image: iP15ProM_CoolGreen },
+              ],
+              Samsung: [
+                { name: "Galaxy S24", image: s24_CoolGreen },
+                { name: "Galaxy S24+", image: s24p_CoolGreen },
+                { name: "Galaxy S24 Ultra", image: s24U_CoolGreen },
+              ],
+              Google: [
+                { name: "Pixel 8", image: p8_CoolGreen },
+                { name: "Pixel 8 Pro", image: p8Pro_CoolGreen },
+              ],
+            },
+          },
+
+          {
+            id: 3,
+            colorName: "Web Green",
+            colorHex: "#2EEA89",
+            availableModels: {
+              Apple: [
+                { name: "iPhone 15", image: iP15_Green },
+                { name: "iPhone 15 Plus", image: iP15p_Green },
+                { name: "iPhone 15 Pro", image: iP15Pro_Green },
+                { name: "iPhone 15 Pro Max", image: iP15ProM_Green },
+              ],
+              Samsung: [
+                { name: "Galaxy S24", image: s24_Green },
+                { name: "Galaxy S24+", image: s24p_Green },
+                { name: "Galaxy S24 Ultra", image: s24U_Green },
+              ],
+              Google: [
+                { name: "Pixel 8", image: p8_Green },
+                { name: "Pixel 8 Pro", image: p8Pro_Green },
+              ],
+            },
+          },
+          // Add more color options as needed
+        ],
+      },
+      {
+        image: iP15Pro_CoolGreen_Transparent,
+        altText: "Case Image",
+        title: "Case Model 6",
+        type: "Clear Case",
+        designer: "Ismail Touzzane",
+        isCustomizable: false,
+        price: 199,
+        colors: [
+          {
+            id: 1,
+            colorName: "Carnation Pink",
+            colorHex: "#FFA6C9",
+            availableModels: {
+              Apple: [
+                { name: "iPhone 15", image: iP15_Red },
+                { name: "iPhone 15 Plus", image: iP15p_Red },
+                { name: "iPhone 15 Pro", image: iP15Pro_Red },
+                { name: "iPhone 15 Pro Max", image: iP15ProM_Red },
+              ],
+              Samsung: [
+                { name: "Galaxy S24", image: s24_Red },
+                { name: "Galaxy S24+", image: s24p_Red },
+                { name: "Galaxy S24 Ultra", image: s24U_Red },
+              ],
+              Google: [
+                { name: "Pixel 8", image: p8_Red },
+                { name: "Pixel 8 Pro", image: p8Pro_Red },
+              ],
+            },
+          },
+          {
+            id: 2,
+            colorName: "Xanadu",
+            colorHex: "#738678",
+            availableModels: {
+              Apple: [
+                { name: "iPhone 15", image: iP15_CoolGreen },
+                { name: "iPhone 15 Plus", image: iP15p_CoolGreen },
+                { name: "iPhone 15 Pro", image: iP15Pro_CoolGreen },
+                { name: "iPhone 15 Pro Max", image: iP15ProM_CoolGreen },
+              ],
+              Samsung: [
+                { name: "Galaxy S24", image: s24_CoolGreen },
+                { name: "Galaxy S24+", image: s24p_CoolGreen },
+                { name: "Galaxy S24 Ultra", image: s24U_CoolGreen },
+              ],
+              Google: [
+                { name: "Pixel 8", image: p8_CoolGreen },
+                { name: "Pixel 8 Pro", image: p8Pro_CoolGreen },
+              ],
+            },
+          },
+
+          {
+            id: 3,
+            colorName: "Apple Green",
+            colorHex: "#8DB600",
+            availableModels: {
+              Apple: [
+                { name: "iPhone 15", image: iP15_Green },
+                { name: "iPhone 15 Plus", image: iP15p_Green },
+                { name: "iPhone 15 Pro", image: iP15Pro_Green },
+                { name: "iPhone 15 Pro Max", image: iP15ProM_Green },
+              ],
+              Samsung: [
+                { name: "Galaxy S24", image: s24_Green },
+                { name: "Galaxy S24+", image: s24p_Green },
+                { name: "Galaxy S24 Ultra", image: s24U_Green },
+              ],
+              Google: [
+                { name: "Pixel 8", image: p8_Green },
+                { name: "Pixel 8 Pro", image: p8Pro_Green },
+              ],
+            },
+          },
+          // Add more color options as needed
+        ],
+      },
+
       // Add more products as needed
+
     ],
   },
   getters: {
