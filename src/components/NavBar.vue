@@ -116,9 +116,9 @@
     </div>
     <!-- Cart Content -->
     <div
-      v-if="isBagOpen"
-      class="w-full overflow-y-auto transition-opacity duration-500 ease-in-out"
-      :class="isBagOpen ? 'opacity-100' : 'opacity-0'"
+      ref="bagContent"
+      class="w-full overflow-hidden transition-all duration-500 ease-in-out"
+      :style="{ height: bagContentHeight }"
     >
       <div style="width: calc(1680px - 540px)" class="mx-auto">
         <h2 class="text-[26px] text-left font-[Visby] font-bold">Bag</h2>
@@ -184,6 +184,7 @@ export default {
       navBarLightColor: "",
       navBarDarkColor: "",
       isBagOpen: false,
+      bagContentHeight: '0px',
     };
   },
 
@@ -221,11 +222,36 @@ export default {
 
   methods: {
     // Toggle the cart
-    toggleBag() {
-      this.isBagOpen = !this.isBagOpen;
-    },
+   
     closeBag() {
       this.isBagOpen = false;
+
+      // Manually set the height
+      this.$nextTick(() => {
+        const bagContentEl = this.$refs.bagContent;
+        if (this.isBagOpen) {
+          // Measure the actual height of the content
+          const contentHeight = bagContentEl.scrollHeight + 'px';
+          this.bagContentHeight = contentHeight;
+        } else {
+          this.bagContentHeight = '0px';
+        }
+      });
+    },
+    toggleBag() {
+      this.isBagOpen = !this.isBagOpen;
+
+      // Manually set the height
+      this.$nextTick(() => {
+        const bagContentEl = this.$refs.bagContent;
+        if (this.isBagOpen) {
+          // Measure the actual height of the content
+          const contentHeight = bagContentEl.scrollHeight + 'px';
+          this.bagContentHeight = contentHeight;
+        } else {
+          this.bagContentHeight = '0px';
+        }
+      });
     },
 
     checkIfOnProductPage(route) {
