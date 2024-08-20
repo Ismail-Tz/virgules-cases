@@ -17,7 +17,7 @@
                 @mousedown.prevent
                 class="flex justify-between items-center py-[17.5px] h-[52px]"
               >
-                <span class="font-semibold text-[17px]">{{
+                <span class="font-semibold text-[17px] text-black">{{
                   dropdown.title
                 }}</span>
                 <svg

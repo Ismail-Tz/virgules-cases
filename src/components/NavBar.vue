@@ -162,7 +162,7 @@
             </div>
           </div>
         </div>
-        <div class="mt-[24px] bg-[#FFFFFF] rounded-[32px] h-[93px] border border-[#00000020]">checkouty</div>
+        <div class="mt-[24px] p-[20px] bg-[#FFFFFF] rounded-[32px] h-[93px] border border-[#00000020]">checkouty</div>
       </div>
     </div>
   </nav>
