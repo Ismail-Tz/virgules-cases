@@ -121,48 +121,110 @@
       :style="{ height: bagContentHeight }"
     >
       <div style="width: calc(1680px - 540px)" class="mx-auto mt-[24px]">
-        <h2 class="text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]">Bag</h2>
-        <div class="relative rounded-[32px] overflow-x-auto whitespace-nowrap hide-scrollbar">
+        <h2
+          class="text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
+        >
+          Bag
+        </h2>
+        <div
+          class="relative rounded-[32px] overflow-x-auto whitespace-nowrap hide-scrollbar"
+        >
           <div class="flex gap-[24px] w-max">
             <div
               v-for="(item, index) in products"
               :key="index"
               class="bg-[#FFFFFF] border border-[#00000020] rounded-[32px] w-[233px] h-[465px] p-[24px] flex flex-col items-center"
-    
             >
               <img
                 :src="item.image"
                 :alt="item.altText"
-                class="mb-[18px] mt-[12px] h-[300px] w-auto object-contain"
+                class="mb-[12px] mt-[12px] h-[300px] w-auto object-contain"
               />
               <h1
                 class="text-black text-left font-[Visby] font-bold text-[16px] mb-[5px] leading-[125%] truncate w-[100%]"
-
               >
                 {{ item.title }}
               </h1>
               <h2
                 class="text-black opacity-[60%] text-left font-[Visby] font-semibold text-[14px] mb-[5px] leading-[100%] w-[100%]"
-                
               >
                 {{ item.type }}
               </h2>
               <h3
                 class="text-black opacity-[60%] text-left font-[Arial] text-[14px] mb-[5px] leading-[100%] w-[100%]"
-               
               >
-              {{ item.colors[0].colorName }} {{ item.isCustomizable ? "- Customized" : "" }}
+                {{ item.colors[0].colorName }}
+                {{ item.isCustomizable ? "- Customized" : "" }}
               </h3>
-              <h3
-                class="text-black text-left font-[Arial] text-[15px] leading-[100%] w-[100%] mt-auto"
-              
-              >
-                MAD {{ item.price }}
-              </h3>
+              <div class="mt-auto w-full flex items-center justify-between">
+                <h3
+                  class="text-black text-left font-[Arial] text-[15px] leading-[100%]"
+                >
+                  MAD {{ item.price }}
+                </h3>
+
+                <div
+                  class="flex items-center h-[24px] rounded-full border border-black"
+                >
+                  <button
+                    @click="decrementQuantity(index)"
+                    class="text-black rounded-full px-[10px] text-[14px] font-bold"
+                  >
+                    -
+                  </button>
+                  <input
+                    v-model="quantities[index]"
+                    type="number"
+                    min="1"
+                    max="99"
+                    class="text-center w-[35px] rounded-[4px] text-black text-[14px] no-arrows"
+                  />
+                  <button
+                    @click="incrementQuantity(index)"
+                    class="text-black rounded-full px-[10px] text-[14px] font-bold"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="mt-[24px] p-[20px] bg-[#FFFFFF] rounded-[32px] h-[93px] border border-[#00000020]">checkouty</div>
+        <div
+          class="mt-6 p-5 bg-white rounded-[32px] h-[93px] border border-[#00000020] flex items-center justify-between"
+        >
+          <div class="flex items-center space-x-4 h-[40px] ml-[20px]">
+            <span>Cases: 6</span>
+            <span class="block h-6 border-l border-gray-300"></span>
+            <span>Subtotal: MAD 995</span>
+            <span class="block h-6 border-l border-gray-300"></span>
+            <span>
+              Shipping:
+              <span class="text-[#00A354] font-medium">Free</span>
+            </span>
+            <span class="block h-6 border-l border-gray-300"></span>
+            <span class="">Total: MAD 1194</span>
+          </div>
+          <button
+            class="flex items-center px-4 py-2 border border-black h-full rounded-[20px]"
+          >
+            Continue
+            <svg
+              class="ml-2 w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 5l7 7-7 7"
+              ></path>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   </nav>
@@ -185,7 +247,9 @@ export default {
       navBarLightColor: "",
       navBarDarkColor: "",
       isBagOpen: false,
-      bagContentHeight: '0px',
+      bagContentHeight: "0px",
+
+      quantities: {}, // Keep track of quantities separately
     };
   },
 
@@ -204,6 +268,9 @@ export default {
   mounted() {
     // Check on initial load
     this.checkIfOnProductPage(this.$route);
+
+    // Initialize quantities to 1 for each product when the component is mounted
+    this.quantities = this.products.map(() => 1);
   },
 
   computed: {
@@ -223,7 +290,7 @@ export default {
 
   methods: {
     // Toggle the cart
-   
+
     closeBag() {
       this.isBagOpen = false;
 
@@ -232,10 +299,10 @@ export default {
         const bagContentEl = this.$refs.bagContent;
         if (this.isBagOpen) {
           // Measure the actual height of the content
-          const contentHeight = bagContentEl.scrollHeight + 'px';
+          const contentHeight = bagContentEl.scrollHeight + "px";
           this.bagContentHeight = contentHeight;
         } else {
-          this.bagContentHeight = '0px';
+          this.bagContentHeight = "0px";
         }
       });
     },
@@ -247,12 +314,25 @@ export default {
         const bagContentEl = this.$refs.bagContent;
         if (this.isBagOpen) {
           // Measure the actual height of the content
-          const contentHeight = bagContentEl.scrollHeight + 'px';
+          const contentHeight = bagContentEl.scrollHeight + "px";
           this.bagContentHeight = contentHeight;
         } else {
-          this.bagContentHeight = '0px';
+          this.bagContentHeight = "0px";
         }
       });
+    },
+
+    // Increment and decrement quantity in bagged items
+
+    incrementQuantity(index) {
+      if (this.quantities[index] < 99) {
+        this.quantities[index]++;
+      }
+    },
+    decrementQuantity(index) {
+      if (this.quantities[index] > 1) {
+        this.quantities[index]--;
+      }
     },
 
     checkIfOnProductPage(route) {
@@ -337,8 +417,18 @@ export default {
 
 /* Hide scrollbar for IE, Edge, and Firefox */
 .hide-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
+/* Hide arrows for number input */
+.no-arrows::-webkit-inner-spin-button,
+.no-arrows::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.no-arrows {
+  -moz-appearance: textfield;
+}
 </style>
