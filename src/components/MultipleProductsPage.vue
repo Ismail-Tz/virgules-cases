@@ -1,11 +1,18 @@
 <template>
   <div class="flex justify-center min-h-screen mt-[108px]">
     <div :style="computedWidth">
+      <h2
+          class="text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
+        >
+          All Products
+        </h2>
       <div class="grid grid-cols-3 gap-[40px]">
+        
         <div
           class="col-span-1 bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
         >
           <div>
+            
             <!-- Loop over dropdown data -->
             <div
               v-for="(dropdown, key) in dropdownsData"

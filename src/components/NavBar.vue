@@ -178,7 +178,7 @@
                     type="number"
                     min="1"
                     max="99"
-                    class="text-center w-[35px] rounded-[4px] text-black text-[14px] no-arrows focus:outline-none"
+                    class="text-center w-[35px] rounded-[4px] text-black text-[15px] no-arrows focus:outline-none "
                   />
                   <button
                     @click="incrementQuantity(index)"
