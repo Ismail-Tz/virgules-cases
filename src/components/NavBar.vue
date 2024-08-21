@@ -123,6 +123,7 @@
       <div style="width: calc(1680px - 540px)" class="mx-auto mt-[24px]">
         <h2
           class="text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
+          @click="clearBag" 
         >
           Bag
         </h2>
@@ -131,13 +132,13 @@
         >
           <div class="flex gap-[24px] w-max">
             <div
-              v-for="(item, index) in products"
+              v-for="(item, index) in bagItems"
               :key="index"
               class="bg-[#FFFFFF] border border-[#00000020] rounded-[32px] w-[233px] h-[465px] p-[24px] flex flex-col items-center"
             >
               <img
                 :src="item.image"
-                :alt="item.altText"
+                alt="Product Image"
                 class="mb-[12px] mt-[12px] h-[300px] w-auto object-contain"
               />
               <h1
@@ -153,8 +154,8 @@
               <h3
                 class="text-black opacity-[60%] text-left font-[Arial] text-[14px] mb-[5px] leading-[100%] w-[100%]"
               >
-                {{ item.colors[0].colorName }}
-                {{ item.isCustomizable ? "- Customized" : "" }}
+                {{ item.color }}
+                {{ item.customizations ? "- Customized" : "" }}
               </h3>
               <div class="mt-auto w-full flex items-center justify-between">
                 <h3
@@ -275,6 +276,9 @@ export default {
   },
 
   computed: {
+    bagItems() {
+    return this.$store.getters.bagItems;
+    },
     //using them as placeholders to test Bag
     ...mapGetters(["products"]),
 
@@ -290,7 +294,12 @@ export default {
   },
 
   methods: {
-    // Toggle the cart
+
+    clearBag() {
+      this.$store.commit('clearBag'); // This commits the clearCart mutation to empty the cart
+    },
+
+    // Toggle the Bag
 
     closeBag() {
       this.isBagOpen = false;

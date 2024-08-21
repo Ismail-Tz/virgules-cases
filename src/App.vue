@@ -1,14 +1,17 @@
 <template>
   <div id="app">
-    <NavBar :lightColorMsg="lightColor" :darkColorMsg="darkColor"/>
-    <router-view @lightColorEvent="lightColorEvent" @darkColorEvent="darkColorEvent"/>
+    <NavBar :lightColorMsg="lightColor" :darkColorMsg="darkColor" />
+    <router-view
+      @lightColorEvent="lightColorEvent"
+      @darkColorEvent="darkColorEvent"
+    />
   </div>
 </template>
 
 <script>
-import NavBar from './components/NavBar.vue'
+import NavBar from "./components/NavBar.vue";
 export default {
-  name: 'App',
+  name: "App",
   components: {
     NavBar,
   },
@@ -18,21 +21,23 @@ export default {
     },
     darkColorEvent(darkColor) {
       this.darkColor = darkColor;
-    }
+    },
   },
   data() {
     return {
-      lightColor: '',
-      darkColor: ''
+      lightColor: "",
+      darkColor: "",
     };
   },
-  
-}
+  created() {
+    this.$store.dispatch("initializeBag");
+  },
+};
 </script>
 
 <style>
 #app {
-  font-family:Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

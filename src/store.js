@@ -519,8 +519,31 @@ export const store = createStore({
       // Add more products as needed
 
     ],
+    bag: [],
+  },
+  mutations: {
+    ADD_TO_BAG(state, product) {
+      state.bag.push(product);
+    },
+    SET_BAG(state, bag) {
+      state.bag = bag;
+    },
+    clearBag(state) {
+        state.bag = [];
+        localStorage.removeItem('bagItems'); // Clear the local storage
+    },
+  },
+  actions: {
+    addToBag({ commit }, product) {
+      commit('ADD_TO_BAG', product);
+    },
+    initializeBag({ commit }) {
+      const bag = JSON.parse(localStorage.getItem('bag')) || [];
+      commit('SET_BAG', bag);
+    }
   },
   getters: {
     products: (state) => state.products,
+    bagItems: (state) => state.bag,
   },
 });

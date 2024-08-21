@@ -197,8 +197,9 @@
               "
               @mouseenter="isAddToCartHovered = true"
               @mouseleave="isAddToCartHovered = false"
+              @click="addToBag"
             >
-              Add to Cart
+              Add to Bag
             </button>
           </div>
         </div>
@@ -241,8 +242,7 @@ export default {
 
   created() {
 
-    console.log('Product ID:', this.id); // Verify this ID is correct
-    console.log('Product:', this.$store.state.products[this.id]); // Check if product exists
+    
     this.product = this.$store.state.products[this.id];
 
 
@@ -269,6 +269,28 @@ export default {
   },
 
   methods: {
+    addToBag() {
+      // Add the selected product to the shopping bag
+      const baggedProduct = {
+      image: this.imageSrc,
+      title: this.products[this.id].title,
+      type: this.products[this.id].type,
+      price: this.products[this.id].price,
+      color: this.products[this.id].colors[this.selectedColor - 1].colorName,
+      colorHex:this.products[this.id].colors[this.selectedColor - 1].colorHex,
+      device: this.selectedModel,
+      customizations: this.products[this.id].isCustomizable
+    };
+    this.$store.dispatch('addToBag', baggedProduct);
+    this.saveBagToLocalStorage();
+    console.log('Product added to bag:', baggedProduct);
+    },
+
+    saveBagToLocalStorage() {
+    const bag = this.$store.getters.bagItems;
+    localStorage.setItem('bag', JSON.stringify(bag));
+  },
+
     // Method to handle click event
     handleClick(color) {
       // Update clicked to true when button is clicked
