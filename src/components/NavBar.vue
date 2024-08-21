@@ -174,10 +174,11 @@
                   </button>
                   <input
                     v-model="quantities[index]"
+                    @input="validateQuantity(index)"
                     type="number"
                     min="1"
                     max="99"
-                    class="text-center w-[35px] rounded-[4px] text-black text-[14px] no-arrows"
+                    class="text-center w-[35px] rounded-[4px] text-black text-[14px] no-arrows focus:outline-none"
                   />
                   <button
                     @click="incrementQuantity(index)"
@@ -206,7 +207,7 @@
             <span class="">Total: MAD 1194</span>
           </div>
           <button
-            class="flex items-center px-4 py-2 border border-black h-full rounded-[20px]"
+            class="flex items-center px-4 py-2 border border-black h-full rounded-[20px] hover:bg-[#000000cc] hover:border-[#000000cc] hover:text-white"
           >
             Continue
             <svg
@@ -332,6 +333,17 @@ export default {
     decrementQuantity(index) {
       if (this.quantities[index] > 1) {
         this.quantities[index]--;
+      }
+    },
+    // Validate the quantity input
+    validateQuantity(index) {
+      // Remove all non-numeric characters and enforce range
+      const value = this.quantities[index];
+      if (isNaN(value)) {
+        this.quantities[index] = 1;
+      } else {
+        const numericValue = Math.max(1, Math.min(99, parseInt(value, 10)));
+        this.quantities[index] = numericValue;
       }
     },
 
