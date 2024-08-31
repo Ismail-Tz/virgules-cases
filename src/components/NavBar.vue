@@ -123,7 +123,7 @@
       <div style="width: calc(1680px - 540px)" class="mx-auto mt-[24px]">
         <h2
           class="text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
-          @click="clearBag" 
+          @click="clearBag"
         >
           Bag
         </h2>
@@ -147,19 +147,19 @@
                 {{ item.title }}
               </h1>
               <h2
-                class="text-black opacity-[60%] text-left font-[Visby] font-semibold text-[14px] mb-[5px] leading-[100%] w-[100%]"
+                class="text-black opacity-[60%] text-left font-[Visby] font-semibold text-[14px] mb-[5px] leading-[100%] w-[100%] truncate"
               >
-                {{ item.type }}
+                {{ item.model }} - {{ item.type }}
               </h2>
               <h3
-                class="text-black opacity-[60%] text-left font-[Arial] text-[14px] mb-[5px] leading-[100%] w-[100%]"
+                class="text-black opacity-[60%] text-left font-[Arial] text-[14px] mb-[5px] leading-[100%] w-[100%] truncate"
               >
                 {{ item.color }}
                 {{ item.customizations ? "- Customized" : "" }}
               </h3>
               <div class="mt-auto w-full flex items-center justify-between">
                 <h3
-                  class="text-black text-left font-[Arial] text-[15px] leading-[100%]"
+                  class="text-black text-left font-[Arial] text-[15px] leading-[100%] truncate"
                 >
                   MAD {{ item.price }}
                 </h3>
@@ -174,12 +174,12 @@
                     -
                   </button>
                   <input
-                    v-model="quantities[index]"
-                    @input="validateQuantity(index)"
+                    :value="item.quantity"
+                    @input="validateQuantity(index, $event.target.value)"
                     type="number"
                     min="1"
                     max="99"
-                    class="text-center w-[35px] rounded-[4px] text-black text-[15px] no-arrows focus:outline-none "
+                    class="text-center w-[35px] rounded-[4px] text-black text-[15px] no-arrows focus:outline-none"
                   />
                   <button
                     @click="incrementQuantity(index)"
@@ -196,16 +196,16 @@
           class="mt-6 p-5 bg-white rounded-[32px] h-[93px] border border-[#00000020] flex items-center justify-between"
         >
           <div class="flex items-center space-x-4 h-[40px] ml-[20px]">
-            <span>Cases: 6</span>
+            <span>Cases: {{ totalQuantity }}</span>
             <span class="block h-6 border-l border-gray-300"></span>
-            <span>Subtotal: MAD 995</span>
+            <span>Subtotal: MAD {{ subtotal }}</span>
             <span class="block h-6 border-l border-gray-300"></span>
             <span>
               Shipping:
-              <span class="text-[#00A354] font-medium">Free</span>
+              <span class="text-[#00A354] font-medium">{{ shippingCost }}</span>
             </span>
             <span class="block h-6 border-l border-gray-300"></span>
-            <span class="">Total: MAD 1194</span>
+            <span>Total: MAD {{ total }}</span>
           </div>
           <button
             class="flex items-center px-4 py-2 border border-black h-full rounded-[20px] hover:bg-[#000000cc] hover:border-[#000000cc] hover:text-white"
@@ -250,8 +250,6 @@ export default {
       navBarDarkColor: "",
       isBagOpen: false,
       bagContentHeight: "0px",
-
-      quantities: {}, // Keep track of quantities separately
     };
   },
 
@@ -270,14 +268,11 @@ export default {
   mounted() {
     // Check on initial load
     this.checkIfOnProductPage(this.$route);
-
-    // Initialize quantities to 1 for each product when the component is mounted
-    this.quantities = this.products.map(() => 1);
   },
 
   computed: {
     bagItems() {
-    return this.$store.getters.bagItems;
+      return this.$store.getters.bagItems;
     },
     //using them as placeholders to test Bag
     ...mapGetters(["products"]),
@@ -291,12 +286,34 @@ export default {
         window.matchMedia("(prefers-color-scheme: dark)").matches
       );
     },
+
+    // Calculate the total quantity of products in the bag
+    totalQuantity() {
+      return this.$store.state.bag.reduce(
+        (total, product) => total + product.quantity,
+        0
+      );
+    },
+    // Calculate the subtotal of the products in the bag
+    subtotal() {
+      return this.$store.state.bag.reduce(
+        (total, product) => total + product.price * product.quantity,
+        0
+      );
+    },
+    // Calculate the total including shipping (example: free shipping)
+    shippingCost() {
+      return this.subtotal > 200  ? "Free" : "N/A";
+    },
+    // Calculate the grand total including shipping
+    total() {
+      return this.subtotal; // Assuming no extra shipping cost
+    },
   },
 
   methods: {
-
     clearBag() {
-      this.$store.commit('clearBag'); // This commits the clearCart mutation to empty the cart
+      this.$store.commit("clearBag"); // This commits the clearCart mutation to empty the cart
     },
 
     // Toggle the Bag
@@ -335,25 +352,41 @@ export default {
     // Increment and decrement quantity in bagged items
 
     incrementQuantity(index) {
-      if (this.quantities[index] < 99) {
-        this.quantities[index]++;
+      const product = this.$store.state.bag[index];
+      if (product.quantity < 99) {
+        product.quantity++;
       }
     },
+
     decrementQuantity(index) {
-      if (this.quantities[index] > 1) {
-        this.quantities[index]--;
+      const product = this.$store.state.bag[index];
+      if (product.quantity > 1) {
+        product.quantity--;
       }
     },
-    // Validate the quantity input
-    validateQuantity(index) {
-      // Remove all non-numeric characters and enforce range
-      const value = this.quantities[index];
-      if (isNaN(value)) {
-        this.quantities[index] = 1;
-      } else {
-        const numericValue = Math.max(1, Math.min(99, parseInt(value, 10)));
-        this.quantities[index] = numericValue;
+
+    validateQuantity(index, value) {
+      const product = this.$store.state.bag[index];
+
+      // Check if the product exists
+      if (!product) {
+        console.error("Product not found at index:", index);
+        return;
       }
+
+      if (value === "" || isNaN(value)) {
+        // If value is empty or not a number, revert to last valid value or default to 1
+        value = 1;
+      } else {
+        // Parse the numeric value and enforce the range
+        value = Math.max(1, Math.min(99, parseInt(value, 10)));
+      }
+
+      // Update the quantity directly in the store
+      this.$store.state.bag[index] = {
+        ...product,
+        quantity: value,
+      };
     },
 
     checkIfOnProductPage(route) {

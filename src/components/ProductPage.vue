@@ -33,13 +33,13 @@
               class="text-black text-left font-[Visby] font-extrabold text-[28px] mb-[10px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
-              {{ colorTitle + ' ' + this.products[this.id].title }}
+              {{ colorTitle + " " + this.products[this.id].title }}
             </h1>
             <h2
               class="text-black text-left font-[Visby] font-bold text-[21px] mb-[8px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
-              {{this.products[this.id].type}}
+              {{ this.products[this.id].type }}
             </h2>
             <h3
               class="text-black text-left text-[18px] mb-[10px] leading-[100%]"
@@ -209,19 +209,17 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { lightenColor, darkenColor } from '@/utils';
+import { mapGetters } from "vuex";
+import { lightenColor, darkenColor } from "@/utils";
 
 export default {
   name: "ProductPage",
-  props: ['id'], // Add id prop to receive the product ID
-
-  
+  props: ["id"], // Add id prop to receive the product ID
 
   data() {
     return {
       message: "Hello, Vue with Tailwind CSS!",
-      
+
       colorTitle: "",
       imageSrc: "",
       productName: "",
@@ -241,10 +239,7 @@ export default {
   },
 
   created() {
-
-    
     this.product = this.$store.state.products[this.id];
-
 
     // Set colorTitle to the colorName of the first color in the colors array
     this.colorTitle = this.products[this.id].colors[0].colorName;
@@ -256,40 +251,63 @@ export default {
     this.selectedColor = this.products[this.id].colors[0].id;
 
     // Initialize available brands and models based on the first color in the colors array
-    this.availableBrands = Object.keys(this.products[this.id].colors[0].availableModels);
+    this.availableBrands = Object.keys(
+      this.products[this.id].colors[0].availableModels
+    );
     this.selectedBrand =
       this.availableBrands.length > 0 ? this.availableBrands[0] : null;
     this.selectedModel =
-      this.products[this.id].colors[0].availableModels[this.selectedBrand][0].name; // first model of the first brand
+      this.products[this.id].colors[0].availableModels[
+        this.selectedBrand
+      ][0].name; // first model of the first brand
 
     // Initialize Safari tab bar color
     this.updateSafariTabBarColor();
-
-
   },
 
   methods: {
     addToBag() {
-      // Add the selected product to the shopping bag
+      // Create the product object to be added to the shopping bag
       const baggedProduct = {
-      image: this.imageSrc,
-      title: this.products[this.id].title,
-      type: this.products[this.id].type,
-      price: this.products[this.id].price,
-      color: this.products[this.id].colors[this.selectedColor - 1].colorName,
-      colorHex:this.products[this.id].colors[this.selectedColor - 1].colorHex,
-      device: this.selectedModel,
-      customizations: this.products[this.id].isCustomizable
-    };
-    this.$store.dispatch('addToBag', baggedProduct);
-    this.saveBagToLocalStorage();
-    console.log('Product added to bag:', baggedProduct);
+        image: this.imageSrc,
+        title: this.products[this.id].title,
+        model: this.selectedModel,
+        type: this.products[this.id].type,
+        price: this.products[this.id].price,
+        color: this.products[this.id].colors[this.selectedColor - 1].colorName,
+        colorHex:
+          this.products[this.id].colors[this.selectedColor - 1].colorHex,
+        device: this.selectedModel,
+        customizations: this.products[this.id].isCustomizable,
+        quantity: 1, // Initialize quantity to 1 by default
+      };
+
+      // Check if the product with the same model and color already exists in the bag
+      const existingProductIndex = this.$store.state.bag.findIndex(
+        (item) =>
+          item.model === baggedProduct.model &&
+          item.color === baggedProduct.color
+      );
+
+      if (existingProductIndex !== -1) {
+        // If it exists, check if the quantity is less than 99 before increasing
+        if (this.$store.state.bag[existingProductIndex].quantity < 99) {
+          this.$store.state.bag[existingProductIndex].quantity += 1;
+        }
+      } else {
+        // If it doesn't exist, add the product to the bag
+        this.$store.dispatch("addToBag", baggedProduct);
+      }
+
+      // Save the bag to local storage
+      this.saveBagToLocalStorage();
+      console.log("Product added to bag:", baggedProduct);
     },
 
     saveBagToLocalStorage() {
-    const bag = this.$store.getters.bagItems;
-    localStorage.setItem('bag', JSON.stringify(bag));
-  },
+      const bag = this.$store.getters.bagItems;
+      localStorage.setItem("bag", JSON.stringify(bag));
+    },
 
     // Method to handle click event
     handleClick(color) {
@@ -305,9 +323,8 @@ export default {
         (c) => c.id === this.selectedColor
       );
 
-  
       // Update Safari tab bar color
-    this.updateSafariTabBarColor();
+      this.updateSafariTabBarColor();
 
       if (!selectedColorData) {
         // Handle the case where no matching color data is found
@@ -385,28 +402,23 @@ export default {
       return { borderColor: this.darkColor, color: this.darkColor };
     },
 
-    
-
-    
     updateSafariTabBarColor() {
-    const metaTag = document.querySelector('meta[name="theme-color"]');
-    const color = this.themeColor;  // Use the computed themeColor
-    if (metaTag) {
-      metaTag.setAttribute('content', color);
-    } else {
-      const newMetaTag = document.createElement('meta');
-      newMetaTag.setAttribute('name', 'theme-color');
-      newMetaTag.setAttribute('content', color);
-      document.head.appendChild(newMetaTag);
-    }
-  },
+      const metaTag = document.querySelector('meta[name="theme-color"]');
+      const color = this.themeColor; // Use the computed themeColor
+      if (metaTag) {
+        metaTag.setAttribute("content", color);
+      } else {
+        const newMetaTag = document.createElement("meta");
+        newMetaTag.setAttribute("name", "theme-color");
+        newMetaTag.setAttribute("content", color);
+        document.head.appendChild(newMetaTag);
+      }
+    },
   },
 
   computed: {
-
     // VUEX: Using mapGetters to access the colors array from the store
-    ...mapGetters(['products']),
-
+    ...mapGetters(["products"]),
 
     lightColor() {
       const color = this.products[this.id].colors.find(
