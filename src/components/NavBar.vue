@@ -1,9 +1,10 @@
 <template>
   <nav
     class="fixed top-0 left-0 w-full bg-[#F7FDFC] border-b border-[#0A332E20] h-[60px] z-50 blurry transition-all duration-500 ease-in-out"
-    :class="isBagOpen ? 'h-[85vh]' : 'h-[60px]'"
+    :class="isBagOpen ? '' : 'h-[60px]'"
     :style="{
-      backgroundColor: lightColorTp, //tp stands for transparent
+      height: isBagOpen ? `${bagContentHeight + 60 + 24}px` : '60px',
+      backgroundColor: lightColorTp,
       borderColor: navBarDarkColor + '20',
     }"
     @mouseleave="closeBag"
@@ -114,11 +115,11 @@
         </a>
       </div>
     </div>
-    <!-- Cart Content -->
+    <!-- Bag Content -->
     <div
       ref="bagContent"
       class="w-full overflow-hidden transition-all duration-500 ease-in-out"
-      :style="{ height: bagContentHeight }"
+      :style="{ height: `${bagContentHeight}px` }"
     >
       <div style="width: calc(1680px - 540px)" class="mx-auto mt-[24px]">
         <h2
@@ -193,7 +194,7 @@
           </div>
         </div>
         <div
-          class="mt-6 p-5 bg-white rounded-[32px] h-[93px] border border-[#00000020] flex items-center justify-between"
+          class="mt-[24px] p-5 bg-white rounded-[32px] h-[93px] border border-[#00000020] flex items-center justify-between"
         >
           <div class="flex items-center space-x-4 h-[40px] ml-[20px]">
             <span>Cases: {{ totalQuantity }}</span>
@@ -249,7 +250,7 @@ export default {
       navBarLightColor: "",
       navBarDarkColor: "",
       isBagOpen: false,
-      bagContentHeight: "0px",
+      bagContentHeight: 0,
     };
   },
 
@@ -258,16 +259,34 @@ export default {
     $route(to) {
       this.checkIfOnProductPage(to);
     },
+
     lightColorMsg(newVal) {
-      this.navBarLightColor = newVal;
+      // Update navbar color based on lightColorMsg and bag state
+      if (!this.isBagOpen) {
+        this.navBarLightColor = newVal;
+        this.updateSafariTabColor(
+          this.isDarkMode ? this.navBarDarkColor : newVal
+        );
+      }
     },
     darkColorMsg(newVal) {
-      this.navBarDarkColor = newVal;
+      // Update navbar color based on darkColorMsg and bag state
+      if (!this.isBagOpen) {
+        this.navBarDarkColor = newVal;
+        this.updateSafariTabColor(
+          this.isDarkMode ? newVal : this.navBarLightColor
+        );
+      }
+    },
+    isBagOpen() {
+      // Update navbar colors when bag state changes
+      this.updateNavBarColors();
     },
   },
   mounted() {
     // Check on initial load
     this.checkIfOnProductPage(this.$route);
+    this.updateNavBarColors();
   },
 
   computed: {
@@ -303,7 +322,7 @@ export default {
     },
     // Calculate the total including shipping (example: free shipping)
     shippingCost() {
-      return this.subtotal > 200  ? "Free" : "N/A";
+      return this.subtotal > 200 ? "Free" : "N/A";
     },
     // Calculate the grand total including shipping
     total() {
@@ -314,6 +333,7 @@ export default {
   methods: {
     clearBag() {
       this.$store.commit("clearBag"); // This commits the clearCart mutation to empty the cart
+      
     },
 
     // Toggle the Bag
@@ -321,30 +341,23 @@ export default {
     closeBag() {
       this.isBagOpen = false;
 
-      // Manually set the height
       this.$nextTick(() => {
         const bagContentEl = this.$refs.bagContent;
-        if (this.isBagOpen) {
-          // Measure the actual height of the content
-          const contentHeight = bagContentEl.scrollHeight + "px";
-          this.bagContentHeight = contentHeight;
-        } else {
-          this.bagContentHeight = "0px";
+        if (bagContentEl) {
+          this.bagContentHeight = 0; // Height set to 0 when closing
         }
       });
     },
     toggleBag() {
       this.isBagOpen = !this.isBagOpen;
 
-      // Manually set the height
       this.$nextTick(() => {
         const bagContentEl = this.$refs.bagContent;
-        if (this.isBagOpen) {
-          // Measure the actual height of the content
-          const contentHeight = bagContentEl.scrollHeight + "px";
-          this.bagContentHeight = contentHeight;
-        } else {
-          this.bagContentHeight = "0px";
+        if (bagContentEl) {
+          // Calculate height including the navbar and margin/padding bottom
+          this.bagContentHeight = this.isBagOpen
+            ? bagContentEl.scrollHeight
+            : 0;
         }
       });
     },
@@ -391,15 +404,32 @@ export default {
 
     checkIfOnProductPage(route) {
       if (route.name === "ProductPage" || route.path.startsWith("/product/")) {
-        console.log("You are on the Product Page");
-        this.navBarLightColor = this.lightColorMsg;
-        this.navBarDarkColor = this.darkColorMsg;
+        // On product page, set product colors if the bag is not open
+        if (!this.isBagOpen) {
+          this.navBarLightColor = this.lightColorMsg;
+          this.navBarDarkColor = this.darkColorMsg;
+        }
       } else {
-        console.log("You are NOT on the Product Page");
+        // Not on product page, set default colors if the bag is not open
+        if (!this.isBagOpen) {
+          this.navBarLightColor = "#F9F9F9";
+          this.navBarDarkColor = "#000000";
+          this.updateSafariTabColor(this.isDarkMode ? "#000000" : "#F9F9F9");
+        }
+      }
+    },
+    updateNavBarColors() {
+      if (this.isBagOpen) {
+        // Bag is open, set default colors
         this.navBarLightColor = "#F9F9F9";
         this.navBarDarkColor = "#000000";
-        this.updateSafariTabColor(this.isDarkMode ? "#000000" : "#F9F9F9"); // Reset the color of the tab in Safari
+      } else {
+        // Bag is closed, update colors based on route
+        this.checkIfOnProductPage(this.$route);
       }
+      this.updateSafariTabColor(
+        this.isDarkMode ? this.navBarDarkColor : this.navBarLightColor
+      );
     },
 
     //Reset the color of the tab in Safari
