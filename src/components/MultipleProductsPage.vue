@@ -86,7 +86,7 @@
               }"
             >
               <img
-                :src="item.image"
+                :src="item.colors[0].availableModels.Apple[0].image"
                 :alt="item.altText"
                 class="mb-[24px] mt-[12px] h-[300px] w-auto object-contain"
               />

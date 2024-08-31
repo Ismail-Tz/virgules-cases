@@ -3,11 +3,11 @@
     <div style="width: calc(1680px - 540px)">
       <div class="grid grid-cols-12 gap-[40px]">
         <div class="relative col-span-7">
-          <div class="relative w-full h-full">
+          <div class="relative w-full h-full flex justify-center">
             <img
               :src="imageSrc"
               alt="Case Image"
-              class="w-full h-full object-cover"
+              class="w-1/2 h-full object-cover"
             />
             <!-- Customizing Cases -->
             <div
