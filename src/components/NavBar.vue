@@ -260,22 +260,40 @@
           </div>
         </div>
         <div
-          class="mt-[24px] p-5 bg-white rounded-[32px] h-[93px] border border-[#00000020] flex items-center justify-between"
+          :class="[
+            'mt-[24px] p-5 bg-white rounded-[32px] h-[93px] border border-[#00000020] flex items-center justify-between',
+            $store.state.bag.length === 0
+              ? 'opacity-50 pointer-events-none'
+              : '',
+          ]"
         >
           <div class="flex items-center space-x-4 h-[40px] ml-[20px]">
             <span>Cases: {{ totalQuantity }}</span>
-            <span class="block h-6 border-l border-gray-300"></span>
+            <span class="block h-full border-l border-gray-300"></span>
             <span>Subtotal: MAD {{ subtotal }}</span>
-            <span class="block h-6 border-l border-gray-300"></span>
+            <span class="block h-full border-l border-gray-300"></span>
             <span>
               Shipping:
-              <span class="text-[#00A354] font-medium">{{ shippingCost }}</span>
+              <span
+                class="text-[#00A354] font-medium"
+                :class="
+                  shippingCost === 'Free' ? 'text-[#00A354]' : 'text-black'
+                "
+                >{{ shippingCost }}</span
+              >
             </span>
-            <span class="block h-6 border-l border-gray-300"></span>
-            <span>Total: <span class=" font-semibold">MAD {{ total }}</span></span>
+            <span class="block h-full border-l border-gray-300"></span>
+            <span
+              >Total: <span class="font-semibold">MAD {{ total }}</span></span
+            >
           </div>
           <button
-            class="flex items-center px-4 py-2 border border-black h-full rounded-[20px] hover:bg-[#000000cc] hover:border-[#000000cc] hover:text-white"
+            :class="[
+              'flex items-center px-4 py-2 border border-black h-full rounded-[20px]',
+              $store.state.bag.length === 0
+                ? 'cursor-not-allowed  bg-none text-gray-400 border-gray-400'
+                : 'hover:bg-[#000000cc] hover:border-[#000000cc] hover:text-white',
+            ]"
           >
             Continue
             <svg
