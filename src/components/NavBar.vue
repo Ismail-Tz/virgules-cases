@@ -15,7 +15,7 @@
     >
       <!-- Left-aligned section (Logo) -->
       <div class="flex items-center w-1/3">
-        <a href="#" :style="{ color: navBarDarkColor }">
+        <router-link :to="{ path: '/' }" :style="{ color: navBarDarkColor }">
           <svg
             class="w-[36px]"
             width="51"
@@ -29,7 +29,7 @@
               fill="currentColor"
             />
           </svg>
-        </a>
+        </router-link>
       </div>
 
       <!-- Center-aligned section (Text buttons) -->
@@ -126,12 +126,13 @@
           class="text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
           @click="clearBag"
         >
-          Bag
+          {{ $store.state.bag.length === 0 ? "Your Bag is empty" : "Bag" }}
         </h2>
         <div
           class="relative rounded-[32px] overflow-x-auto whitespace-nowrap hide-scrollbar"
         >
           <div class="flex gap-[24px] w-max">
+            <!-- Bag Items -->
             <div
               v-for="(item, index) in bagItems"
               :key="index"
@@ -170,9 +171,23 @@
                 >
                   <button
                     @click="decrementQuantity(index)"
-                    class="text-black rounded-full px-[10px] text-[14px] font-bold"
+                    class="text-black rounded-full pl-[8px] pr-[5px] text-[14px] font-bold h-full"
                   >
-                    -
+                    <svg
+                      width="13"
+                      height="2"
+                      viewBox="0 0 13 2"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M0.470703 1C0.470703 0.585786 0.80649 0.25 1.2207 0.25H12.2501C12.6643 0.25 13.0001 0.585786 13.0001 1C13.0001 1.41421 12.6643 1.75 12.2501 1.75H1.2207C0.80649 1.75 0.470703 1.41421 0.470703 1Z"
+                        fill="black"
+                        style="fill: black; fill-opacity: 1"
+                      />
+                    </svg>
                   </button>
                   <input
                     :value="item.quantity"
@@ -180,17 +195,68 @@
                     type="number"
                     min="1"
                     max="99"
-                    class="text-center w-[35px] rounded-[4px] text-black text-[15px] no-arrows focus:outline-none"
+                    class="text-center w-[35px] rounded-[4px] text-black text-[15px] no-arrows focus:outline-none bg-transparent"
                   />
                   <button
                     @click="incrementQuantity(index)"
-                    class="text-black rounded-full px-[10px] text-[14px] font-bold"
+                    class="text-black rounded-full pl-[5px] pr-[8px] text-[14px] font-bold h-full"
                   >
-                    +
+                    <svg
+                      width="13"
+                      height="14"
+                      viewBox="0 0 13 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M6.26471 0.735352C6.67892 0.735352 7.01471 1.07114 7.01471 1.48535V6.25006H11.7794C12.1936 6.25006 12.5294 6.58584 12.5294 7.00006C12.5294 7.41427 12.1936 7.75006 11.7794 7.75006H7.01471V12.5148C7.01471 12.929 6.67892 13.2648 6.26471 13.2648C5.85049 13.2648 5.51471 12.929 5.51471 12.5148V7.75006H0.75C0.335786 7.75006 0 7.41427 0 7.00006C0 6.58584 0.335786 6.25006 0.75 6.25006H5.51471V1.48535C5.51471 1.07114 5.85049 0.735352 6.26471 0.735352Z"
+                        fill="black"
+                        style="fill: black; fill-opacity: 1"
+                      />
+                    </svg>
                   </button>
                 </div>
               </div>
             </div>
+
+            <!-- Placeholder Wrapper -->
+            <template v-if="bagItems.length < 5">
+              <!-- Placeholder Items -->
+              <div
+                v-for="index in 5 - bagItems.length"
+                :key="'placeholder-' + index"
+                class="bg-[#0000000C] rounded-[32px] w-[233px] h-[465px] flex flex-col items-center justify-center"
+              >
+                <div
+                  v-if="index === 1"
+                  class="flex flex-col items-center justify-center w-full h-full p-[30px]"
+                >
+                  <div
+                    class="w-32 h-32 bg-[#0000000C] rounded-full flex justify-center items-center cursor-pointer"
+                    style="padding: 30px; box-sizing: border-box"
+                    @click="closeBag"
+                  >
+                    <svg
+                      class="opacity-40"
+                      height="100%"
+                      viewBox="0 0 13 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M6.26471 0.735352C6.67892 0.735352 7.01471 1.07114 7.01471 1.48535V6.25006H11.7794C12.1936 6.25006 12.5294 6.58584 12.5294 7.00006C12.5294 7.41427 12.1936 7.75006 11.7794 7.75006H7.01471V12.5148C7.01471 12.929 6.67892 13.2648 6.26471 13.2648C5.85049 13.2648 5.51471 12.929 5.51471 12.5148V7.75006H0.75C0.335786 7.75006 0 7.41427 0 7.00006C0 6.58584 0.335786 6.25006 0.75 6.25006H5.51471V1.48535C5.51471 1.07114 5.85049 0.735352 6.26471 0.735352Z"
+                        fill="black"
+                        style="fill: black; fill-opacity: 1"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </template>
           </div>
         </div>
         <div
@@ -206,7 +272,7 @@
               <span class="text-[#00A354] font-medium">{{ shippingCost }}</span>
             </span>
             <span class="block h-6 border-l border-gray-300"></span>
-            <span>Total: MAD {{ total }}</span>
+            <span>Total: <span class=" font-semibold">MAD {{ total }}</span></span>
           </div>
           <button
             class="flex items-center px-4 py-2 border border-black h-full rounded-[20px] hover:bg-[#000000cc] hover:border-[#000000cc] hover:text-white"
@@ -333,7 +399,6 @@ export default {
   methods: {
     clearBag() {
       this.$store.commit("clearBag"); // This commits the clearCart mutation to empty the cart
-      
     },
 
     // Toggle the Bag
