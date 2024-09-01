@@ -5,15 +5,20 @@
       @lightColorEvent="lightColorEvent"
       @darkColorEvent="darkColorEvent"
     />
+    <CheckoutPage />
+    
+
   </div>
 </template>
 
 <script>
 import NavBar from "./components/NavBar.vue";
+import CheckoutPage from "./components/CheckoutPage.vue";
 export default {
   name: "App",
   components: {
     NavBar,
+    CheckoutPage 
   },
   methods: {
     lightColorEvent(lightColor) {
