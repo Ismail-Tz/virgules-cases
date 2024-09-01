@@ -261,7 +261,7 @@
         
           <!-- Bottom section -->
           <div
-            class="absolute bottom-0 left-0 right-0 p-[24px] bg-[#ffffffcc] backdrop-blur-[250px] rounded-b-[32px] z-50 border-t border-[#00000010]"
+            class="absolute bottom-0 left-0 right-0 p-[24px]  backdrop-blur-[50px] bg-[#ffffffcc] rounded-b-[32px] z-50 border-t border-[#00000010]"
           >
             <div class="flex justify-between mb-[10px]">
               <span class="text-black">Subtotal</span>
