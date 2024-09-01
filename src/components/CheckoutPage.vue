@@ -255,9 +255,50 @@
           </div>
         </div>
         <div
-          class="col-span-1 bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
+          class="relative col-span-1 bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
         >
-          Bagged Shit
+          <div class="bg-gray-600 h-full">x</div>
+        
+          <!-- Bottom section -->
+          <div
+            class="absolute bottom-0 left-0 right-0 p-[24px] bg-[#ffffffcc] backdrop-blur-[250px] rounded-b-[32px] z-50 border-t border-[#00000010]"
+          >
+            <div class="flex justify-between mb-[10px]">
+              <span class="text-black">Subtotal</span>
+              <span class="text-black">MAD 995</span>
+            </div>
+            <div class="flex justify-between mb-[20px]">
+              <span class="text-black">Shipping</span>
+              <span class="text-green-500">Free</span>
+            </div>
+            <hr class="border-t-[1px] border-black opacity-20 mb-[20px]" />
+            <div class="flex justify-between mb-[24px]">
+              <span class="text-black font-bold">Total</span>
+              <span class="text-black font-bold">MAD 1194</span>
+            </div>
+            <button
+            class="flex items-center justify-center px-6 py-[10px] text-[18px] border border-black w-full rounded-[20px]
+                hover:bg-[#000000cc] hover:border-[#000000cc] hover:text-white"
+            
+          >
+            Continue
+            <svg
+              class="ml-[8px] w-[15px] h-[15px]"
+              fill="currentColor"
+              viewBox="0 0 17 15"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M9.1824 13.9504C8.85482 13.6132 8.86263 13.0743 9.19984 12.7467L13.7246 8.35116L1.35151 8.35116C0.881386 8.35116 0.500273 7.97004 0.500273 7.49992C0.500273 7.02979 0.881386 6.64868 1.35151 6.64868L13.7246 6.64868L9.19984 2.25315C8.86263 1.92558 8.85482 1.38666 9.1824 1.04945C9.50998 0.712234 10.0489 0.704423 10.3861 1.032L16.4157 6.88934C16.5807 7.04963 16.6738 7.26988 16.6738 7.49992C16.6738 7.72996 16.5807 7.9502 16.4157 8.11049L10.3861 13.9678C10.0489 14.2954 9.50997 14.2876 9.1824 13.9504Z"
+                fill="currentColor"
+                viewBox="0 0 17 15"
+                style="fill: currentColor; fill-opacity: 1"
+              />
+            </svg>
+          </button>
+          </div>
         </div>
       </div>
     </div>
