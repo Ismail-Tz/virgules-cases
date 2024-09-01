@@ -507,7 +507,7 @@ export default {
 }
 
 .inner-shadow {
-  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.2); /* Inner shadow */
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2); /* Inner shadow */
 }
 
 /* Customizing Cases */
