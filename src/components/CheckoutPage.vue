@@ -278,7 +278,7 @@
             </div>
             <button
             class="flex items-center justify-center px-6 py-[10px] text-[18px] border border-black w-full rounded-[20px]
-                hover:bg-[#000000cc] hover:border-[#000000cc] hover:text-white"
+                hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white"
             
           >
             Continue
