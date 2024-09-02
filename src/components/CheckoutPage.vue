@@ -258,12 +258,14 @@
           class="relative col-span-1 bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
         >
           <div
-            class="p-4 bg-white rounded-[18px] relative border border-[#00000010]"
+            v-for="(item, index) in bagItems"
+            :key="index"
+            class="p-4 bg-white rounded-[18px] relative border border-[#00000010] mb-[10px]"
           >
             <div class="flex">
               <img
-                src="/api/placeholder/150/150"
-                alt="iPhone case"
+                :src="item.image"
+                :alt="item.title"
                 class="w-[55px] h-[110px] object-cover mr-4"
               />
               <div
@@ -274,7 +276,7 @@
                     <h2
                       class="text-base truncate font-[Visby] font-bold flex-grow mr-2"
                     >
-                      Case Model 3
+                      {{ item.title }}
                     </h2>
                     <button class="flex-shrink-0 text-black">
                       <svg
@@ -290,7 +292,6 @@
                           rx="10"
                           fill="black"
                           fill-opacity="0.1"
-                          style="fill: black; fill-opacity: 0.1"
                         />
                         <path
                           fill-rule="evenodd"
@@ -298,7 +299,6 @@
                           d="M14.4298 5.56995C14.7227 5.86285 14.7227 6.33772 14.4298 6.63061L11.0607 9.99977L14.4298 13.3689C14.7227 13.6618 14.7227 14.1367 14.4298 14.4296C14.1369 14.7225 13.662 14.7225 13.3692 14.4296L10 11.0604L6.63084 14.4296C6.33795 14.7225 5.86308 14.7225 5.57018 14.4296C5.27729 14.1367 5.27729 13.6618 5.57018 13.3689L8.93934 9.99977L5.57018 6.63061C5.27729 6.33772 5.27729 5.86285 5.57018 5.56995C5.86308 5.27706 6.33795 5.27706 6.63084 5.56995L10 8.93911L13.3692 5.56995C13.662 5.27706 14.1369 5.27706 14.4298 5.56995Z"
                           fill="black"
                           fill-opacity="0.5"
-                          style="fill: black; fill-opacity: 0.5"
                         />
                       </svg>
                     </button>
@@ -306,23 +306,24 @@
                   <p
                     class="text-[13px] leading-none text-black/60 mb-1 font-[Visby] font-semibold"
                   >
-                    iPhone 15 Pro
+                    {{ item.model }}
                   </p>
                   <p
                     class="text-[13px] leading-none text-black/60 mb-1 font-[Visby] font-semibold"
                   >
-                    Clear Case
+                    {{ item.type }}
                   </p>
                   <p class="text-xs leading-snug text-black/60">
-                    Green - Customized
+                    {{ item.color }}
+                    {{ item.customizations ? "- Customized" : "" }}
                   </p>
                 </div>
                 <div class="flex justify-between items-center mt-2">
-                  <span class="text-sm font-medium">MAD 199</span>
+                  <span class="text-sm font-medium">MAD {{ item.price }}</span>
                   <div
                     class="flex items-center justify-center w-8 h-6 border border-[#00000099] text-[#00000099] rounded-full ml-2"
                   >
-                    <span class="text-sm">x2</span>
+                    <span class="text-sm">x{{ item.quantity }}</span>
                   </div>
                 </div>
               </div>
@@ -331,7 +332,7 @@
 
           <!-- Bottom section -->
           <div
-            class="absolute bottom-0 left-0 right-0 p-[24px] backdrop-blur-[50px] bg-[#ffffffcc] rounded-b-[32px] z-50 border-t border-[#00000010]"
+            class="absolute bottom-0 left-0 right-0 p-[24px] backdrop-blur-[30px] bg-[#ffffffcc] rounded-b-[32px] z-50 border-t border-[#00000010]"
           >
             <div class="flex justify-between mb-[10px]">
               <span class="text-black">Subtotal</span>
@@ -388,6 +389,9 @@ export default {
     // Code to run when the component is mounted goes here
   },
   computed: {
+    bagItems() {
+      return this.$store.getters.bagItems;
+    },
     computedWidth() {
       return "width: calc(1680px - 540px)";
     },
