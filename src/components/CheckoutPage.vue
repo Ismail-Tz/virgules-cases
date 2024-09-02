@@ -257,7 +257,7 @@
         <div
           class="relative col-span-1 bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
         >
-          <div
+          <div class="overflow-y-scroll h-[674px] rounded-[18px]"><div
             v-for="(item, index) in bagItems"
             :key="index"
             class="p-4 bg-white rounded-[18px] relative border border-[#00000010] mb-[10px]"
@@ -328,7 +328,8 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div></div>
+          
 
           <!-- Bottom section -->
           <div
