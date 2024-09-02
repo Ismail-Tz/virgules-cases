@@ -278,7 +278,7 @@
                     >
                       {{ item.title }}
                     </h2>
-                    <button class="flex-shrink-0 text-black">
+                    <button class="flex-shrink-0 text-black" @click="deleteItem(index)" >
                       <svg
                         width="20"
                         height="20"
@@ -321,7 +321,7 @@
                 <div class="flex justify-between items-center mt-2">
                   <span class="text-sm font-medium">MAD {{ item.price }}</span>
                   <div
-                    class="flex items-center justify-center w-8 h-6 border border-[#00000099] text-[#00000099] rounded-full ml-2"
+                    class="flex items-center justify-center px-[8px] h-6 border border-[#00000099] text-[#00000099] rounded-full ml-2"
                   >
                     <span class="text-sm">x{{ item.quantity }}</span>
                   </div>
@@ -336,16 +336,22 @@
           >
             <div class="flex justify-between mb-[10px]">
               <span class="text-black">Subtotal</span>
-              <span class="text-black">MAD 995</span>
+              <span class="text-black">MAD {{subtotal}}</span>
             </div>
             <div class="flex justify-between mb-[20px]">
               <span class="text-black">Shipping</span>
-              <span class="text-green-500">Free</span>
+              <span
+                class="text-[#00A354] font-medium"
+                :class="
+                  shippingCost === 'Free' ? 'text-[#00A354]' : 'text-black'
+                "
+                >{{ shippingCost }}</span
+              >
             </div>
             <hr class="border-t-[1px] border-black opacity-20 mb-[20px]" />
             <div class="flex justify-between mb-[24px]">
               <span class="text-black font-bold">Total</span>
-              <span class="text-black font-bold">MAD 1194</span>
+              <span class="text-black font-bold">MAD {{total}}</span>
             </div>
             <button
               class="flex items-center justify-center px-6 py-[10px] text-[18px] border border-black w-full rounded-[20px] hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white"
@@ -383,7 +389,10 @@ export default {
     };
   },
   methods: {
-    // Your methods go here
+    deleteItem(index) {
+      // Assuming you have an action or mutation in your Vuex store to remove an item
+      this.$store.commit('REMOVE_ITEM', index);
+    }
   },
   mounted() {
     // Code to run when the component is mounted goes here
@@ -394,6 +403,22 @@ export default {
     },
     computedWidth() {
       return "width: calc(1680px - 540px)";
+    },
+
+    // Calculate the subtotal of the products in the bag
+    subtotal() {
+      return this.$store.state.bag.reduce(
+        (total, product) => total + product.price * product.quantity,
+        0
+      );
+    },
+    // Calculate the total including shipping (example: free shipping)
+    shippingCost() {
+      return this.subtotal > 200 ? "Free" : "N/A";
+    },
+    // Calculate the grand total including shipping
+    total() {
+      return this.subtotal; // Assuming no extra shipping cost
     },
   },
 };

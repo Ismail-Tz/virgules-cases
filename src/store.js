@@ -364,6 +364,9 @@ export const store = createStore({
       state.bag = [];
       localStorage.removeItem("bagItems"); // Clear the local storage
     },
+    REMOVE_ITEM(state, index) {
+      state.bag.splice(index, 1);
+    },
   },
   actions: {
     addToBag({ commit }, product) {
