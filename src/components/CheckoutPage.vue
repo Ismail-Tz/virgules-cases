@@ -328,7 +328,9 @@
                 </div>
               </div>
             </div>
-          </div></div>
+          </div>
+          <div class="h-[220px]">&nbsp;</div>
+        </div>
           
 
           <!-- Bottom section -->
