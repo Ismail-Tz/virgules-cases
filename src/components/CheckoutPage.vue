@@ -1,8 +1,9 @@
 <template>
-  <div class="flex justify-center min-h-screen mt-[108px]">
+  <div class="flex justify-center min-h-screen mt-[94px]">
     <div :style="computedWidth">
       <button
         class="flex items-end justify-center leading-none text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
+        @click="goBack"
       >
         <svg
           class="mr-[10px] w-[22px] h-[22px] rotate-180"
@@ -457,7 +458,7 @@
 
           <!-- Bottom section -->
           <div
-            class="absolute bottom-0 left-0 right-0 p-[24px] backdrop-blur-[30px] bg-[#ffffffcc] rounded-b-[32px] z-50 border-t border-[#00000010]"
+            class="absolute bottom-0 left-0 right-0 p-[24px] backdrop-blur-[30px] bg-[#ffffffcc] rounded-b-[32px] z-30 border-t border-[#00000010]"
           >
             <div class="flex justify-between mb-[10px]">
               <span class="text-black">Subtotal</span>
@@ -521,6 +522,9 @@ export default {
   },
   watch: {},
   methods: {
+    goBack() {
+      this.$router.back(); // Navigate back to the previous page
+    },
     validateEmail() {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       this.isEmailInvalid = this.email && !emailRegex.test(this.email);

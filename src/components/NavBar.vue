@@ -34,19 +34,19 @@
 
       <!-- Center-aligned section (Text buttons) -->
       <div class="flex justify-center w-1/3">
-        <a
+        <a v-if="!isCheckoutPage"
           href="#"
           class="text-[#0A332E] hover:bg-[#00000007] px-3 py-2 text-[14px] rounded-xl"
           :style="{ color: navBarDarkColor }"
           >Devices</a
         >
-        <a
+        <a v-if="!isCheckoutPage"
           href="#"
           class="text-[#0A332E] hover:bg-[#00000007] px-3 py-2 text-[14px] rounded-xl"
           :style="{ color: navBarDarkColor }"
           >Customization</a
         >
-        <a
+        <a v-if="!isCheckoutPage"
           href="#"
           class="text-[#0A332E] hover:bg-[#00000007] px-3 py-2 text-[14px] rounded-xl"
           :style="{ color: navBarDarkColor }"
@@ -56,7 +56,7 @@
 
       <!-- Right-aligned section (Symbol buttons) -->
       <div class="flex justify-end items-center space-x-4 w-1/3">
-        <a href="#" :style="{ color: navBarDarkColor }">
+        <a v-if="!isCheckoutPage" :style="{ color: navBarDarkColor }" class="cursor-pointer">
           <svg
             id="Layer_2"
             data-name="Layer 2"
@@ -73,8 +73,7 @@
           </svg>
         </a>
         <a
-          href="#"
-          class="text-[#0A332E] hover:text-black"
+          class="text-[#0A332E] hover:text-black cursor-pointer"
           :style="{ color: navBarDarkColor }"
         >
           <svg
@@ -92,9 +91,8 @@
             </g>
           </svg>
         </a>
-        <a
-          href="#"
-          class="text-[#0A332E] hover:text-black"
+        <a v-if="!isCheckoutPage"
+          class="text-[#0A332E] hover:text-black cursor-pointer"
           :style="{ color: navBarDarkColor }"
           @click="toggleBag"
         >
@@ -322,6 +320,7 @@
                 ? 'cursor-not-allowed  bg-none text-gray-400 border-gray-400'
                 : 'hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white',
             ]"
+            @click="goToCheckout"
           >
             Continue
             <svg
@@ -403,6 +402,9 @@ export default {
   },
 
   computed: {
+    isCheckoutPage() {
+      return this.$route.path === '/checkout'; // Check if the current route is checkout
+    },
     bagItems() {
       return this.$store.getters.bagItems;
     },
@@ -444,6 +446,11 @@ export default {
   },
 
   methods: {
+    goToCheckout() {
+      this.closeBag();
+      this.$router.push({ path: '/checkout' });
+    },
+    
     deleteItem(index) {
       // Mutation in Vuex store to remove an item
       this.$store.commit("REMOVE_ITEM", index);
