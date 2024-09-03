@@ -366,6 +366,7 @@ export const store = createStore({
     },
     REMOVE_ITEM(state, index) {
       state.bag.splice(index, 1);
+      localStorage.setItem("bag", JSON.stringify(state.bag)); // Sync localStorage
     },
   },
   actions: {

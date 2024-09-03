@@ -461,7 +461,7 @@
           <!-- Scroll Indicator -->
           <div
             v-if="showScrollIndicator"
-            class="scroll-indicator flex items-baseline justify-center absolute left-1/2 transform -translate-x-1/2 bottom-[240px] px-3 py-1 bg-[#fff] text-black text-xs rounded-full opacity-80 border border-black/20 shadow-[0_0_25px_rgba(0,0,0,0.2)]"
+            class="scroll-indicator flex items-baseline justify-center absolute left-1/2 transform -translate-x-1/2 bottom-[236px] px-3 py-1 bg-[#fff] text-black/80 text-xs rounded-full opacity-80 border border-black/20 shadow-[0_0_25px_rgba(0,0,0,0.2)]"
           >
             Scroll down for more
             <svg
@@ -475,7 +475,7 @@
                 fill-rule="evenodd"
                 clip-rule="evenodd"
                 d="M0.497812 1.64518C0.218392 1.34935 0.218363 0.886876 0.497746 0.591005V0.591005C0.800665 0.27021 1.31101 0.270169 1.61398 0.590916L6.13652 5.37882C6.33382 5.58771 6.66618 5.58771 6.86348 5.37882L11.386 0.590916C11.689 0.27017 12.1993 0.27021 12.5023 0.591005V0.591005C12.7816 0.886876 12.7816 1.34935 12.5022 1.64518L7.22699 7.2303C6.83237 7.6481 6.16763 7.6481 5.77301 7.2303L0.497812 1.64518Z"
-                fill="black"
+                fill="currentColor"
                 style="fill: black; fill-opacity: 1"
               />
             </svg>
@@ -566,7 +566,7 @@ export default {
           if (scrollTop === 0) {
             this.showScrollIndicator = true;
           }
-        }, 10000); // 10 seconds pause before showing the indicator again
+        }, 5000); // 5 seconds pause before showing the indicator again
       }
     },
     goBack() {
