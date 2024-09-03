@@ -295,7 +295,7 @@
               </div>
             </div>
 
-            <!-- Shipping Adress -->
+            <!-- Payment -->
 
             <h2
               class="text-[22px] mt-[36px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
@@ -375,7 +375,10 @@
         <div
           class="relative col-span-1 bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
         >
-          <div class="overflow-y-scroll h-[674px] rounded-[18px]">
+          <div
+            @scroll="handleScroll"
+            class="overflow-y-scroll h-[674px] rounded-[18px]"
+          >
             <div
               v-for="(item, index) in bagItems"
               :key="index"
@@ -455,7 +458,28 @@
             </div>
             <div class="h-[212px]">&nbsp;</div>
           </div>
-
+          <!-- Scroll Indicator -->
+          <div
+            v-if="showScrollIndicator"
+            class="scroll-indicator flex items-baseline justify-center absolute left-1/2 transform -translate-x-1/2 bottom-[240px] px-3 py-1 bg-[#fff] text-black text-xs rounded-full opacity-80 border border-black/20 shadow-[0_0_25px_rgba(0,0,0,0.2)]"
+          >
+            Scroll down for more
+            <svg
+            class="ml-[6px]"
+              width="9px"
+              viewBox="0 0 13 8"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M0.497812 1.64518C0.218392 1.34935 0.218363 0.886876 0.497746 0.591005V0.591005C0.800665 0.27021 1.31101 0.270169 1.61398 0.590916L6.13652 5.37882C6.33382 5.58771 6.66618 5.58771 6.86348 5.37882L11.386 0.590916C11.689 0.27017 12.1993 0.27021 12.5023 0.591005V0.591005C12.7816 0.886876 12.7816 1.34935 12.5022 1.64518L7.22699 7.2303C6.83237 7.6481 6.16763 7.6481 5.77301 7.2303L0.497812 1.64518Z"
+                fill="black"
+                style="fill: black; fill-opacity: 1"
+              />
+            </svg>
+          </div>
           <!-- Bottom section -->
           <div
             class="absolute bottom-0 left-0 right-0 p-[24px] backdrop-blur-[30px] bg-[#ffffffcc] rounded-b-[32px] z-30 border-t border-[#00000010]"
@@ -518,10 +542,33 @@ export default {
       isEmailInvalid: false, // Tracks if the email is invalid
       isPhoneInvalid: false, // Tracks if the phone number is invalid
       isPostalCodeInvalid: false, // Tracks if the postal code is invalid
+      showScrollIndicator: false,
     };
   },
-  watch: {},
+  watch: {
+    bagItems: {
+      handler(newVal) {
+        this.showScrollIndicator = newVal.length > 3;
+      },
+      immediate: true, // Trigger the watch when the component mounts
+    },
+  },
   methods: {
+    handleScroll(event) {
+      const scrollTop = event.target.scrollTop;
+
+      if (scrollTop > 10) {
+        this.showScrollIndicator = false;
+        clearTimeout(this.scrollTimeout);
+      } else {
+        clearTimeout(this.scrollTimeout);
+        this.scrollTimeout = setTimeout(() => {
+          if (scrollTop === 0) {
+            this.showScrollIndicator = true;
+          }
+        }, 10000); // 10 seconds pause before showing the indicator again
+      }
+    },
     goBack() {
       this.$router.back(); // Navigate back to the previous page
     },
@@ -535,7 +582,8 @@ export default {
     },
     validatePostalCode() {
       const postalCodeRegex = /^[1-9]\d{4}$/;
-      this.isPostalCodeInvalid = this.postalCode && !postalCodeRegex.test(this.postalCode);
+      this.isPostalCodeInvalid =
+        this.postalCode && !postalCodeRegex.test(this.postalCode);
     },
 
     deleteItem(index) {
@@ -578,4 +626,18 @@ export default {
 @tailwind components;
 @tailwind utilities;
 /* Add any custom styles here if needed */
+.scroll-indicator {
+  animation: bounce 1.5s infinite ease-in-out;
+  transition: opacity 0.3s ease-in-out;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+  50% {
+    transform: translate(-50%, -5px);
+  }
+}
 </style>
