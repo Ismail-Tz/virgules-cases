@@ -465,7 +465,7 @@
           >
             Scroll down for more
             <svg
-            class="ml-[6px]"
+              class="ml-[6px]"
               width="9px"
               viewBox="0 0 13 8"
               fill="none"
@@ -505,6 +505,7 @@
             </div>
             <button
               class="flex items-center justify-center px-6 py-[10px] text-[18px] border border-black w-full rounded-[20px] hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white"
+              @click="openModal"
             >
               Continue
               <svg
@@ -528,6 +529,113 @@
       </div>
     </div>
   </div>
+  <div
+    v-if="isModalVisible"
+    class="fixed inset-0 bg-black bg-opacity-[0.035] backdrop-blur-[50px] flex justify-center items-center z-50"
+  >
+    <div
+      class="bg-white p-[24px] rounded-[32px] w-full max-w-lg shadow-lg relative"
+    >
+      <button
+        class="absolute top-[30px] right-[30px] text-2xl"
+        @click="closeModal"
+      >
+        <svg
+          width="30"
+          height="30"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            width="20"
+            height="20"
+            rx="10"
+            fill="black"
+            fill-opacity="0.1"
+          />
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M14.4298 5.56995C14.7227 5.86285 14.7227 6.33772 14.4298 6.63061L11.0607 9.99977L14.4298 13.3689C14.7227 13.6618 14.7227 14.1367 14.4298 14.4296C14.1369 14.7225 13.662 14.7225 13.3692 14.4296L10 11.0604L6.63084 14.4296C6.33795 14.7225 5.86308 14.7225 5.57018 14.4296C5.27729 14.1367 5.27729 13.6618 5.57018 13.3689L8.93934 9.99977L5.57018 6.63061C5.27729 6.33772 5.27729 5.86285 5.57018 5.56995C5.86308 5.27706 6.33795 5.27706 6.63084 5.56995L10 8.93911L13.3692 5.56995C13.662 5.27706 14.1369 5.27706 14.4298 5.56995Z"
+            fill="black"
+            fill-opacity="0.5"
+            transform="scale(0.8)"
+    transform-origin="center" 
+          />
+        </svg>
+      </button>
+      <div class="p-[32px] pt-[8px]">
+        <h2 class="text-[26px] font-bold font-[visby] leading-none text-black">Check Information</h2>
+      </div>
+
+      <!-- Content goes here -->
+      <div class="space-y-4">
+        <div
+          class="flex justify-between items-center border border-gray-300 p-4 rounded-lg"
+        >
+          <span>Email</span>
+          <div class="flex items-center space-x-4">
+            <div class="text-gray-600">itouzzane@virgules.com</div>
+            <button
+              class="bg-white border border-black py-1 px-3 rounded-lg hover:bg-gray-100"
+            >
+              Change
+            </button>
+          </div>
+        </div>
+        <div
+          class="flex justify-between items-center border border-gray-300 p-4 rounded-lg"
+        >
+          <span>Number</span>
+          <div class="flex items-center space-x-4">
+            <div class="text-gray-600">+212 6 61 62 63 64</div>
+            <button
+              class="bg-white border border-black py-1 px-3 rounded-lg hover:bg-gray-100"
+            >
+              Change
+            </button>
+          </div>
+        </div>
+        <div
+          class="flex justify-between items-center border border-gray-300 p-4 rounded-lg"
+        >
+          <span>Ship to</span>
+          <div class="flex items-center space-x-4">
+            <div class="text-gray-600">Qu El Qods NR 381</div>
+            <button
+              class="bg-white border border-black py-1 px-3 rounded-lg hover:bg-gray-100"
+            >
+              Change
+            </button>
+          </div>
+        </div>
+        <div
+          class="flex justify-between items-center border border-gray-300 p-4 rounded-lg"
+        >
+          <span>Payment on delivery</span>
+          <div class="flex items-center space-x-4">
+            <div class="text-gray-600">
+              <div class="bg-gray-200 p-2 rounded-lg">[Icon]</div>
+              <div>Fast Shipping</div>
+            </div>
+            <button
+              class="bg-gray-200 border border-gray-400 py-1 px-3 rounded-lg cursor-not-allowed"
+              disabled
+            >
+              Change
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="mt-6 text-right font-semibold">Total: MAD 1194</div>
+      <button
+        class="w-full mt-4 bg-black text-white py-3 rounded-lg hover:bg-gray-800"
+      >
+        Confirm Order
+      </button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -536,6 +644,7 @@ export default {
   data() {
     return {
       // Your data properties go here
+      isModalVisible: false, // Controls visibility of the modal
       email: "", // Holds the value of the email input
       phone: "", // Holds the value of the phone input
       postalCode: "", // Holds the value of the postal code input
@@ -554,6 +663,13 @@ export default {
     },
   },
   methods: {
+    openModal() {
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
+    },
+
     handleScroll(event) {
       const scrollTop = event.target.scrollTop;
 
