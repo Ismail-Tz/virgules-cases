@@ -1,11 +1,26 @@
 <template>
   <div class="flex justify-center min-h-screen mt-[108px]">
     <div :style="computedWidth">
-      <h2
-        class="text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
+      <button
+        class="flex items-end justify-center leading-none text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000] "
       >
+        <svg
+          class="mr-[10px] w-[22px] h-[22px] rotate-180"
+          fill="currentColor"
+          viewBox="0 0 17 15"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M9.1824 13.9504C8.85482 13.6132 8.86263 13.0743 9.19984 12.7467L13.7246 8.35116L1.35151 8.35116C0.881386 8.35116 0.500273 7.97004 0.500273 7.49992C0.500273 7.02979 0.881386 6.64868 1.35151 6.64868L13.7246 6.64868L9.19984 2.25315C8.86263 1.92558 8.85482 1.38666 9.1824 1.04945C9.50998 0.712234 10.0489 0.704423 10.3861 1.032L16.4157 6.88934C16.5807 7.04963 16.6738 7.26988 16.6738 7.49992C16.6738 7.72996 16.5807 7.9502 16.4157 8.11049L10.3861 13.9678C10.0489 14.2954 9.50997 14.2876 9.1824 13.9504Z"
+            fill="currentColor"
+            viewBox="0 0 17 15"
+            style="fill: currentColor; fill-opacity: 1"
+          />
+        </svg>
         Checkout
-      </h2>
+      </button>
       <div class="grid grid-cols-3 gap-[40px]">
         <div
           class="col-span-2 bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
@@ -71,7 +86,7 @@
             <!-- Shipping Adress -->
 
             <h2
-              class="text-[22px] mt-[32px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
+              class="text-[22px] mt-[36px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
             >
               Shipping Address
             </h2>
@@ -180,7 +195,7 @@
             <!-- Shipping Adress -->
 
             <h2
-              class="text-[22px] mt-[32px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
+              class="text-[22px] mt-[36px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
             >
               Payment
             </h2>
@@ -257,81 +272,86 @@
         <div
           class="relative col-span-1 bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
         >
-          <div class="overflow-y-scroll h-[674px] rounded-[18px]"><div
-            v-for="(item, index) in bagItems"
-            :key="index"
-            class="p-4 bg-white rounded-[18px] relative border border-[#00000010] mb-[10px]"
-          >
-            <div class="flex">
-              <img
-                :src="item.image"
-                :alt="item.title"
-                class="w-[55px] h-[110px] object-cover mr-4"
-              />
-              <div
-                class="flex flex-col flex-grow justify-between text-left min-w-0"
-              >
-                <div>
-                  <div class="flex justify-between items-center mb-1">
-                    <h2
-                      class="text-base truncate font-[Visby] font-bold flex-grow mr-2"
-                    >
-                      {{ item.title }}
-                    </h2>
-                    <button class="flex-shrink-0 text-black" @click="deleteItem(index)" >
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+          <div class="overflow-y-scroll h-[674px] rounded-[18px]">
+            <div
+              v-for="(item, index) in bagItems"
+              :key="index"
+              class="p-4 bg-white rounded-[18px] relative border border-[#00000010] mb-[10px]"
+            >
+              <div class="flex">
+                <img
+                  :src="item.image"
+                  :alt="item.title"
+                  class="w-[55px] h-[110px] object-cover mr-4"
+                />
+                <div
+                  class="flex flex-col flex-grow justify-between text-left min-w-0"
+                >
+                  <div>
+                    <div class="flex justify-between items-center mb-1">
+                      <h2
+                        class="text-base truncate font-[Visby] font-bold flex-grow mr-2"
                       >
-                        <rect
+                        {{ item.title }}
+                      </h2>
+                      <button
+                        class="flex-shrink-0 text-black"
+                        @click="deleteItem(index)"
+                      >
+                        <svg
                           width="20"
                           height="20"
-                          rx="10"
-                          fill="black"
-                          fill-opacity="0.1"
-                        />
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M14.4298 5.56995C14.7227 5.86285 14.7227 6.33772 14.4298 6.63061L11.0607 9.99977L14.4298 13.3689C14.7227 13.6618 14.7227 14.1367 14.4298 14.4296C14.1369 14.7225 13.662 14.7225 13.3692 14.4296L10 11.0604L6.63084 14.4296C6.33795 14.7225 5.86308 14.7225 5.57018 14.4296C5.27729 14.1367 5.27729 13.6618 5.57018 13.3689L8.93934 9.99977L5.57018 6.63061C5.27729 6.33772 5.27729 5.86285 5.57018 5.56995C5.86308 5.27706 6.33795 5.27706 6.63084 5.56995L10 8.93911L13.3692 5.56995C13.662 5.27706 14.1369 5.27706 14.4298 5.56995Z"
-                          fill="black"
-                          fill-opacity="0.5"
-                        />
-                      </svg>
-                    </button>
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            width="20"
+                            height="20"
+                            rx="10"
+                            fill="black"
+                            fill-opacity="0.1"
+                          />
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M14.4298 5.56995C14.7227 5.86285 14.7227 6.33772 14.4298 6.63061L11.0607 9.99977L14.4298 13.3689C14.7227 13.6618 14.7227 14.1367 14.4298 14.4296C14.1369 14.7225 13.662 14.7225 13.3692 14.4296L10 11.0604L6.63084 14.4296C6.33795 14.7225 5.86308 14.7225 5.57018 14.4296C5.27729 14.1367 5.27729 13.6618 5.57018 13.3689L8.93934 9.99977L5.57018 6.63061C5.27729 6.33772 5.27729 5.86285 5.57018 5.56995C5.86308 5.27706 6.33795 5.27706 6.63084 5.56995L10 8.93911L13.3692 5.56995C13.662 5.27706 14.1369 5.27706 14.4298 5.56995Z"
+                            fill="black"
+                            fill-opacity="0.5"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <p
+                      class="text-[13px] leading-none text-black/60 mb-1 font-[Visby] font-semibold"
+                    >
+                      {{ item.model }}
+                    </p>
+                    <p
+                      class="text-[13px] leading-none text-black/60 mb-1 font-[Visby] font-semibold"
+                    >
+                      {{ item.type }}
+                    </p>
+                    <p class="text-xs leading-snug text-black/60">
+                      {{ item.color }}
+                      {{ item.customizations ? "- Customized" : "" }}
+                    </p>
                   </div>
-                  <p
-                    class="text-[13px] leading-none text-black/60 mb-1 font-[Visby] font-semibold"
-                  >
-                    {{ item.model }}
-                  </p>
-                  <p
-                    class="text-[13px] leading-none text-black/60 mb-1 font-[Visby] font-semibold"
-                  >
-                    {{ item.type }}
-                  </p>
-                  <p class="text-xs leading-snug text-black/60">
-                    {{ item.color }}
-                    {{ item.customizations ? "- Customized" : "" }}
-                  </p>
-                </div>
-                <div class="flex justify-between items-center mt-2">
-                  <span class="text-sm font-medium">MAD {{ item.price }}</span>
-                  <div
-                    class="flex items-center justify-center px-[8px] h-6 border border-[#00000099] text-[#00000099] rounded-full ml-2"
-                  >
-                    <span class="text-sm">x{{ item.quantity }}</span>
+                  <div class="flex justify-between items-center mt-2">
+                    <span class="text-sm font-medium"
+                      >MAD {{ item.price }}</span
+                    >
+                    <div
+                      class="flex items-center justify-center px-[8px] h-6 border border-[#00000099] text-[#00000099] rounded-full ml-2"
+                    >
+                      <span class="text-sm">x{{ item.quantity }}</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            <div class="h-[212px]">&nbsp;</div>
           </div>
-          <div class="h-[220px]">&nbsp;</div>
-        </div>
-          
 
           <!-- Bottom section -->
           <div
@@ -339,7 +359,7 @@
           >
             <div class="flex justify-between mb-[10px]">
               <span class="text-black">Subtotal</span>
-              <span class="text-black">MAD {{subtotal}}</span>
+              <span class="text-black">MAD {{ subtotal }}</span>
             </div>
             <div class="flex justify-between mb-[20px]">
               <span class="text-black">Shipping</span>
@@ -354,7 +374,7 @@
             <hr class="border-t-[1px] border-black opacity-20 mb-[20px]" />
             <div class="flex justify-between mb-[24px]">
               <span class="text-black font-bold">Total</span>
-              <span class="text-black font-bold">MAD {{total}}</span>
+              <span class="text-black font-bold">MAD {{ total }}</span>
             </div>
             <button
               class="flex items-center justify-center px-6 py-[10px] text-[18px] border border-black w-full rounded-[20px] hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white"
@@ -394,8 +414,8 @@ export default {
   methods: {
     deleteItem(index) {
       // Assuming you have an action or mutation in your Vuex store to remove an item
-      this.$store.commit('REMOVE_ITEM', index);
-    }
+      this.$store.commit("REMOVE_ITEM", index);
+    },
   },
   mounted() {
     // Code to run when the component is mounted goes here
