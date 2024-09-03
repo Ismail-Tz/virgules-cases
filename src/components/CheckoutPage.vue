@@ -2,7 +2,7 @@
   <div class="flex justify-center min-h-screen mt-[108px]">
     <div :style="computedWidth">
       <button
-        class="flex items-end justify-center leading-none text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000] "
+        class="flex items-end justify-center leading-none text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
       >
         <svg
           class="mr-[10px] w-[22px] h-[22px] rotate-180"
@@ -34,18 +34,52 @@
             </h2>
             <div class="relative w-full mb-[14px]">
               <input
-                type="text"
+                type="email"
                 id="email"
-                class="w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none focus:border-[#000000] peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out"
+                v-model="email"
+                @blur="validateEmail"
+                :class="[
+                  'w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out',
+                  isEmailInvalid
+                    ? 'border-red-500 text-red-500'
+                    : 'focus:border-[#000000]',
+                ]"
+                :style="{
+                  backgroundColor: isEmailInvalid ? '#fff1f1' : 'white',
+                }"
                 placeholder=" "
+                required
               />
               <label
                 for="email"
-                class="absolute left-[20px] text-[15px] text-black opacity-80 transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-focus:text-black peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]"
+                :class="[
+                  'absolute left-[20px] text-[15px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]',
+                  isEmailInvalid ? 'text-red-500' : 'text-black opacity-80',
+                ]"
+                class="flex items-center"
               >
                 Email
+                <template v-if="isEmailInvalid">
+                  :
+                  <span class="ml-[2px] flex items-center">
+                    <svg
+                      class="inline-block w-[9px]"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 19.5 19.5"
+                      fill="currentColor"
+                    >
+                      <path
+                        d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
+                      />
+                    </svg>
+                    <span class="mx-[4px]"
+                      >Please enter a valid email address.</span
+                    >
+                  </span>
+                </template>
               </label>
             </div>
+
             <div class="flex gap-[14px]">
               <div
                 class="relative flex items-center h-[50px] bg-white border border-[#00000033] text-black text-[15px] rounded-full focus-within:border-[#000000] transition-all duration-300 ease-in-out w-auto"
@@ -69,16 +103,49 @@
 
               <div class="relative flex-grow mb-[14px]">
                 <input
-                  type="text"
-                  id="phoneNum"
-                  class="w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none focus:border-[#000000] peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out"
+                  type="tel"
+                  id="phone"
+                  v-model="phone"
+                  @blur="validatePhone"
+                  :class="[
+                    'w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out',
+                    isPhoneInvalid
+                      ? 'border-red-500 text-red-500'
+                      : 'focus:border-[#000000]',
+                  ]"
+                  :style="{
+                    backgroundColor: isPhoneInvalid ? '#fff1f1' : 'white',
+                  }"
                   placeholder=" "
+                  required
                 />
                 <label
-                  for="phoneNum"
-                  class="absolute left-[20px] text-[15px] text-black opacity-80 transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]"
+                  for="phone"
+                  :class="[
+                    'absolute left-[20px] text-[15px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]',
+                    isPhoneInvalid ? 'text-red-500' : 'text-black opacity-80',
+                  ]"
+                  class="flex items-center"
                 >
-                  Phone Number
+                  Phone
+                  <template v-if="isPhoneInvalid">
+                    :
+                    <span class="ml-[2px] flex items-center">
+                      <svg
+                        class="inline-block w-[9px]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 19.5 19.5"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
+                        />
+                      </svg>
+                      <span class="mx-[4px]"
+                        >Please enter a valid Moroccan phone number.</span
+                      >
+                    </span>
+                  </template>
                 </label>
               </div>
             </div>
@@ -142,14 +209,49 @@
                 <input
                   type="text"
                   id="postalCode"
-                  class="w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none focus:border-[#000000] peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out"
+                  v-model="postalCode"
+                  @blur="validatePostalCode"
+                  :class="[
+                    'w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out',
+                    isPostalCodeInvalid
+                      ? 'border-red-500 text-red-500'
+                      : 'focus:border-[#000000]',
+                  ]"
+                  :style="{
+                    backgroundColor: isPostalCodeInvalid ? '#fff1f1' : 'white',
+                  }"
                   placeholder=" "
+                  required
                 />
                 <label
                   for="postalCode"
-                  class="absolute left-[20px] text-[15px] text-black opacity-80 transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]"
+                  :class="[
+                    'absolute left-[20px] text-[15px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]',
+                    isPostalCodeInvalid
+                      ? 'text-red-500'
+                      : 'text-black opacity-80',
+                  ]"
+                  class="flex items-center"
                 >
                   Postal Code
+                  <template v-if="isPostalCodeInvalid">
+                    :
+                    <span class="ml-[2px] flex items-center">
+                      <svg
+                        class="inline-block w-[9px]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 19.5 19.5"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
+                        />
+                      </svg>
+                      <span class="mx-[4px]"
+                        >Please enter a valid postal code.</span
+                      >
+                    </span>
+                  </template>
                 </label>
               </div>
             </div>
@@ -409,11 +511,31 @@ export default {
   data() {
     return {
       // Your data properties go here
+      email: "", // Holds the value of the email input
+      phone: "", // Holds the value of the phone input
+      postalCode: "", // Holds the value of the postal code input
+      isEmailInvalid: false, // Tracks if the email is invalid
+      isPhoneInvalid: false, // Tracks if the phone number is invalid
+      isPostalCodeInvalid: false, // Tracks if the postal code is invalid
     };
   },
+  watch: {},
   methods: {
+    validateEmail() {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      this.isEmailInvalid = this.email && !emailRegex.test(this.email);
+    },
+    validatePhone() {
+      const phoneRegex = /^(0[67]\d{8}|0[58]\d{8}|[67]\d{8}|[58]\d{8})$/;
+      this.isPhoneInvalid = this.phone && !phoneRegex.test(this.phone);
+    },
+    validatePostalCode() {
+      const postalCodeRegex = /^[1-9]\d{4}$/;
+      this.isPostalCodeInvalid = this.postalCode && !postalCodeRegex.test(this.postalCode);
+    },
+
     deleteItem(index) {
-      // Assuming you have an action or mutation in your Vuex store to remove an item
+      // Mutation in Vuex store to remove an item
       this.$store.commit("REMOVE_ITEM", index);
     },
   },

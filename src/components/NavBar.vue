@@ -136,8 +136,36 @@
             <div
               v-for="(item, index) in bagItems"
               :key="index"
-              class="bg-[#FFFFFF] border border-[#00000020] rounded-[32px] w-[233px] h-[465px] p-[24px] flex flex-col items-center"
+              class="relative bg-[#FFFFFF] border border-[#00000020] rounded-[32px] w-[233px] h-[465px] p-[24px] flex flex-col items-center"
             >
+              <!-- Delete Button -->
+              <button
+                class="absolute top-[20px] right-[20px] z-50 text-black"
+                @click="deleteItem(index)"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    width="20"
+                    height="20"
+                    rx="10"
+                    fill="black"
+                    fill-opacity="0.1"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M14.4298 5.56995C14.7227 5.86285 14.7227 6.33772 14.4298 6.63061L11.0607 9.99977L14.4298 13.3689C14.7227 13.6618 14.7227 14.1367 14.4298 14.4296C14.1369 14.7225 13.662 14.7225 13.3692 14.4296L10 11.0604L6.63084 14.4296C6.33795 14.7225 5.86308 14.7225 5.57018 14.4296C5.27729 14.1367 5.27729 13.6618 5.57018 13.3689L8.93934 9.99977L5.57018 6.63061C5.27729 6.33772 5.27729 5.86285 5.57018 5.56995C5.86308 5.27706 6.33795 5.27706 6.63084 5.56995L10 8.93911L13.3692 5.56995C13.662 5.27706 14.1369 5.27706 14.4298 5.56995Z"
+                    fill="black"
+                    fill-opacity="0.5"
+                  />
+                </svg>
+              </button>
               <img
                 :src="item.image"
                 alt="Product Image"
@@ -416,6 +444,10 @@ export default {
   },
 
   methods: {
+    deleteItem(index) {
+      // Mutation in Vuex store to remove an item
+      this.$store.commit("REMOVE_ITEM", index);
+    },
     clearBag() {
       this.$store.commit("clearBag"); // This commits the clearCart mutation to empty the cart
     },
