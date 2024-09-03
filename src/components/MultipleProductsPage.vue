@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center min-h-screen mt-[108px]">
+  <div class="flex justify-center mb-[40px] mt-[108px]">
     <div :style="computedWidth">
       <h2
           class="text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center min-h-screen mt-[94px]">
+  <div class="flex justify-center mb-[40px] mt-[94px]">
     <div :style="computedWidth">
       <button
         class="flex items-end justify-center leading-none text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"

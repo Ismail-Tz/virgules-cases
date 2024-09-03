@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center min-h-screen mt-[108px]">
+  <div class="flex justify-center mb-[40px] mt-[128px]">
     <div style="width: calc(1680px - 540px)" class="container">
       <div class="grid grid-cols-12 gap-[40px]">
         <div class="relative col-span-7">
