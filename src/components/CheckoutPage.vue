@@ -759,7 +759,7 @@
     </div>
   </div>
   <div
-    v-show="isModalVisible"
+    v-if="isModalVisible"
     @click="closeModal"
     class="fixed inset-0 bg-black bg-opacity-[0.035] backdrop-blur-[30px] flex justify-center items-center z-50 transition-opacity duration-300 ease-in-out"
     :class="{ 'opacity-0': !isModalVisible, 'opacity-100': isModalVisible }"
