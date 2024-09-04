@@ -37,16 +37,21 @@
               <input
                 type="email"
                 id="email"
+                ref="email"
                 v-model="email"
+                @input="clearValidation('email')"
                 @blur="validateEmail"
                 :class="[
                   'w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out',
-                  isEmailInvalid
+                  (isEmailInvalid && email) || (submitAttempted && !email)
                     ? 'border-red-500 text-red-500'
                     : 'focus:border-[#000000]',
                 ]"
                 :style="{
-                  backgroundColor: isEmailInvalid ? '#fff1f1' : 'white',
+                  backgroundColor:
+                    (isEmailInvalid && email) || (submitAttempted && !email)
+                      ? '#fff1f1'
+                      : 'white',
                 }"
                 placeholder=" "
                 required
@@ -55,12 +60,14 @@
                 for="email"
                 :class="[
                   'absolute left-[20px] text-[15px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]',
-                  isEmailInvalid ? 'text-red-500' : 'text-black opacity-80',
+                  (isEmailInvalid && email) || (submitAttempted && !email)
+                    ? 'text-red-500'
+                    : 'text-black opacity-80',
                 ]"
                 class="flex items-center"
               >
                 Email
-                <template v-if="isEmailInvalid">
+                <template v-if="isEmailInvalid && email">
                   :
                   <span class="ml-[2px] flex items-center">
                     <svg
@@ -77,6 +84,24 @@
                       >Please enter a valid email address.</span
                     >
                   </span>
+                </template>
+                <template v-if="submitAttempted && !email">
+                  :
+                  <div class="ml-[2px] flex items-center text-red-500">
+                    <svg
+                      class="inline-block w-[9px]"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 19.5 19.5"
+                      fill="currentColor"
+                    >
+                      <path
+                        d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
+                      />
+                    </svg>
+                    <span class="mx-[4px]"
+                      >Please provide an email address.</span
+                    >
+                  </div>
                 </template>
               </label>
             </div>
@@ -106,16 +131,21 @@
                 <input
                   type="tel"
                   id="phone"
+                  ref="phone"
                   v-model="phone"
                   @blur="validatePhone"
+                  @input="clearValidation('phone')"
                   :class="[
                     'w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out',
-                    isPhoneInvalid
+                    (isPhoneInvalid && phone) || (submitAttempted && !phone)
                       ? 'border-red-500 text-red-500'
                       : 'focus:border-[#000000]',
                   ]"
                   :style="{
-                    backgroundColor: isPhoneInvalid ? '#fff1f1' : 'white',
+                    backgroundColor:
+                    (isPhoneInvalid && phone)  || (submitAttempted && !phone)
+                        ? '#fff1f1'
+                        : 'white',
                   }"
                   placeholder=" "
                   required
@@ -124,12 +154,14 @@
                   for="phone"
                   :class="[
                     'absolute left-[20px] text-[15px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]',
-                    isPhoneInvalid ? 'text-red-500' : 'text-black opacity-80',
+                    (isPhoneInvalid && phone) || (submitAttempted && !phone)
+                      ? 'text-red-500'
+                      : 'text-black opacity-80',
                   ]"
                   class="flex items-center"
                 >
                   Phone
-                  <template v-if="isPhoneInvalid">
+                  <template v-if="isPhoneInvalid && phone">
                     :
                     <span class="ml-[2px] flex items-center">
                       <svg
@@ -147,6 +179,24 @@
                       >
                     </span>
                   </template>
+                  <template v-if="submitAttempted && !phone">
+                    :
+                    <div class="ml-[2px] flex items-center text-red-500">
+                      <svg
+                        class="inline-block w-[9px]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 19.5 19.5"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
+                        />
+                      </svg>
+                      <span class="mx-[4px]"
+                        >Please provide a phone number.</span
+                      >
+                    </div>
+                  </template>
                 </label>
               </div>
             </div>
@@ -163,6 +213,7 @@
                 <input
                   type="text"
                   id="firstName"
+                  v-model="firstName"
                   class="w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none focus:border-[#000000] peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out"
                   placeholder=" "
                 />
@@ -178,6 +229,7 @@
                 <input
                   type="text"
                   id="lastName"
+                  v-model="lastName"
                   class="w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none focus:border-[#000000] peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out"
                   placeholder=" "
                 />
@@ -195,6 +247,8 @@
                 <input
                   type="text"
                   id="address"
+                  ref="address"
+                  v-model="address"
                   class="w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none focus:border-[#000000] peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out"
                   placeholder=" "
                 />
@@ -211,15 +265,16 @@
                   type="text"
                   id="postalCode"
                   v-model="postalCode"
+                  @input="clearValidation('postalCode')"
                   @blur="validatePostalCode"
                   :class="[
                     'w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out',
-                    isPostalCodeInvalid
+                    (isPostalCodeInvalid && postalCode) || (submitAttempted && !postalCode)
                       ? 'border-red-500 text-red-500'
                       : 'focus:border-[#000000]',
                   ]"
                   :style="{
-                    backgroundColor: isPostalCodeInvalid ? '#fff1f1' : 'white',
+                    backgroundColor: (isPostalCodeInvalid && postalCode) || (submitAttempted && !postalCode)? '#fff1f1' : 'white',
                   }"
                   placeholder=" "
                   required
@@ -228,14 +283,14 @@
                   for="postalCode"
                   :class="[
                     'absolute left-[20px] text-[15px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]',
-                    isPostalCodeInvalid
+                    (isPostalCodeInvalid && postalCode) || (submitAttempted && !postalCode)
                       ? 'text-red-500'
                       : 'text-black opacity-80',
                   ]"
                   class="flex items-center"
                 >
                   Postal Code
-                  <template v-if="isPostalCodeInvalid">
+                  <template v-if="isPostalCodeInvalid && postalCode">
                     :
                     <span class="ml-[2px] flex items-center">
                       <svg
@@ -252,6 +307,24 @@
                         >Please enter a valid postal code.</span
                       >
                     </span>
+                  </template>
+                  <template v-if="submitAttempted && !postalCode">
+                    :
+                    <div class="ml-[2px] flex items-center text-red-500">
+                      <svg
+                        class="inline-block w-[9px]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 19.5 19.5"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
+                        />
+                      </svg>
+                      <span class="mx-[4px]"
+                        >Please provide a postal code.</span
+                      >
+                    </div>
                   </template>
                 </label>
               </div>
@@ -283,6 +356,7 @@
                 <input
                   type="text"
                   id="city"
+                  v-model="city"
                   class="w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none focus:border-[#000000] peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out"
                   placeholder=" "
                 />
@@ -505,7 +579,7 @@
             </div>
             <button
               class="flex items-center justify-center px-6 py-[10px] text-[18px] border border-black w-full rounded-[20px] hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white"
-              @click="openModal"
+              @click="handleSubmit"
             >
               Continue
               <svg
@@ -531,10 +605,10 @@
   </div>
   <div
     v-if="isModalVisible"
-    class="fixed inset-0 bg-black bg-opacity-[0.035] backdrop-blur-[50px] flex justify-center items-center z-50"
+    class="fixed inset-0 bg-black bg-opacity-[0.035] backdrop-blur-[30px] flex justify-center items-center z-50"
   >
     <div
-      class="bg-white p-[24px] rounded-[32px] w-full max-w-lg shadow-lg relative"
+      class="bg-[#F9F9F9] border border-black/50 rounded-[32px] w-full max-w-2xl shadow-[0_0_25px_rgba(0,0,0,0.1)] relative flex flex-col justify-between space-y-[24px]"
     >
       <button
         class="absolute top-[30px] right-[30px] text-2xl"
@@ -561,79 +635,124 @@
             fill="black"
             fill-opacity="0.5"
             transform="scale(0.8)"
-    transform-origin="center" 
+            transform-origin="center"
           />
         </svg>
       </button>
       <div class="p-[32px] pt-[8px]">
-        <h2 class="text-[26px] font-bold font-[visby] leading-none text-black">Check Information</h2>
+        <h2 class="text-[26px] font-bold font-[visby] leading-none text-black">
+          Check Information
+        </h2>
       </div>
 
       <!-- Content goes here -->
-      <div class="space-y-4">
+      <div class="flex-grow space-y-[10px] p-[24px] pb-0">
         <div
-          class="flex justify-between items-center border border-gray-300 p-4 rounded-lg"
+          class="flex justify-between items-center border border-black/10 bg-white p-[20px] rounded-[24px]"
         >
-          <span>Email</span>
-          <div class="flex items-center space-x-4">
-            <div class="text-gray-600">itouzzane@virgules.com</div>
-            <button
-              class="bg-white border border-black py-1 px-3 rounded-lg hover:bg-gray-100"
-            >
-              Change
-            </button>
-          </div>
-        </div>
-        <div
-          class="flex justify-between items-center border border-gray-300 p-4 rounded-lg"
-        >
-          <span>Number</span>
-          <div class="flex items-center space-x-4">
-            <div class="text-gray-600">+212 6 61 62 63 64</div>
-            <button
-              class="bg-white border border-black py-1 px-3 rounded-lg hover:bg-gray-100"
-            >
-              Change
-            </button>
-          </div>
-        </div>
-        <div
-          class="flex justify-between items-center border border-gray-300 p-4 rounded-lg"
-        >
-          <span>Ship to</span>
-          <div class="flex items-center space-x-4">
-            <div class="text-gray-600">Qu El Qods NR 381</div>
-            <button
-              class="bg-white border border-black py-1 px-3 rounded-lg hover:bg-gray-100"
-            >
-              Change
-            </button>
-          </div>
-        </div>
-        <div
-          class="flex justify-between items-center border border-gray-300 p-4 rounded-lg"
-        >
-          <span>Payment on delivery</span>
-          <div class="flex items-center space-x-4">
-            <div class="text-gray-600">
-              <div class="bg-gray-200 p-2 rounded-lg">[Icon]</div>
-              <div>Fast Shipping</div>
+          <div class="flex flex-col justify-center space-y-[5px] text-left">
+            <div class="text-[12px] text-black/80 leading-none">Email</div>
+            <div class="text-[16px] text-black font-medium leading-none">
+              {{ savedEmail }}
             </div>
-            <button
-              class="bg-gray-200 border border-gray-400 py-1 px-3 rounded-lg cursor-not-allowed"
-              disabled
-            >
-              Change
-            </button>
           </div>
+          <button
+            class="bg-white border border-black/80 py-[12px] px-[16px] rounded-[14px] text-[16px] text-black/80 font-medium leading-none hover:bg-[#f9f9f9] hover:border-black hover:text-black"
+            @click="handleChange('email')"
+          >
+            Change
+          </button>
+        </div>
+
+        <div
+          class="flex justify-between items-center border border-black/10 bg-white p-[20px] rounded-[24px]"
+        >
+          <div class="flex flex-col justify-center space-y-[5px] text-left">
+            <div class="text-[12px] text-black/80 leading-none">
+              Phone Number
+            </div>
+            <div class="text-[16px] text-black font-medium leading-none">
+              +212 {{ savedPhone }}
+            </div>
+          </div>
+          <button
+            @click="handleChange('phone')"
+            class="bg-white border border-black/80 py-[12px] px-[16px] rounded-[14px] text-[16px] text-black/80 font-medium leading-none hover:bg-[#f9f9f9] hover:border-black hover:text-black"
+          >
+            Change
+          </button>
+        </div>
+        <div
+          class="flex justify-between items-center border border-black/10 bg-white p-[20px] rounded-[24px]"
+        >
+          <div class="flex flex-col justify-center space-y-[5px] text-left">
+            <div class="text-[12px] text-black/80 leading-none">Ship to</div>
+            <div class="text-[16px] text-black font-medium leading-none">
+              {{ savedAddress }}
+            </div>
+          </div>
+          <button
+            @click="handleChange('address')"
+            class="bg-white border border-black/80 py-[12px] px-[16px] rounded-[14px] text-[16px] text-black/80 font-medium leading-none hover:bg-[#f9f9f9] hover:border-black hover:text-black"
+          >
+            Change
+          </button>
+        </div>
+        <div
+          class="flex justify-between h-fit items-center border border-black/10 bg-white p-[10px] rounded-[24px]"
+        >
+          <div class="flex items-center">
+            <div
+              class="flex items-center h-[62px] justify-center aspect-square rounded-[12px] bg-[#FBFBFB] border border-[#000000B3]"
+            >
+              <!-- Icon -->
+              <svg
+                width="36"
+                class="aspect-square"
+                viewBox="0 0 59 44"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M56.9019 22.7134L49.614 14.7042C49.1212 14.1583 48.5109 13.7313 47.8291 13.4555C47.1473 13.1796 46.4118 13.0621 45.678 13.1119H40.7238V6.85976C40.7238 5.2049 40.0664 3.61783 38.8962 2.44767C37.726 1.27751 36.139 0.620117 34.4841 0.620117H7.02968C5.37483 0.620117 3.78775 1.27751 2.61759 2.44767C1.44743 3.61783 0.790039 5.2049 0.790039 6.85976V31.1944C0.790039 32.8492 1.44743 34.4363 2.61759 35.6065C3.78775 36.7766 5.37483 37.434 7.02968 37.434H8.39741C8.67398 39.0226 9.50177 40.4627 10.7352 41.5012C11.9687 42.5398 13.5288 43.1102 15.1412 43.1121C16.6668 43.1836 18.1692 42.7184 19.3875 41.7974C20.6058 40.8764 21.463 39.5577 21.8102 38.0705H38.485C38.8934 39.5688 39.7989 40.8838 41.053 41.7998C42.3071 42.7158 43.8353 43.1784 45.3868 43.1116C46.9384 43.0449 48.4212 42.4528 49.592 41.4325C50.7628 40.4122 51.5521 39.0243 51.8303 37.4964H53.6648C54.2692 37.557 54.8796 37.4836 55.4525 37.2814C56.0253 37.0792 56.5466 36.7532 56.9791 36.3266C57.4117 35.9001 57.7448 35.3834 57.955 34.8134C58.1651 34.2434 58.2469 33.6341 58.1948 33.0288V26.0205C58.1989 24.794 57.7367 23.6119 56.9019 22.7134ZM19.3243 37.434C19.0694 38.3475 18.5226 39.1525 17.7672 39.7259C17.0119 40.2994 16.0896 40.6098 15.1412 40.6098C14.1929 40.6098 13.2706 40.2994 12.5152 39.7259C11.7599 39.1525 11.213 38.3475 10.9582 37.434C10.6995 36.62 10.7127 35.744 10.9956 34.9382C11.2686 34.0518 11.8185 33.2763 12.5646 32.7254C13.3107 32.1745 14.2138 31.8772 15.1412 31.8772C16.0687 31.8772 16.9717 32.1745 17.7178 32.7254C18.4639 33.2763 19.0138 34.0518 19.2868 34.9382C19.5696 35.7441 19.5827 36.62 19.3243 37.434ZM21.8725 35.5746C21.7234 33.9393 20.9879 32.4131 19.8016 31.2776C18.6154 30.1421 17.0585 29.474 15.4182 29.3964C13.778 29.3189 12.165 29.8372 10.877 30.8557C9.58889 31.8742 8.71265 33.3242 8.40989 34.9382H7.02968C6.03717 34.9368 5.08569 34.542 4.38388 33.8402C3.68207 33.1384 3.28722 32.1869 3.2859 31.1944V6.85976C3.28722 5.86725 3.68207 4.91577 4.38388 4.21396C5.08569 3.51215 6.03717 3.1173 7.02968 3.11597H34.4841C35.4766 3.1173 36.4281 3.51215 37.1299 4.21396C37.8317 4.91577 38.2266 5.86725 38.2279 6.85976V35.5746H21.8725ZM49.2571 37.4964C48.9943 38.3975 48.4464 39.189 47.6955 39.7522C46.9446 40.3154 46.0314 40.6198 45.0928 40.6198C44.1542 40.6198 43.2409 40.3154 42.49 39.7522C41.7391 39.189 41.1912 38.3975 40.9284 37.4964C40.6569 36.6866 40.6569 35.8104 40.9284 35.0006C41.0856 34.446 41.3516 33.9283 41.7107 33.4774C42.0699 33.0266 42.5151 32.6517 43.0205 32.3745C43.5258 32.0973 44.0813 31.9234 44.6545 31.8628C45.2277 31.8022 45.8072 31.8563 46.3594 32.0217C46.9115 32.1872 47.4253 32.4608 47.8707 32.8266C48.3161 33.1924 48.6844 33.6432 48.954 34.1526C49.2237 34.6621 49.3893 35.22 49.4414 35.7941C49.4934 36.3681 49.4308 36.9468 49.2571 37.4964ZM55.6989 33.0288C55.6989 34.449 55.1273 35.0006 53.6648 35.0006H51.8303C51.62 33.8223 51.1029 32.7202 50.3312 31.8052C49.5595 30.8902 48.5604 30.1947 47.4345 29.7886C46.3085 29.3825 45.0955 29.2802 43.9174 29.4919C42.7393 29.7036 41.6378 30.222 40.7238 30.9947V15.6077H45.6805C46.0664 15.5621 46.4576 15.6094 46.8214 15.7458C47.1853 15.8821 47.5112 16.1035 47.7721 16.3914L55.0774 24.4131C55.4789 24.852 55.7007 25.4257 55.6989 26.0205V33.0288Z"
+                  fill="black"
+                  fill-opacity="0.5"
+                  style="fill: black; fill-opacity: 0.4"
+                />
+              </svg>
+            </div>
+            <div
+              class="ml-[10px] flex flex-col justify-between h-[45px] text-left"
+            >
+              <p class="text-[17px] font-medium leading-[110%] font-[Visby]">
+                Payment on delivery
+              </p>
+              <span
+                class="text-[10px] text-black/70 border border-black/70 rounded-full px-2 py-[1px] inline-block w-fit"
+                >Fast Shipping</span
+              >
+            </div>
+          </div>
+          <button
+            class="opacity-20 pointer-events-none bg-white border border-black/80 m-[10px] py-[12px] px-[16px] rounded-[14px] text-[16px] text-black/80 font-medium leading-none hover:bg-[#f9f9f9] hover:border-black hover:text-black"
+          >
+            Change
+          </button>
         </div>
       </div>
-      <div class="mt-6 text-right font-semibold">Total: MAD 1194</div>
-      <button
-        class="w-full mt-4 bg-black text-white py-3 rounded-lg hover:bg-gray-800"
+      <!-- Bottom section -->
+      <div
+        class="bg-white p-[24px] rounded-b-[32px] flex justify-between items-center"
       >
-        Confirm Order
-      </button>
+        <div class="ml-[10px] text-[17px] text-black">
+          Total: MAD {{ total }}
+        </div>
+        <button
+          class="border-[1.5px] border-black text-black font-medium py-3 px-[17.5px] text-[17px] rounded-[20px] hover:bg-black hover:text-white hover:shadow-[0_0_35px_rgba(0,0,0,0.2)]"
+        >
+          Confirm Order
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -648,10 +767,22 @@ export default {
       email: "", // Holds the value of the email input
       phone: "", // Holds the value of the phone input
       postalCode: "", // Holds the value of the postal code input
+      address: "",
+      firstName: "",
+      lastName: "",
+      city: "",
+      savedFirstName: "",
+      savedLastName: "",
+      savedCity: "",
+      savedAddress: "",
+      savedEmail: "",
+      savedPhone: "",
+      savedPostalCode: "",
       isEmailInvalid: false, // Tracks if the email is invalid
       isPhoneInvalid: false, // Tracks if the phone number is invalid
       isPostalCodeInvalid: false, // Tracks if the postal code is invalid
       showScrollIndicator: false,
+      submitAttempted: false, // New flag
     };
   },
   watch: {
@@ -663,6 +794,63 @@ export default {
     },
   },
   methods: {
+    clearValidation(field) {
+
+      // Directly access and modify the validation state property
+      this[`${field}Invalid`] = false;
+    },
+    handleSubmit() {
+      this.submitAttempted = true; // Set flag to true on submit attempt
+      // Validate all fields
+      this.validateEmail();
+      this.validatePhone();
+      this.validatePostalCode();
+
+      // Check if any field is invalid or empty
+      if (
+        !this.email ||
+        !this.phone ||
+        !this.postalCode ||
+        !this.address ||
+        !this.firstName ||
+        !this.lastName ||
+        !this.city ||
+        this.isEmailInvalid ||
+        this.isPhoneInvalid ||
+        this.isPostalCodeInvalid
+      ) {
+        // Prevent submission and show validation errors
+        return;
+      }
+
+      // Save the data if all fields are valid
+      this.saveData();
+
+      // Trigger the overlay
+      this.openModal();
+    },
+    saveData() {
+      this.savedEmail = this.email;
+      this.savedPhone = this.phone;
+      this.savedPostalCode = this.postalCode;
+      this.savedAddress = this.address;
+      this.savedFirstName = this.firstName;
+      this.savedLastName = this.lastName;
+      this.savedCity = this.city;
+    },
+
+    handleChange(refName) {
+      // Close the modal
+      this.closeModal();
+
+      // Focus the corresponding input field
+      this.$nextTick(() => {
+        const inputField = this.$refs[refName];
+        if (inputField) {
+          inputField.focus();
+        }
+      });
+    },
     openModal() {
       this.isModalVisible = true;
     },
