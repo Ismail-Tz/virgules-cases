@@ -1036,20 +1036,26 @@ export default {
     },
 
     handleScroll(event) {
-      const scrollTop = event.target.scrollTop;
+  const scrollTop = event.target.scrollTop;
 
-      if (scrollTop > 10) {
-        this.showScrollIndicator = false;
-        clearTimeout(this.scrollTimeout);
-      } else {
-        clearTimeout(this.scrollTimeout);
-        this.scrollTimeout = setTimeout(() => {
-          if (scrollTop === 0) {
-            this.showScrollIndicator = true;
-          }
-        }, 5000); // 5 seconds pause before showing the indicator again
-      }
-    },
+  if (this.bagItems.length > 3) {
+    if (scrollTop > 10) {
+      this.showScrollIndicator = false;
+      clearTimeout(this.scrollTimeout);
+    } else {
+      clearTimeout(this.scrollTimeout);
+      this.scrollTimeout = setTimeout(() => {
+        if (scrollTop === 0) {
+          this.showScrollIndicator = true;
+        }
+      }, 5000); // 5 seconds pause before showing the indicator again
+    }
+  } else {
+    // If there are 3 or fewer items, always hide the scroll indicator
+    this.showScrollIndicator = false;
+    clearTimeout(this.scrollTimeout);
+  }
+},
     goBack() {
       this.$router.back(); // Navigate back to the previous page
     },
