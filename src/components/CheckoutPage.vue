@@ -59,10 +59,12 @@
               <label
                 for="email"
                 :class="[
-                  'absolute left-[20px] text-[15px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]',
+                  'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
                   (isEmailInvalid && email) || (submitAttempted && !email)
-                    ? 'text-red-500'
-                    : 'text-black opacity-80',
+                    ? 'text-red-500 top-[13px] text-[10px]'
+                    : email
+                    ? 'top-[13px] text-[10px] text-black opacity-80'
+                    : 'text-[15px] text-black opacity-80',
                 ]"
                 class="flex items-center"
               >
@@ -80,14 +82,16 @@
                         d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
                       />
                     </svg>
-                    <span class="mx-[4px]"
+                    <span class="ml-[4px] text-[10px]"
                       >Please enter a valid email address.</span
                     >
                   </span>
                 </template>
                 <template v-if="submitAttempted && !email">
                   :
-                  <div class="ml-[2px] flex items-center text-red-500">
+                  <div
+                    class="ml-[2px] flex items-center text-red-500 text-[10px]"
+                  >
                     <svg
                       class="inline-block w-[9px]"
                       xmlns="http://www.w3.org/2000/svg"
@@ -98,14 +102,13 @@
                         d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
                       />
                     </svg>
-                    <span class="mx-[4px]"
+                    <span class="mx-[4px] text-[10px]"
                       >Please provide an email address.</span
                     >
                   </div>
                 </template>
               </label>
             </div>
-
             <div class="flex gap-[14px]">
               <div
                 class="relative flex items-center h-[50px] bg-white border border-[#00000033] text-black text-[15px] rounded-full focus-within:border-[#000000] transition-all duration-300 ease-in-out w-auto"
@@ -133,8 +136,8 @@
                   id="phone"
                   ref="phone"
                   v-model="phone"
-                  @blur="validatePhone"
                   @input="clearValidation('phone')"
+                  @blur="validatePhone"
                   :class="[
                     'w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out',
                     (isPhoneInvalid && phone) || (submitAttempted && !phone)
@@ -143,7 +146,7 @@
                   ]"
                   :style="{
                     backgroundColor:
-                    (isPhoneInvalid && phone)  || (submitAttempted && !phone)
+                      (isPhoneInvalid && phone) || (submitAttempted && !phone)
                         ? '#fff1f1'
                         : 'white',
                   }"
@@ -153,10 +156,12 @@
                 <label
                   for="phone"
                   :class="[
-                    'absolute left-[20px] text-[15px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]',
+                    'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
                     (isPhoneInvalid && phone) || (submitAttempted && !phone)
-                      ? 'text-red-500'
-                      : 'text-black opacity-80',
+                      ? 'text-red-500 top-[13px] text-[10px]'
+                      : phone
+                      ? 'top-[13px] text-[10px] text-black opacity-80'
+                      : 'text-[15px] text-black opacity-80',
                   ]"
                   class="flex items-center"
                 >
@@ -174,14 +179,16 @@
                           d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
                         />
                       </svg>
-                      <span class="mx-[4px]"
-                        >Please enter a valid Moroccan phone number.</span
+                      <span class="ml-[4px] text-[10px]"
+                        >Please enter a valid phone number.</span
                       >
                     </span>
                   </template>
                   <template v-if="submitAttempted && !phone">
                     :
-                    <div class="ml-[2px] flex items-center text-red-500">
+                    <div
+                      class="ml-[2px] flex items-center text-red-500 text-[10px]"
+                    >
                       <svg
                         class="inline-block w-[9px]"
                         xmlns="http://www.w3.org/2000/svg"
@@ -192,7 +199,7 @@
                           d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
                         />
                       </svg>
-                      <span class="mx-[4px]"
+                      <span class="mx-[4px] text-[10px]"
                         >Please provide a phone number.</span
                       >
                     </div>
@@ -222,39 +229,40 @@
                       : 'focus:border-[#000000]',
                   ]"
                   :style="{
-                    backgroundColor: submitAttempted && !firstName? '#fff1f1' : 'white',
+                    backgroundColor:
+                      submitAttempted && !firstName ? '#fff1f1' : 'white',
                   }"
-                  
                   placeholder=" "
                 />
                 <label
                   for="firstName"
                   :class="[
-                    'absolute left-[20px] text-[15px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]',
+                    'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
                     submitAttempted && !firstName
-                      ? 'text-red-500'
-                      : 'text-black opacity-80',
+                      ? 'text-red-500 top-[13px] text-[10px]'
+                      : firstName
+                      ? 'top-[13px] text-[10px] text-black opacity-80'
+                      : 'text-[15px] text-black opacity-80',
                   ]"
-                  class="flex items-center"                >
+                  class="flex items-center"
+                >
                   First Name
                   <template v-if="submitAttempted && !firstName">
-                  :
-                  <div class="ml-[2px] flex items-center text-red-500">
-                    <svg
-                      class="inline-block w-[9px]"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 19.5 19.5"
-                      fill="currentColor"
-                    >
-                      <path
-                        d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
-                      />
-                    </svg>
-                    <span class="mx-[4px]"
-                      >Please provide a first name.</span
-                    >
-                  </div>
-                </template>
+                    :
+                    <div class="ml-[2px] flex items-center text-red-500">
+                      <svg
+                        class="inline-block w-[9px]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 19.5 19.5"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
+                        />
+                      </svg>
+                      <span class="mx-[4px]">Please provide a first name.</span>
+                    </div>
+                  </template>
                 </label>
               </div>
 
@@ -271,39 +279,40 @@
                       : 'focus:border-[#000000]',
                   ]"
                   :style="{
-                    backgroundColor: submitAttempted && !lastName? '#fff1f1' : 'white',
+                    backgroundColor:
+                      submitAttempted && !lastName ? '#fff1f1' : 'white',
                   }"
-                  
                   placeholder=" "
                 />
                 <label
                   for="lastName"
                   :class="[
-                    'absolute left-[20px] text-[15px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]',
+                    'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
                     submitAttempted && !lastName
-                      ? 'text-red-500'
-                      : 'text-black opacity-80',
+                      ? 'text-red-500 top-[13px] text-[10px]'
+                      : lastName
+                      ? 'top-[13px] text-[10px] text-black opacity-80'
+                      : 'text-[15px] text-black opacity-80',
                   ]"
-                  class="flex items-center">
+                  class="flex items-center"
+                >
                   Last Name
                   <template v-if="submitAttempted && !lastName">
-                  :
-                  <div class="ml-[2px] flex items-center text-red-500">
-                    <svg
-                      class="inline-block w-[9px]"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 19.5 19.5"
-                      fill="currentColor"
-                    >
-                      <path
-                        d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
-                      />
-                    </svg>
-                    <span class="mx-[4px]"
-                      >Please provide a last name.</span
-                    >
-                  </div>
-                </template>
+                    :
+                    <div class="ml-[2px] flex items-center text-red-500">
+                      <svg
+                        class="inline-block w-[9px]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 19.5 19.5"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
+                        />
+                      </svg>
+                      <span class="mx-[4px]">Please provide a last name.</span>
+                    </div>
+                  </template>
                 </label>
               </div>
             </div>
@@ -323,39 +332,40 @@
                       : 'focus:border-[#000000]',
                   ]"
                   :style="{
-                    backgroundColor: submitAttempted && !address? '#fff1f1' : 'white',
+                    backgroundColor:
+                      submitAttempted && !address ? '#fff1f1' : 'white',
                   }"
-                  
                   placeholder=" "
                 />
                 <label
                   for="address"
                   :class="[
-                    'absolute left-[20px] text-[15px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]',
+                    'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
                     submitAttempted && !address
-                      ? 'text-red-500'
-                      : 'text-black opacity-80',
+                      ? 'text-red-500 top-[13px] text-[10px]'
+                      : address
+                      ? 'top-[13px] text-[10px] text-black opacity-80'
+                      : 'text-[15px] text-black opacity-80',
                   ]"
-                  class="flex items-center"                >
+                  class="flex items-center"
+                >
                   Address
                   <template v-if="submitAttempted && !address">
-                  :
-                  <div class="ml-[2px] flex items-center text-red-500">
-                    <svg
-                      class="inline-block w-[9px]"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 19.5 19.5"
-                      fill="currentColor"
-                    >
-                      <path
-                        d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
-                      />
-                    </svg>
-                    <span class="mx-[4px]"
-                      >Please provide an adress.</span
-                    >
-                  </div>
-                </template>
+                    :
+                    <div class="ml-[2px] flex items-center text-red-500">
+                      <svg
+                        class="inline-block w-[9px]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 19.5 19.5"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
+                        />
+                      </svg>
+                      <span class="mx-[4px]">Please provide an adress.</span>
+                    </div>
+                  </template>
                 </label>
               </div>
 
@@ -363,17 +373,23 @@
                 <input
                   type="text"
                   id="postalCode"
+                  ref="postalCode"
                   v-model="postalCode"
                   @input="clearValidation('postalCode')"
                   @blur="validatePostalCode"
                   :class="[
                     'w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out',
-                    (isPostalCodeInvalid && postalCode) || (submitAttempted && !postalCode)
+                    (isPostalCodeInvalid && postalCode) ||
+                    (submitAttempted && !postalCode)
                       ? 'border-red-500 text-red-500'
                       : 'focus:border-[#000000]',
                   ]"
                   :style="{
-                    backgroundColor: (isPostalCodeInvalid && postalCode) || (submitAttempted && !postalCode)? '#fff1f1' : 'white',
+                    backgroundColor:
+                      (isPostalCodeInvalid && postalCode) ||
+                      (submitAttempted && !postalCode)
+                        ? '#fff1f1'
+                        : 'white',
                   }"
                   placeholder=" "
                   required
@@ -381,10 +397,13 @@
                 <label
                   for="postalCode"
                   :class="[
-                    'absolute left-[20px] text-[15px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]',
-                    (isPostalCodeInvalid && postalCode) || (submitAttempted && !postalCode)
-                      ? 'text-red-500'
-                      : 'text-black opacity-80',
+                    'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
+                    (isPostalCodeInvalid && postalCode) ||
+                    (submitAttempted && !postalCode)
+                      ? 'text-red-500 top-[13px] text-[10px]'
+                      : postalCode
+                      ? 'top-[13px] text-[10px] text-black opacity-80'
+                      : 'text-[15px] text-black opacity-80',
                   ]"
                   class="flex items-center"
                 >
@@ -402,14 +421,16 @@
                           d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
                         />
                       </svg>
-                      <span class="mx-[4px]"
+                      <span class="ml-[4px] text-[10px]"
                         >Please enter a valid postal code.</span
                       >
                     </span>
                   </template>
                   <template v-if="submitAttempted && !postalCode">
                     :
-                    <div class="ml-[2px] flex items-center text-red-500">
+                    <div
+                      class="ml-[2px] flex items-center text-red-500 text-[10px]"
+                    >
                       <svg
                         class="inline-block w-[9px]"
                         xmlns="http://www.w3.org/2000/svg"
@@ -420,7 +441,7 @@
                           d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
                         />
                       </svg>
-                      <span class="mx-[4px]"
+                      <span class="mx-[4px] text-[10px]"
                         >Please provide a postal code.</span
                       >
                     </div>
@@ -464,39 +485,40 @@
                       : 'focus:border-[#000000]',
                   ]"
                   :style="{
-                    backgroundColor: submitAttempted && !city? '#fff1f1' : 'white',
+                    backgroundColor:
+                      submitAttempted && !city ? '#fff1f1' : 'white',
                   }"
-                  
                   placeholder=" "
                 />
                 <label
                   for="city"
                   :class="[
-                    'absolute left-[20px] text-[15px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]',
+                    'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
                     submitAttempted && !city
-                      ? 'text-red-500'
-                      : 'text-black opacity-80',
+                      ? 'text-red-500 top-[13px] text-[10px]'
+                      : city
+                      ? 'top-[13px] text-[10px] text-black opacity-80'
+                      : 'text-[15px] text-black opacity-80',
                   ]"
-                  class="flex items-center"                >
+                  class="flex items-center"
+                >
                   City
                   <template v-if="submitAttempted && !city">
-                  :
-                  <div class="ml-[2px] flex items-center text-red-500">
-                    <svg
-                      class="inline-block w-[9px]"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 19.5 19.5"
-                      fill="currentColor"
-                    >
-                      <path
-                        d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
-                      />
-                    </svg>
-                    <span class="mx-[4px]"
-                      >Please provide a city.</span
-                    >
-                  </div>
-                </template>
+                    :
+                    <div class="ml-[2px] flex items-center text-red-500">
+                      <svg
+                        class="inline-block w-[9px]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 19.5 19.5"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
+                        />
+                      </svg>
+                      <span class="mx-[4px]">Please provide a city.</span>
+                    </div>
+                  </template>
                 </label>
               </div>
             </div>
@@ -710,6 +732,7 @@
               <span class="text-black font-bold">MAD {{ total }}</span>
             </div>
             <button
+              ref="continueButton"
               class="flex items-center justify-center px-6 py-[10px] text-[18px] border border-black w-full rounded-[20px] hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white"
               @click="handleSubmit"
             >
@@ -736,11 +759,18 @@
     </div>
   </div>
   <div
-    v-if="isModalVisible"
-    class="fixed inset-0 bg-black bg-opacity-[0.035] backdrop-blur-[30px] flex justify-center items-center z-50"
+    v-show="isModalVisible"
+    @click="closeModal"
+    class="fixed inset-0 bg-black bg-opacity-[0.035] backdrop-blur-[30px] flex justify-center items-center z-50 transition-opacity duration-300 ease-in-out"
+    :class="{ 'opacity-0': !isModalVisible, 'opacity-100': isModalVisible }"
   >
     <div
-      class="bg-[#F9F9F9] border border-black/50 rounded-[32px] w-full max-w-2xl shadow-[0_0_25px_rgba(0,0,0,0.1)] relative flex flex-col justify-between space-y-[24px]"
+      @click.stop
+      class="bg-[#F9F9F9] border border-black/50 rounded-[32px] w-full max-w-2xl shadow-[0_0_25px_rgba(0,0,0,0.1)] relative flex flex-col justify-between space-y-[24px] transform transition-transform duration-300 ease-in-out"
+      :class="{
+        'animate-open': isModalVisible,
+        'animate-close': isModalClosing,
+      }"
     >
       <button
         class="absolute top-[30px] right-[30px] text-2xl"
@@ -896,6 +926,7 @@ export default {
     return {
       // Your data properties go here
       isModalVisible: false, // Controls visibility of the modal
+      isModalClosing: false,
       email: "", // Holds the value of the email input
       phone: "", // Holds the value of the phone input
       postalCode: "", // Holds the value of the postal code input
@@ -927,7 +958,6 @@ export default {
   },
   methods: {
     clearValidation(field) {
-
       // Directly access and modify the validation state property
       this[`${field}Invalid`] = false;
     },
@@ -952,6 +982,13 @@ export default {
         this.isPostalCodeInvalid
       ) {
         // Prevent submission and show validation errors
+        const button = this.$refs.continueButton;
+        button.classList.add("shake");
+
+        // Remove the shake class after the animation completes
+        setTimeout(() => {
+          button.classList.remove("shake");
+        }, 400);
         return;
       }
 
@@ -987,7 +1024,14 @@ export default {
       this.isModalVisible = true;
     },
     closeModal() {
-      this.isModalVisible = false;
+      this.isModalClosing = true;
+      setTimeout(() => {
+        this.isModalVisible = false;
+      }, 150);
+      setTimeout(() => {
+        this.isModalClosing = false;
+      }, 300);
+
     },
 
     handleScroll(event) {
@@ -1075,5 +1119,58 @@ export default {
   50% {
     transform: translate(-50%, -5px);
   }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-3px);
+  }
+  40%,
+  80% {
+    transform: translateX(3px);
+  }
+}
+
+.shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+@keyframes modalOpen {
+  0% {
+    transform: scale(0.95) translateY(10%);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.02) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes modalClose {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.95) translateY(10%);
+    opacity: 0;
+  }
+}
+
+.animate-open {
+  animation: modalOpen 0.5s forwards;
+}
+
+.animate-close {
+  animation: modalClose 0.3s forwards;
 }
 </style>
