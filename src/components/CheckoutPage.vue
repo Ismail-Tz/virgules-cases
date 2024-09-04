@@ -130,7 +130,7 @@
                 </svg>
               </div>
 
-              <div class="relative flex-grow mb-[14px]">
+              <div class="relative flex-grow">
                 <input
                   type="tel"
                   id="phone"
@@ -211,7 +211,7 @@
             <!-- Shipping Adress -->
 
             <h2
-              class="text-[22px] mt-[36px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
+              class="text-[22px] mt-[44px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
             >
               Shipping Address
             </h2>
@@ -526,7 +526,7 @@
             <!-- Payment -->
 
             <h2
-              class="text-[22px] mt-[36px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
+              class="text-[22px] mt-[44px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
             >
               Payment
             </h2>
