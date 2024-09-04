@@ -2,17 +2,15 @@
   <div class="flex justify-center mb-[40px] mt-[108px]">
     <div :style="computedWidth">
       <h2
-          class="text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
-        >
-          All Products
-        </h2>
+        class="text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
+      >
+        All Products
+      </h2>
       <div class="grid grid-cols-3 gap-[40px]">
-        
         <div
           class="col-span-1 bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
         >
           <div>
-            
             <!-- Loop over dropdown data -->
             <div
               v-for="(dropdown, key) in dropdownsData"
@@ -72,7 +70,7 @@
         <div class="col-span-2 rounded-[32px]">
           <div class="grid grid-cols-3 gap-[24px]">
             <div
-              v-for="(item, index) in products"
+              v-for="(item, index) in filteredProducts"
               :key="index"
               @click="goToProductPage(index)"
               @mouseover="applyHoverColors(index)"
@@ -131,7 +129,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState, mapActions } from 'vuex';
 import { lightenColor, darkenColor } from "@/utils";
 
 export default {
@@ -146,17 +144,12 @@ export default {
         color: false,
       },
 
-      selectedOptions: {
-        customizable: [],
-        collection: [],
-        artist: [],
-        printStyle: [],
-      },
+      
 
       dropdownsData: {
         customizable: {
           title: "Customizable",
-          options: ["Option 1", "Option 2", "Option 3"],
+          options: ["Customizable"],
         },
         collection: {
           title: "Collection",
@@ -186,16 +179,22 @@ export default {
     };
   },
   computed: {
-    // VUEX: Using mapGetters to access the colors array from the store
-    ...mapGetters(["products"]),
+    // VUEX: Using mapGetters to access the products through optional filters
+    ...mapState(["selectedOptions"]),
+    ...mapGetters(["filteredProducts"]),
 
     computedWidth() {
       return "width: calc(1680px - 540px)";
     },
   },
   methods: {
+    ...mapActions(["toggleOption"]),
+    toggleSelection(key, option) {
+      this.toggleOption({ key, option });
+    },
+
     applyHoverColors(index) {
-      const color = this.products[index].colors[0].colorHex;
+      const color = this.filteredProducts[index].colors[0].colorHex;
       this.lightColor = lightenColor(color, 98); // Adjust to your preference
       this.darkColor = darkenColor(color, 12); // Adjust to your preference
       this.hoveredIndex = index;
@@ -220,14 +219,6 @@ export default {
 
     toggleDropdown(dropdown) {
       this.openDropdowns[dropdown] = !this.openDropdowns[dropdown];
-    },
-    toggleSelection(dropdown, option) {
-      const index = this.selectedOptions[dropdown].indexOf(option);
-      if (index === -1) {
-        this.selectedOptions[dropdown].push(option);
-      } else {
-        this.selectedOptions[dropdown].splice(index, 1);
-      }
     },
 
     // Method to navigate to the product page

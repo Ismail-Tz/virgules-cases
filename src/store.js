@@ -352,6 +352,12 @@ export const store = createStore({
       // Add more products as needed
     ],
     bag: [],
+    selectedOptions: {
+      customizable: [],
+      collection: [],
+      artist: [],
+      printStyle: [],
+    },
   },
   mutations: {
     ADD_TO_BAG(state, product) {
@@ -368,6 +374,17 @@ export const store = createStore({
       state.bag.splice(index, 1);
       localStorage.setItem("bag", JSON.stringify(state.bag)); // Sync localStorage
     },
+
+    // Mutation to update selectedOptions
+    setSelectedOption(state, { key, option }) {
+      const options = state.selectedOptions[key];
+      const index = options.indexOf(option);
+      if (index === -1) {
+        options.push(option);
+      } else {
+        options.splice(index, 1);
+      }
+    },
   },
   actions: {
     addToBag({ commit }, product) {
@@ -377,9 +394,26 @@ export const store = createStore({
       const bag = JSON.parse(localStorage.getItem("bag")) || [];
       commit("SET_BAG", bag);
     },
+
+    toggleOption({ commit }, payload) {
+      commit('setSelectedOption', payload);
+    },
   },
   getters: {
     products: (state) => state.products,
     bagItems: (state) => state.bag,
+
+    filteredProducts: (state) => {
+      return state.products.filter((product) => {
+        // Check if "Customizable" is selected in the dropdown
+        const isCustomizableSelected = state.selectedOptions.customizable.includes('Customizable');
+        // If "Customizable" is selected, return only customizable products
+        if (isCustomizableSelected) {
+          return product.isCustomizable;
+        }
+        // If "Customizable" is not selected, return all products
+        return true;
+      });
+    },
   },
 });
