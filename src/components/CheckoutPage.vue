@@ -954,6 +954,7 @@ export default {
         this.showScrollIndicator = newVal.length > 3;
       },
       immediate: true, // Trigger the watch when the component mounts
+      deep: true // Ensure deep watch for arrays
     },
   },
   methods: {
