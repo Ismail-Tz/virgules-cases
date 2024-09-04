@@ -214,14 +214,47 @@
                   type="text"
                   id="firstName"
                   v-model="firstName"
-                  class="w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none focus:border-[#000000] peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out"
+                  @input="clearValidation('firstName')"
+                  :class="[
+                    'w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out',
+                    submitAttempted && !firstName
+                      ? 'border-red-500 text-red-500'
+                      : 'focus:border-[#000000]',
+                  ]"
+                  :style="{
+                    backgroundColor: submitAttempted && !firstName? '#fff1f1' : 'white',
+                  }"
+                  
                   placeholder=" "
                 />
                 <label
                   for="firstName"
-                  class="absolute left-[20px] text-[15px] text-black opacity-80 transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]"
-                >
+                  :class="[
+                    'absolute left-[20px] text-[15px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]',
+                    submitAttempted && !firstName
+                      ? 'text-red-500'
+                      : 'text-black opacity-80',
+                  ]"
+                  class="flex items-center"                >
                   First Name
+                  <template v-if="submitAttempted && !firstName">
+                  :
+                  <div class="ml-[2px] flex items-center text-red-500">
+                    <svg
+                      class="inline-block w-[9px]"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 19.5 19.5"
+                      fill="currentColor"
+                    >
+                      <path
+                        d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
+                      />
+                    </svg>
+                    <span class="mx-[4px]"
+                      >Please provide a first name.</span
+                    >
+                  </div>
+                </template>
                 </label>
               </div>
 
@@ -230,14 +263,47 @@
                   type="text"
                   id="lastName"
                   v-model="lastName"
-                  class="w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none focus:border-[#000000] peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out"
+                  @input="clearValidation('lastName')"
+                  :class="[
+                    'w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out',
+                    submitAttempted && !lastName
+                      ? 'border-red-500 text-red-500'
+                      : 'focus:border-[#000000]',
+                  ]"
+                  :style="{
+                    backgroundColor: submitAttempted && !lastName? '#fff1f1' : 'white',
+                  }"
+                  
                   placeholder=" "
                 />
                 <label
                   for="lastName"
-                  class="absolute left-[20px] text-[15px] text-black opacity-80 transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]"
-                >
+                  :class="[
+                    'absolute left-[20px] text-[15px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]',
+                    submitAttempted && !lastName
+                      ? 'text-red-500'
+                      : 'text-black opacity-80',
+                  ]"
+                  class="flex items-center">
                   Last Name
+                  <template v-if="submitAttempted && !lastName">
+                  :
+                  <div class="ml-[2px] flex items-center text-red-500">
+                    <svg
+                      class="inline-block w-[9px]"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 19.5 19.5"
+                      fill="currentColor"
+                    >
+                      <path
+                        d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
+                      />
+                    </svg>
+                    <span class="mx-[4px]"
+                      >Please provide a last name.</span
+                    >
+                  </div>
+                </template>
                 </label>
               </div>
             </div>
@@ -249,14 +315,47 @@
                   id="address"
                   ref="address"
                   v-model="address"
-                  class="w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none focus:border-[#000000] peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out"
+                  @input="clearValidation('address')"
+                  :class="[
+                    'w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out',
+                    submitAttempted && !address
+                      ? 'border-red-500 text-red-500'
+                      : 'focus:border-[#000000]',
+                  ]"
+                  :style="{
+                    backgroundColor: submitAttempted && !address? '#fff1f1' : 'white',
+                  }"
+                  
                   placeholder=" "
                 />
                 <label
                   for="address"
-                  class="absolute left-[20px] text-[15px] text-black opacity-80 transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]"
-                >
+                  :class="[
+                    'absolute left-[20px] text-[15px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]',
+                    submitAttempted && !address
+                      ? 'text-red-500'
+                      : 'text-black opacity-80',
+                  ]"
+                  class="flex items-center"                >
                   Address
+                  <template v-if="submitAttempted && !address">
+                  :
+                  <div class="ml-[2px] flex items-center text-red-500">
+                    <svg
+                      class="inline-block w-[9px]"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 19.5 19.5"
+                      fill="currentColor"
+                    >
+                      <path
+                        d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
+                      />
+                    </svg>
+                    <span class="mx-[4px]"
+                      >Please provide an adress.</span
+                    >
+                  </div>
+                </template>
                 </label>
               </div>
 
@@ -357,14 +456,47 @@
                   type="text"
                   id="city"
                   v-model="city"
-                  class="w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none focus:border-[#000000] peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out"
+                  @input="clearValidation('city')"
+                  :class="[
+                    'w-full bg-white border border-[#00000033] text-black px-[20px] text-[15px] rounded-full leading-[100%] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] h-[50px] transition-all duration-300 ease-in-out',
+                    submitAttempted && !city
+                      ? 'border-red-500 text-red-500'
+                      : 'focus:border-[#000000]',
+                  ]"
+                  :style="{
+                    backgroundColor: submitAttempted && !city? '#fff1f1' : 'white',
+                  }"
+                  
                   placeholder=" "
                 />
                 <label
                   for="city"
-                  class="absolute left-[20px] text-[15px] text-black opacity-80 transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]"
-                >
+                  :class="[
+                    'absolute left-[20px] text-[15px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px] peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:text-[10px]',
+                    submitAttempted && !city
+                      ? 'text-red-500'
+                      : 'text-black opacity-80',
+                  ]"
+                  class="flex items-center"                >
                   City
+                  <template v-if="submitAttempted && !city">
+                  :
+                  <div class="ml-[2px] flex items-center text-red-500">
+                    <svg
+                      class="inline-block w-[9px]"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 19.5 19.5"
+                      fill="currentColor"
+                    >
+                      <path
+                        d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm.75,10.0869V4.7368c0-.4141-.3359-.75-.75-.75s-.75,.3359-.75,.75v6.8501c0,.4141,.3359,.75,.75,.75s.75-.3359,.75-.75Zm-.7468,1.8823c-.57,0-1.02,.46-1.02,1.02,0,.57,.45,1.02,1.02,1.02,.56,0,1.02-.45,1.02-1.02,0-.56-.46-1.02-1.02-1.02Z"
+                      />
+                    </svg>
+                    <span class="mx-[4px]"
+                      >Please provide a city.</span
+                    >
+                  </div>
+                </template>
                 </label>
               </div>
             </div>
