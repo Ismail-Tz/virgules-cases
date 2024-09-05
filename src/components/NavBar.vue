@@ -1,13 +1,20 @@
 <template>
   <nav
     class="fixed top-0 left-0 w-full bg-[#F7FDFC] border-b border-[#0A332E20] h-[60px] z-50 blurry transition-all duration-500 ease-in-out"
-    :class="isBagOpen ? '' : 'h-[60px]'"
+    :class="isBagOpen || isDevicesOpen ? '' : 'h-[60px]'"
     :style="{
-      height: isBagOpen ? `${bagContentHeight + 60 + 24}px` : '60px',
+      height: isBagOpen
+        ? `${bagContentHeight + 60 + 24}px`
+        : isDevicesOpen
+        ? `${devicesContentHeight + 60 + 24}px`
+        : '60px',
       backgroundColor: lightColorTp,
       borderColor: navBarDarkColor + '20',
     }"
-    @mouseleave="closeBag"
+    @mouseleave="
+      closeBag();
+      closeDevices();
+    "
   >
     <div
       class="container mx-auto flex justify-between items-center h-[60px]"
@@ -37,6 +44,7 @@
         <a
           v-if="!isCheckoutPage"
           href="#"
+          @mouseenter="toggleDevices"
           class="text-[#0A332E] hover:bg-[#00000007] px-3 py-2 text-[14px] rounded-xl"
           :style="{ color: navBarDarkColor }"
           >Devices</a
@@ -157,6 +165,65 @@
             </text>
           </svg>
         </a>
+      </div>
+    </div>
+    <!-- Devices Content -->
+    <div
+      ref="devicesContent"
+      :style="{ height: `${devicesContentHeight}px` }"
+      class="w-full overflow-hidden transition-all duration-500 ease-in-out"
+    >
+      <!-- Devices Content Here -->
+      <div style="width: calc(1680px - 540px)" class="mx-auto my-[24px]">
+        <p class="text-black/60 text-[14px] leading-none mb-[14px] text-left">
+          Shop cases for :
+        </p>
+        <div class="flex justify-between h-full">
+          <!-- Loop through brands and models -->
+          <div class="flex justify-between space-x-[80px] relative">
+            <div
+              v-for="(models, brand, index) in deviceData"
+              :key="brand"
+              class="relative"
+            >
+              <h3
+                class="font-semibold font-[visby] mb-[14px] leading-none text-left text-black text-[26px]"
+              >
+                {{ brand }}
+              </h3>
+              <ul class="text-left">
+                <li
+                  v-for="(model, idx) in models"
+                  :key="idx"
+                  @mouseenter="hoverModel(brand, model)"
+                  @mouseleave="unhoverModel"
+                  class="cursor-pointer transition-position text-black/70 hover:text-black text-[16px] py-[7px] leading-none font-normal"
+                >
+                  {{ model }}
+                </li>
+              </ul>
+              <!-- Add the vertical line centered between two lists -->
+              <div
+                v-if="index !== Object.keys(deviceData).length - 1"
+                class="absolute right-[-40px] top-0 bottom-0 w-[1px] bg-black/10"
+                style="height: 100%"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Image Placeholder (Right Side) -->
+          <div class="flex items-center w-[10%]">
+            <img
+              v-if="hoveredModel"
+              :src="getPlaceholderImage(hoveredBrand, hoveredModel)"
+              alt="Device Image"
+              @load="updateDevicesContentHeight"
+              @error="updateDevicesContentHeight"
+
+              class="object-contain w-auto transition-opacity duration-300"
+            />
+          </div>
+        </div>
       </div>
     </div>
     <!-- Bag Content -->
@@ -391,9 +458,13 @@
   </nav>
   <!-- Overlay for blur and darkness -->
   <div
-    v-if="isBagOpen"
+    v-if="isBagOpen || isDevicesOpen"
     class="fixed inset-0 bg-black bg-opacity-[0.035] z-40 transition-opacity duration-500 ease-in-out"
-    :class="isBagOpen ? 'backdrop-blur-[50px] opacity-100' : 'opacity-0'"
+    :class="
+      isBagOpen || isDevicesOpen
+        ? 'backdrop-blur-[50px] opacity-100'
+        : 'opacity-0'
+    "
   ></div>
 </template>
 
@@ -409,10 +480,32 @@ export default {
       navBarDarkColor: "",
       isBagOpen: false,
       bagContentHeight: 0,
+      isDevicesOpen: false,
+      devicesContentHeight: 0,
+
+      //temporary data for devices dropdown
+      hoveredBrand: null,
+      hoveredModel: null,
+      deviceData: {
+        Apple: [
+          "iPhone 15",
+          "iPhone 15 Plus",
+          "iPhone 15 Pro",
+          "iPhone 15 Pro Max",
+        ],
+        Samsung: ["Galaxy S24", "Galaxy S24+", "Galaxy S24 Ultra"],
+        Google: ["Pixel 8", "Pixel 8 Pro"],
+      },
+      /////////////////////////////////////
     };
   },
 
   watch: {
+    hoveredModel() {
+      this.$nextTick(() => {
+        this.updateDevicesContentHeight();
+      });
+    },
     // Watch for route changes
     $route(to) {
       this.checkIfOnProductPage(to);
@@ -437,6 +530,10 @@ export default {
       }
     },
     isBagOpen() {
+      // Update navbar colors when bag state changes
+      this.updateNavBarColors();
+    },
+    isDevicesOpen() {
       // Update navbar colors when bag state changes
       this.updateNavBarColors();
     },
@@ -492,6 +589,37 @@ export default {
   },
 
   methods: {
+    //methods for devices dropdown
+    updateDevicesContentHeight() {
+      const content = this.$refs.devicesContent;
+      this.devicesContentHeight = content.scrollHeight; // Recalculate based on current content
+    },
+    hoverModel(brand, model) {
+    this.hoveredBrand = brand;
+    this.hoveredModel = model;
+    this.$nextTick(() => {
+      this.updateDevicesContentHeight(); // Trigger height update when the image is hovered (loaded)
+    });
+  },
+  unhoverModel() {
+    this.hoveredBrand = null;
+    this.hoveredModel = null;
+    this.$nextTick(() => {
+      this.updateDevicesContentHeight(); // Trigger height update when the image is unhovered (unloaded)
+    });
+  },
+    getPlaceholderImage(brand, model) {
+      // Placeholder logic for demonstration purposes.
+      // You would replace these with actual image paths based on the brand and model.
+      try {
+        // Use require to resolve the path correctly with Webpack
+        return require(`@/assets/Placeholders/${brand}_${model}.png`);
+      } catch (e) {
+        // Fallback to a default image if the specific one is not found
+        return require("@/assets/Placeholders/Apple_iPhone 15.png");
+      }
+    },
+    ///////////////////////////////////////////
     goToCheckout() {
       this.closeBag();
       this.$router.push({ path: "/checkout" });
@@ -507,27 +635,45 @@ export default {
 
     // Toggle the Bag
 
-    closeBag() {
-      this.isBagOpen = false;
-
-      this.$nextTick(() => {
-        const bagContentEl = this.$refs.bagContent;
-        if (bagContentEl) {
-          this.bagContentHeight = 0; // Height set to 0 when closing
-        }
-      });
-    },
     toggleBag() {
       this.isBagOpen = !this.isBagOpen;
+      if (this.isDevicesOpen) this.closeDevices(); // Close devices if open
 
       this.$nextTick(() => {
         const bagContentEl = this.$refs.bagContent;
         if (bagContentEl) {
-          // Calculate height including the navbar and margin/padding bottom
           this.bagContentHeight = this.isBagOpen
             ? bagContentEl.scrollHeight
             : 0;
         }
+      });
+    },
+    closeBag() {
+      this.isBagOpen = false;
+      this.$nextTick(() => {
+        this.bagContentHeight = 0;
+      });
+    },
+    toggleDevices() {
+      if(!this.isDevicesOpen){
+        this.isDevicesOpen = !this.isDevicesOpen;
+      }
+      
+      if (this.isBagOpen) this.closeBag(); // Close bag if open
+
+      this.$nextTick(() => {
+        const devicesContentEl = this.$refs.devicesContent;
+        if (devicesContentEl) {
+          this.devicesContentHeight = this.isDevicesOpen
+            ? devicesContentEl.scrollHeight
+            : 0;
+        }
+      });
+    },
+    closeDevices() {
+      this.isDevicesOpen = false;
+      this.$nextTick(() => {
+        this.devicesContentHeight = 0;
       });
     },
 
@@ -573,14 +719,14 @@ export default {
 
     checkIfOnProductPage(route) {
       if (route.name === "ProductPage" || route.path.startsWith("/product/")) {
-        // On product page, set product colors if the bag is not open
-        if (!this.isBagOpen) {
+        // On product page, set product colors if neither the bag nor devices are open
+        if (!this.isBagOpen && !this.isDevicesOpen) {
           this.navBarLightColor = this.lightColorMsg;
           this.navBarDarkColor = this.darkColorMsg;
         }
       } else {
-        // Not on product page, set default colors if the bag is not open
-        if (!this.isBagOpen) {
+        // Not on product page, set default colors if neither the bag nor devices are open
+        if (!this.isBagOpen && !this.isDevicesOpen) {
           this.navBarLightColor = "#F9F9F9";
           this.navBarDarkColor = "#000000";
           this.updateSafariTabColor(this.isDarkMode ? "#000000" : "#F9F9F9");
@@ -588,12 +734,12 @@ export default {
       }
     },
     updateNavBarColors() {
-      if (this.isBagOpen) {
-        // Bag is open, set default colors
+      if (this.isBagOpen || this.isDevicesOpen) {
+        // Either bag or devices dropdown is open, set default colors
         this.navBarLightColor = "#F9F9F9";
         this.navBarDarkColor = "#000000";
       } else {
-        // Bag is closed, update colors based on route
+        // Both bag and devices are closed, update colors based on route
         this.checkIfOnProductPage(this.$route);
       }
       this.updateSafariTabColor(
