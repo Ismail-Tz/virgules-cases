@@ -110,6 +110,7 @@
                   viewBox="0 0 20 20"
                   class="w-[15px] h-[15px] text-black absolute right-[20px] top-1/2 transform -translate-y-1/2 pointer-events-none"
                   :style="{ borderColor: darkColor, color: darkColor }"
+                  fill="currentColor"
                 >
                   <path
                     fill-rule="evenodd"
