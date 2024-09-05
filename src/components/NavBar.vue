@@ -180,11 +180,11 @@
         </p>
         <div class="flex justify-between h-full">
           <!-- Loop through brands and models -->
-          <div class="flex justify-between space-x-[80px] relative">
+          <div class="flex justify-between space-x-[80px] relative h-fit">
             <div
               v-for="(models, brand, index) in deviceData"
               :key="brand"
-              class="relative"
+              class="relative "
             >
               <h3
                 class="font-semibold font-[visby] mb-[14px] leading-none text-left text-black text-[26px]"
@@ -201,13 +201,14 @@
                 >
                   {{ model }}
                 </li>
-              </ul>
-              <!-- Add the vertical line centered between two lists -->
+                <!-- Add the vertical line centered between two lists -->
               <div
                 v-if="index !== Object.keys(deviceData).length - 1"
                 class="absolute right-[-40px] top-0 bottom-0 w-[1px] bg-black/10"
                 style="height: 100%"
               ></div>
+              </ul>
+              
             </div>
           </div>
 
