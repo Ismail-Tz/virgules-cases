@@ -112,32 +112,33 @@
           :style="{ color: navBarDarkColor }"
           @click="toggleBag"
         >
-          <!-- Original Bag SVG -->
+          <!-- Empty Bag SVG -->
           <svg
             v-if="bagItems.length === 0"
-            id="Layer_2"
-            data-name="Layer 2"
+            :key="`empty-bag-${isJumping}`"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 19.4999 19.5005"
-            class="w-[18px]"
+            class="w-[18px] bag-icon"
+            :class="isJumping ? 'jump-animation' : ''"
           >
-            <g id="Layer_1-2" data-name="Layer 1">
+            <g>
               <path
                 d="M17.6085,19.5005H1.8917c-.2598,0-.5117-.0488-.748-.1455-.2363-.0947-.4512-.2373-.6338-.4199-.1865-.1904-.3232-.4072-.4102-.6484-.0879-.2451-.1182-.5107-.0889-.7695L1.2931,6.4395c.0518-.4482,.2783-.8589,.6396-1.1558,.3467-.2827,.7861-.4375,1.2402-.4375h2.0361c.0674-1.0298,.4766-2.8438,1.3477-3.6367,.8564-.7798,1.9902-1.2095,3.1934-1.2095,1.2021,0,2.3369,.4297,3.1943,1.2095,.8711,.793,1.2803,2.6069,1.3477,3.6367h2.0361c.9678,0,1.7754,.6855,1.8799,1.5942l1.2803,11.0767c.0566,.4912-.0967,.9697-.4326,1.3477-.3604,.4043-.8877,.6357-1.4473,.6357ZM3.1729,6.3462c-.1084,0-.2139,.0356-.2891,.0977-.0576,.0469-.0938,.1069-.1006,.1675l-1.2822,11.0776c.0234,.126,.0459,.1602,.0771,.1924,.0332,.0332,.0781,.0635,.1279,.083,.0596,.0244,.1221,.0361,.1855,.0361h15.7168c.1318,0,.251-.0488,.3271-.1338,.0488-.0547,.0703-.1143,.0625-.1768l-1.2803-11.0786c-.0166-.146-.1914-.2651-.3896-.2651H3.1729Zm3.5381-1.5h6.0791c-.0703-.8984-.4424-2.1514-.8555-2.5273-1.1445-1.041-3.2256-1.0405-4.3682-.0005-.4131,.376-.7852,1.6294-.8555,2.5278Z"
                 fill="currentColor"
               />
             </g>
           </svg>
-          <!-- Filled Bag SVG (if items are in the bag) -->
+
+          <!-- Filled Bag SVG -->
           <svg
             v-else
-            id="Layer_2"
-            data-name="Layer 2"
+            :key="`filled-bag-${isJumping}`"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 19.4999 19.5005"
-            class="w-[18px]"
+            class="w-[18px] bag-icon"
+            :class="isJumping ? 'jump-animation' : ''"
           >
-            <g id="Layer_1-2" data-name="Layer 1">
+            <g>
               <g>
                 <polygon
                   id="Filling"
@@ -150,8 +151,7 @@
                 />
               </g>
             </g>
-
-            <!-- The number of items inside the bag -->
+            <!-- Number of items in the bag -->
             <text
               v-if="bagItems.length > 0"
               x="50%"
@@ -184,7 +184,7 @@
             <div
               v-for="(models, brand, index) in deviceData"
               :key="brand"
-              class="relative "
+              class="relative"
             >
               <h3
                 class="font-semibold font-[visby] mb-[14px] leading-none text-left text-black text-[26px]"
@@ -202,13 +202,12 @@
                   {{ model }}
                 </li>
                 <!-- Add the vertical line centered between two lists -->
-              <div
-                v-if="index !== Object.keys(deviceData).length - 1"
-                class="absolute right-[-40px] top-0 bottom-0 w-[1px] bg-black/10"
-                style="height: 100%"
-              ></div>
+                <div
+                  v-if="index !== Object.keys(deviceData).length - 1"
+                  class="absolute right-[-40px] top-0 bottom-0 w-[1px] bg-black/10"
+                  style="height: 100%"
+                ></div>
               </ul>
-              
             </div>
           </div>
 
@@ -220,7 +219,6 @@
               alt="Device Image"
               @load="updateDevicesContentHeight"
               @error="updateDevicesContentHeight"
-
               class="object-contain w-auto transition-opacity duration-300"
             />
           </div>
@@ -498,10 +496,29 @@ export default {
         Google: ["Pixel 8", "Pixel 8 Pro"],
       },
       /////////////////////////////////////
+
+      isJumping: false,
     };
   },
 
+  created() {
+    this._previousQuantity = this.totalQuantity; // Initialize previous quantity
+  },
+
   watch: {
+
+    totalQuantity: {
+      handler(newQuantity) {
+        this.$nextTick(() => {
+          if (newQuantity > this._previousQuantity) {
+            this.triggerJump();
+          }
+          this._previousQuantity = newQuantity;
+        });
+      },
+      immediate: true, // Ensure it works immediately
+    },
+
     hoveredModel() {
       this.$nextTick(() => {
         this.updateDevicesContentHeight();
@@ -571,6 +588,7 @@ export default {
         (total, product) => total + product.quantity,
         0
       );
+      
     },
     // Calculate the subtotal of the products in the bag
     subtotal() {
@@ -590,25 +608,31 @@ export default {
   },
 
   methods: {
+    triggerJump() {
+      this.isJumping = true;
+      setTimeout(() => {
+        this.isJumping = false; // Reset after animation
+      }, 500); // 500ms matches the jump animation duration
+    },
     //methods for devices dropdown
     updateDevicesContentHeight() {
       const content = this.$refs.devicesContent;
       this.devicesContentHeight = content.scrollHeight; // Recalculate based on current content
     },
     hoverModel(brand, model) {
-    this.hoveredBrand = brand;
-    this.hoveredModel = model;
-    this.$nextTick(() => {
-      this.updateDevicesContentHeight(); // Trigger height update when the image is hovered (loaded)
-    });
-  },
-  unhoverModel() {
-    this.hoveredBrand = null;
-    this.hoveredModel = null;
-    this.$nextTick(() => {
-      this.updateDevicesContentHeight(); // Trigger height update when the image is unhovered (unloaded)
-    });
-  },
+      this.hoveredBrand = brand;
+      this.hoveredModel = model;
+      this.$nextTick(() => {
+        this.updateDevicesContentHeight(); // Trigger height update when the image is hovered (loaded)
+      });
+    },
+    unhoverModel() {
+      this.hoveredBrand = null;
+      this.hoveredModel = null;
+      this.$nextTick(() => {
+        this.updateDevicesContentHeight(); // Trigger height update when the image is unhovered (unloaded)
+      });
+    },
     getPlaceholderImage(brand, model) {
       // Placeholder logic for demonstration purposes.
       // You would replace these with actual image paths based on the brand and model.
@@ -656,10 +680,10 @@ export default {
       });
     },
     toggleDevices() {
-      if(!this.isDevicesOpen){
+      if (!this.isDevicesOpen) {
         this.isDevicesOpen = !this.isDevicesOpen;
       }
-      
+
       if (this.isBagOpen) this.closeBag(); // Close bag if open
 
       this.$nextTick(() => {
@@ -830,5 +854,28 @@ export default {
 
 .no-arrows {
   -moz-appearance: textfield;
+}
+
+.bag-icon {
+  transition: transform 0.3s ease-in-out;
+}
+
+.jump-animation {
+  animation: jump 0.5s ease-in-out; /* Adjust duration as needed */
+}
+
+@keyframes jump {
+  0% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-6px); /* Jump up the original position */
+  }
+  60% {
+    transform: translateY(2px); /* Slightly under the original position */
+  }
+  100% {
+    transform: translateY(0); /* Back to the original position */
+  }
 }
 </style>
