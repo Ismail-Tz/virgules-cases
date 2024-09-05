@@ -34,19 +34,22 @@
 
       <!-- Center-aligned section (Text buttons) -->
       <div class="flex justify-center w-1/3">
-        <a v-if="!isCheckoutPage"
+        <a
+          v-if="!isCheckoutPage"
           href="#"
           class="text-[#0A332E] hover:bg-[#00000007] px-3 py-2 text-[14px] rounded-xl"
           :style="{ color: navBarDarkColor }"
           >Devices</a
         >
-        <a v-if="!isCheckoutPage"
+        <a
+          v-if="!isCheckoutPage"
           href="#"
           class="text-[#0A332E] hover:bg-[#00000007] px-3 py-2 text-[14px] rounded-xl"
           :style="{ color: navBarDarkColor }"
           >Customization</a
         >
-        <a v-if="!isCheckoutPage"
+        <a
+          v-if="!isCheckoutPage"
           href="#"
           class="text-[#0A332E] hover:bg-[#00000007] px-3 py-2 text-[14px] rounded-xl"
           :style="{ color: navBarDarkColor }"
@@ -56,7 +59,11 @@
 
       <!-- Right-aligned section (Symbol buttons) -->
       <div class="flex justify-end items-center space-x-4 w-1/3">
-        <a v-if="!isCheckoutPage" :style="{ color: navBarDarkColor }" class="cursor-pointer">
+        <a
+          v-if="!isCheckoutPage"
+          :style="{ color: navBarDarkColor }"
+          class="cursor-pointer"
+        >
           <svg
             id="Layer_2"
             data-name="Layer 2"
@@ -91,12 +98,15 @@
             </g>
           </svg>
         </a>
-        <a v-if="!isCheckoutPage"
+        <a
+          v-if="!isCheckoutPage"
           class="text-[#0A332E] hover:text-black cursor-pointer"
           :style="{ color: navBarDarkColor }"
           @click="toggleBag"
         >
+          <!-- Original Bag SVG -->
           <svg
+            v-if="bagItems.length === 0"
             id="Layer_2"
             data-name="Layer 2"
             xmlns="http://www.w3.org/2000/svg"
@@ -109,6 +119,42 @@
                 fill="currentColor"
               />
             </g>
+          </svg>
+          <!-- Filled Bag SVG (if items are in the bag) -->
+          <svg
+            v-else
+            id="Layer_2"
+            data-name="Layer 2"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 19.4999 19.5005"
+            class="w-[18px]"
+          >
+            <g id="Layer_1-2" data-name="Layer 1">
+              <g>
+                <polygon
+                  id="Filling"
+                  points="3.7065 7.3325 2.5874 17.001 16.9111 17.001 15.7959 7.3457 3.7065 7.3325"
+                  fill="currentColor"
+                />
+                <path
+                  d="M19.4884,17.5171l-1.2803-11.0767c-.1046-.9088-.9121-1.5942-1.8799-1.5942h-2.0361c-.0674-1.0298-.4766-2.8437-1.3477-3.6367-.8574-.7798-1.9922-1.2095-3.1943-1.2095-1.2032,0-2.337,.4297-3.1934,1.2095-.8711,.7929-1.2803,2.6069-1.3477,3.6367H3.1729c-.4541,0-.8935,.1548-1.2402,.4375-.3613,.2969-.5878,.7076-.6396,1.1558L.0108,17.5172c-.0292,.2588,.001,.5244,.0889,.7695,.087,.2412,.2237,.458,.4102,.6484,.1826,.1826,.3975,.3252,.6338,.4199,.2363,.0967,.4882,.1455,.748,.1455h15.7168c.5596,0,1.0869-.2314,1.4473-.6357,.3359-.378,.4892-.8565,.4326-1.3477ZM7.5664,2.3184c1.1426-1.04,3.2237-1.0405,4.3682,.0005,.4131,.3759,.7852,1.6289,.8555,2.5273H6.7111c.0703-.8984,.4423-2.1518,.8553-2.5278Zm10.369,15.5483c-.0761,.085-.1953,.1338-.3271,.1338H1.8915c-.0634,0-.1259-.0117-.1855-.0361-.0498-.0195-.0947-.0498-.1279-.083-.0312-.0322-.0537-.0664-.0771-.1924L2.7832,6.6114c.0068-.0606,.043-.1206,.1006-.1675,.0752-.0621,.1807-.0977,.2891-.0977h13.1551c.1982,0,.373,.1191,.3896,.2651l1.2803,11.0786c.0078,.0625-.0137,.1221-.0625,.1768Z"
+                  fill="currentColor"
+                />
+              </g>
+            </g>
+
+            <!-- The number of items inside the bag -->
+            <text
+              v-if="bagItems.length > 0"
+              x="50%"
+              y="65%"
+              text-anchor="middle"
+              dy=".3em"
+              class="fill-current text-white text-[10px] font-bold font-[visby]"
+              :style="{ color: navBarLightColor }"
+            >
+              {{ totalQuantity <= 99 ? totalQuantity : "99" }}
+            </text>
           </svg>
         </a>
       </div>
@@ -403,7 +449,7 @@ export default {
 
   computed: {
     isCheckoutPage() {
-      return this.$route.path === '/checkout'; // Check if the current route is checkout
+      return this.$route.path === "/checkout"; // Check if the current route is checkout
     },
     bagItems() {
       return this.$store.getters.bagItems;
@@ -448,9 +494,9 @@ export default {
   methods: {
     goToCheckout() {
       this.closeBag();
-      this.$router.push({ path: '/checkout' });
+      this.$router.push({ path: "/checkout" });
     },
-    
+
     deleteItem(index) {
       // Mutation in Vuex store to remove an item
       this.$store.commit("REMOVE_ITEM", index);

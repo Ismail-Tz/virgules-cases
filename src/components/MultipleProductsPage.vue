@@ -195,7 +195,7 @@ export default {
 
     applyHoverColors(index) {
       const color = this.filteredProducts[index].colors[0].colorHex;
-      this.lightColor = lightenColor(color, 98); // Adjust to your preference
+      this.lightColor = lightenColor(color, 97); // Adjust to your preference
       this.darkColor = darkenColor(color, 12); // Adjust to your preference
       this.hoveredIndex = index;
     },
@@ -214,7 +214,7 @@ export default {
       const y = event.clientY - rect.top;
 
       // Dynamically generate the gradient
-      this.gradient = `radial-gradient(circle at ${x}px ${y}px, ${this.lightColor} 30%, #F9F9F9 90%)`;
+      this.gradient = `radial-gradient(circle at ${x}px ${y}px, ${this.lightColor} 20%, #F9F9F9 90%)`;
     },
 
     toggleDropdown(dropdown) {
