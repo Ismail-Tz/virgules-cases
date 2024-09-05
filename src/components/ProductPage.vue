@@ -36,7 +36,7 @@
           </div>
         </div>
         <div class="col-span-5">
-          <div class="mb-[24px]">
+          <div class="mb-[24px] pl-[2px]">
             <h1
               class="text-black text-left font-[Visby] font-bold text-[28px] mb-[10px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
