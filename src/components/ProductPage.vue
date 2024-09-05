@@ -1,9 +1,11 @@
 <template>
-  <div class="flex justify-center mb-[40px] mt-[128px]">
+  
+  <div class="flex justify-center mb-[40px] mt-[148px]">
     <div style="width: calc(1680px - 540px)" class="container">
+      
       <div class="grid grid-cols-12 gap-[40px]">
         <div class="relative col-span-7">
-          <div class="relative w-full h-full flex justify-center border rounded-[32px] p-[24px] overflow-hidden"
+          <div class="relative w-full h-full flex justify-center border rounded-[32px] p-[40px] overflow-hidden"
           :style="{
               backgroundColor: lightColor,
               borderColor: darkColor + '20',
@@ -36,13 +38,13 @@
         <div class="col-span-5">
           <div class="mb-[24px]">
             <h1
-              class="text-black text-left font-[Visby] font-extrabold text-[28px] mb-[10px] leading-[100%]"
+              class="text-black text-left font-[Visby] font-bold text-[28px] mb-[10px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
               {{ colorTitle + " " + this.products[this.id].title }}
             </h1>
             <h2
-              class="text-black text-left font-[Visby] font-bold text-[21px] mb-[8px] leading-[100%]"
+              class="text-black text-left font-[Visby] font-semibold text-[21px] mb-[8px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
               {{ this.products[this.id].type }}
@@ -272,6 +274,9 @@ export default {
   },
 
   methods: {
+    goBack() {
+      this.$router.back(); // Navigate back to the previous page
+    },
     addToBag() {
       // Create the product object to be added to the shopping bag
       const baggedProduct = {
@@ -430,7 +435,7 @@ export default {
       const color = this.products[this.id].colors.find(
         (c) => c.id === this.selectedColor
       ).colorHex;
-      const lightColor = lightenColor(color, 98); // Adjust the amount to get very light color
+      const lightColor = lightenColor(color, 98.5); // Adjust the amount to get very light color
       this.$emit("lightColorEvent", lightColor);
       return lightColor;
     },

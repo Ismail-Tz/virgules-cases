@@ -2,11 +2,11 @@
   <div class="flex justify-center mb-[40px] mt-[94px]">
     <div :style="computedWidth">
       <button
-        class="flex items-end justify-center leading-none text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
+        class="flex items-end justify-center leading-none text-[26px] mb-[24px] text-left font-[Visby] font-semibold text-[#000000]"
         @click="goBack"
       >
         <svg
-          class="mr-[10px] w-[22px] h-[22px] rotate-180"
+          class="mr-[10px] w-[18px] h-[22px] rotate-180"
           fill="currentColor"
           viewBox="0 0 17 15"
           xmlns="http://www.w3.org/2000/svg"

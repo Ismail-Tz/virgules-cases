@@ -2,7 +2,7 @@
   <div class="flex justify-center mb-[40px] mt-[108px]">
     <div :style="computedWidth">
       <h2
-        class="text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
+        class="text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000] leading-none"
       >
         All Products
       </h2>
