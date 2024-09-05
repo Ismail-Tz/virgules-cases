@@ -3,11 +3,17 @@
     <div style="width: calc(1680px - 540px)" class="container">
       <div class="grid grid-cols-12 gap-[40px]">
         <div class="relative col-span-7">
-          <div class="relative w-full h-full flex justify-center">
+          <div class="relative w-full h-full flex justify-center border rounded-[32px] p-[24px] overflow-hidden"
+          :style="{
+              backgroundColor: lightColor,
+              borderColor: darkColor + '20',
+            }"
+          >
             <img
               :src="imageSrc"
               alt="Case Image"
               class="w-1/2 h-full object-cover"
+              style="filter: drop-shadow(0 0 60px rgba(0,0,0,0.30));"
             />
             <!-- Customizing Cases -->
             <div
@@ -161,10 +167,10 @@
                 :key="color.id"
                 @click="handleClick(color)"
                 :class="[
-                  'bg-[#ffffff] border aspect-square rounded-[8px] p-[10px] cursor-pointer',
+                  'bg-[#ffffff] border border-black/20 aspect-square rounded-[8px] p-[10px] cursor-pointer',
                 ]"
                 :style="
-                  selectedColor === color.id ? { borderColor: darkColor } : {}
+                  selectedColor === color.id ? { borderColor: darkColor, boxShadow: '0 0 20px rgba(0,0,0,0.10)'} : {}
                 "
               >
                 <!-- <svg
