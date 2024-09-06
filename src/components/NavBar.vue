@@ -1,7 +1,10 @@
 <template>
   <nav
     class="fixed top-0 left-0 w-full bg-[#F7FDFC] border-b border-[#0A332E20] h-[60px] z-50 blurry transition-all duration-500 ease-in-out"
-    :class="isBagOpen || isDevicesOpen ? '' : 'h-[60px]'"
+    :class="[
+      isBagOpen || isDevicesOpen ? '' : 'h-[60px]', // Empty if open, otherwise 'h-[60px]'
+      { 'pointer-events-none': isClosing }, // Adds 'pointer-events-none' if isClosing is true
+    ]"
     :style="{
       height: isBagOpen
         ? `${bagContentHeight + 60 + 24}px`
@@ -481,6 +484,7 @@ export default {
       isBagOpen: false,
       bagContentHeight: 0,
       isDevicesOpen: false,
+      isClosing: false,
       devicesContentHeight: 0,
 
       //for devices dropdown
@@ -600,6 +604,7 @@ export default {
 
   methods: {
     goToModelPage(brand, model) {
+      this.closeDevicesNonHover();
       this.$router.push(`/model/${brand}/${model}`);
     },
     triggerJump() {
@@ -669,6 +674,7 @@ export default {
     },
     closeBag() {
       this.isBagOpen = false;
+
       this.$nextTick(() => {
         this.bagContentHeight = 0;
       });
@@ -695,6 +701,18 @@ export default {
         this.devicesContentHeight = 0;
       });
     },
+    closeDevicesNonHover() {
+      this.isClosing = true; // Start closing
+      this.isDevicesOpen = false;
+      this.$nextTick(() => {
+        this.devicesContentHeight = 0;
+        // Reset the isClosing flag after the animation duration (500ms)
+        setTimeout(() => {
+          this.isClosing = false;
+        }, 300);
+      });
+    },
+    
 
     // Increment and decrement quantity in bagged items
 
