@@ -232,17 +232,118 @@
     <!-- Bag Content -->
     <div
       ref="bagContent"
-      class="w-full overflow-hidden transition-all duration-500 ease-in-out"
+      class="w-full overflow-hidden select-none transition-all duration-500 ease-in-out"
       :style="{ height: `${bagContentHeight}px` }"
     >
       <div style="width: calc(1680px - 540px)" class="mx-auto mt-[24px]">
-        <h2
-          class="text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
-          @click="clearBag"
-        >
-          {{ $store.state.bag.length === 0 ? "Your Bag is empty" : "Bag" }}
-        </h2>
+        <div class="flex justify-between items-center mb-[24px]">
+          <h2
+            class="text-[26px] text-left font-[Visby] font-bold text-[#000000]"
+            @click="clearBag"
+          >
+            {{ $store.state.bag.length === 0 ? "Your Bag is empty" : "Bag" }}
+          </h2>
+
+          <div class="flex space-x-2">
+            <!-- Back Button -->
+            <button
+              :class="{ 'opacity-20 pointer-events-none': !canScrollLeft }"
+              @click="scrollLeft"
+              class="text-black text-[16px] select-none"
+            >
+              <!-- SVG for forward arrow -->
+              <svg
+                class="rotate-180"
+                width="30"
+                height="30"
+                viewBox="0 0 30 30"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="15"
+                  cy="15"
+                  r="15"
+                  fill="white"
+                  style="fill: white; fill-opacity: 1"
+                />
+                <circle
+                  cx="15"
+                  cy="15"
+                  r="14.5"
+                  stroke="black"
+                  stroke-opacity="0.45"
+                  style="stroke: black; stroke-opacity: 0.45"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M13.6454 20.5021C13.3496 20.7815 12.8871 20.7815 12.5912 20.5022C12.2704 20.1992 12.2704 19.6889 12.5911 19.3859L17.379 14.8634C17.5879 14.6661 17.5879 14.3337 17.379 14.1364L12.5911 9.6139C12.2704 9.3109 12.2704 8.8006 12.5912 8.4976C12.8871 8.2183 13.3496 8.2183 13.6454 8.4977L19.2305 13.7729C19.6483 14.1675 19.6483 14.8323 19.2305 15.2269L13.6454 20.5021Z"
+                  fill="black"
+                  fill-opacity="0.55"
+                  style="fill: black; fill-opacity: 0.55"
+                />
+                <path
+                  d="M12.4196 20.6839L12.4196 20.6839C12.8118 21.0543 13.4249 21.0542 13.817 20.6838C13.817 20.6838 13.817 20.6838 13.817 20.6838L19.4022 15.4086C19.9244 14.9154 19.9244 14.0844 19.4022 13.5912L13.817 8.31595L13.6454 8.4977L13.817 8.31595C13.4249 7.94555 12.8118 7.94556 12.4196 8.3158L12.4195 8.31585C11.9943 8.71749 11.9942 9.39396 12.4194 9.79563L12.4195 9.79564L17.2074 14.3182L17.2074 14.3182C17.3118 14.4168 17.3118 14.583 17.2074 14.6816L17.2074 14.6816L12.4195 19.2042C11.9943 19.6058 11.9943 20.2824 12.4196 20.6839Z"
+                  stroke="black"
+                  stroke-opacity="0.55"
+                  style="stroke: black; stroke-opacity: 0.55"
+                  stroke-width="0.5"
+                />
+              </svg>
+            </button>
+
+            <!-- Forward Button -->
+            <button
+              :class="{ 'opacity-20 pointer-events-none': !canScrollRight }"
+              @click="scrollRight"
+              class="text-black text-[16px] select-none"
+            >
+              <!-- SVG for forward arrow -->
+              <svg
+                width="30"
+                height="30"
+                viewBox="0 0 30 30"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="15"
+                  cy="15"
+                  r="15"
+                  fill="white"
+                  style="fill: white; fill-opacity: 1"
+                />
+                <circle
+                  cx="15"
+                  cy="15"
+                  r="14.5"
+                  stroke="black"
+                  stroke-opacity="0.45"
+                  style="stroke: black; stroke-opacity: 0.45"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M13.6454 20.5021C13.3496 20.7815 12.8871 20.7815 12.5912 20.5022C12.2704 20.1992 12.2704 19.6889 12.5911 19.3859L17.379 14.8634C17.5879 14.6661 17.5879 14.3337 17.379 14.1364L12.5911 9.6139C12.2704 9.3109 12.2704 8.8006 12.5912 8.4976C12.8871 8.2183 13.3496 8.2183 13.6454 8.4977L19.2305 13.7729C19.6483 14.1675 19.6483 14.8323 19.2305 15.2269L13.6454 20.5021Z"
+                  fill="black"
+                  fill-opacity="0.55"
+                  style="fill: black; fill-opacity: 0.55"
+                />
+                <path
+                  d="M12.4196 20.6839L12.4196 20.6839C12.8118 21.0543 13.4249 21.0542 13.817 20.6838C13.817 20.6838 13.817 20.6838 13.817 20.6838L19.4022 15.4086C19.9244 14.9154 19.9244 14.0844 19.4022 13.5912L13.817 8.31595L13.6454 8.4977L13.817 8.31595C13.4249 7.94555 12.8118 7.94556 12.4196 8.3158L12.4195 8.31585C11.9943 8.71749 11.9942 9.39396 12.4194 9.79563L12.4195 9.79564L17.2074 14.3182L17.2074 14.3182C17.3118 14.4168 17.3118 14.583 17.2074 14.6816L17.2074 14.6816L12.4195 19.2042C11.9943 19.6058 11.9943 20.2824 12.4196 20.6839Z"
+                  stroke="black"
+                  stroke-opacity="0.55"
+                  style="stroke: black; stroke-opacity: 0.55"
+                  stroke-width="0.5"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
         <div
+          ref="scrollContainer"
+          :class="{ 'select-none': scrolling }"
           class="relative rounded-[32px] overflow-x-auto whitespace-nowrap hide-scrollbar"
         >
           <div class="flex gap-[24px] w-max">
@@ -493,6 +594,10 @@ export default {
       /////////////////////////////////////
 
       isJumping: false,
+
+      scrolling: false,
+      canScrollLeft: false,
+      canScrollRight: true,
     };
   },
 
@@ -554,10 +659,25 @@ export default {
     // Check on initial load
     this.checkIfOnProductPage(this.$route);
     this.updateNavBarColors();
+
+    this.$nextTick(() => {
+      this.$refs.scrollContainer.addEventListener(
+        "scroll",
+        this.updateScrollButtons
+      );
+    });
   },
 
   computed: {
     ...mapGetters(["availableDevices"]), // Get dynamically extracted devices from Vuex
+
+    itemWidth() {
+      const item = this.$refs.scrollContainer.querySelector(".flex > div");
+      const gap = parseFloat(
+        getComputedStyle(this.$refs.scrollContainer.querySelector(".flex")).gap
+      );
+      return item ? item.offsetWidth + gap : 0;
+    },
 
     isCheckoutPage() {
       return this.$route.path === "/checkout"; // Check if the current route is checkout
@@ -603,6 +723,42 @@ export default {
   },
 
   methods: {
+    updateScrollButtons() {
+    const scrollContainer = this.$refs.scrollContainer;
+    this.canScrollLeft = scrollContainer.scrollLeft > 0;
+    this.canScrollRight =
+      scrollContainer.scrollLeft + scrollContainer.clientWidth <
+      scrollContainer.scrollWidth;
+  },
+  scrollLeft() {
+    if (!this.scrolling) { // Check if it's already scrolling
+      this.scrolling = true; // Set scrolling to true to prevent new scrolls
+      const scrollContainer = this.$refs.scrollContainer;
+      scrollContainer.scrollBy({ left: -this.itemWidth, behavior: "smooth" });
+      
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          this.updateScrollButtons();
+          this.scrolling = false; // Reset after scroll finishes
+        }, 200); // Adjust timing based on the scroll speed
+      });
+    }
+  },
+  scrollRight() {
+    if (!this.scrolling) { // Same handling for the right scroll
+      this.scrolling = true;
+      const scrollContainer = this.$refs.scrollContainer;
+      scrollContainer.scrollBy({ left: this.itemWidth, behavior: "smooth" });
+      
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          this.updateScrollButtons();
+          this.scrolling = false;
+        }, 200); // Adjust timing based on the scroll speed
+      });
+    }
+  },
+
     goToModelPage(brand, model) {
       this.closeDevicesNonHover();
       this.$router.push(`/model/${brand}/${model}`);
@@ -712,7 +868,6 @@ export default {
         }, 300);
       });
     },
-    
 
     // Increment and decrement quantity in bagged items
 
