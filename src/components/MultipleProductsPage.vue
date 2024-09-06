@@ -4,7 +4,7 @@
       <h2
         class="text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000] leading-none"
       >
-        {{ this.brand ? this.brand +' '+ this.model: 'All' }} Cases
+        {{ this.brand ? this.brand + " " + this.model : "All" }} Cases
       </h2>
       <div class="grid grid-cols-3 gap-[40px]">
         <div
@@ -72,7 +72,7 @@
             <div
               v-for="(item, index) in filteredProductsByModel"
               :key="index"
-              @click="goToProductPage(index)"
+              @click="goToProductPage(item, index)"
               @mouseover="applyHoverColors(index)"
               @mouseleave="clearHoverColors"
               @mousemove="updateMouseGradient(index, $event)"
@@ -138,7 +138,7 @@ import { lightenColor, darkenColor } from "@/utils";
 
 export default {
   name: "MultipleProductsPage",
-  props: ['brand', 'model'],
+  props: ["brand", "model"],
   data() {
     return {
       openDropdowns: {
@@ -191,7 +191,9 @@ export default {
         if (this.brand && this.model) {
           // Filter products by the selected brand and model
           return product.colors.some((color) =>
-            color.availableModels[this.brand]?.some(m => m.name === this.model)
+            color.availableModels[this.brand]?.some(
+              (m) => m.name === this.model
+            )
           );
         }
         // Return all products if no brand or model is selected
@@ -244,8 +246,17 @@ export default {
     },
 
     // Method to navigate to the product page
-    goToProductPage(productId) {
-      this.$router.push({ path: `/product/${productId}` });
+    // Modified goToProductPage to extract brand and model from the item data
+    goToProductPage(item, index) {
+      const selectedColor = item.colors[0]; // Adjust this based on the actual selected color
+      const availableModels = selectedColor.availableModels;
+      const selectedBrand = this.routeBrand || Object.keys(availableModels)[0]; // Default to Apple or the first available brand
+      const selectedModel = this.routeModel || availableModels[selectedBrand][0].name; // Default to the first model in the brand
+      
+      this.$router.push({
+        path: `/product/${index}`, // Use index or a unique identifier
+        query: { brand: selectedBrand, model: selectedModel },
+      });
     },
   },
 };

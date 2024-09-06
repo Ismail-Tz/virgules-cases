@@ -1,12 +1,11 @@
 <template>
-  
   <div class="flex justify-center mb-[40px] mt-[148px]">
     <div style="width: calc(1680px - 540px)" class="container">
-      
       <div class="grid grid-cols-12 gap-[40px]">
         <div class="relative col-span-7">
-          <div class="relative w-full h-full flex justify-center border rounded-[32px] p-[40px] overflow-hidden"
-          :style="{
+          <div
+            class="relative w-full h-full flex justify-center border rounded-[32px] p-[40px] overflow-hidden"
+            :style="{
               backgroundColor: lightColor,
               borderColor: darkColor + '20',
             }"
@@ -15,7 +14,7 @@
               :src="imageSrc"
               alt="Case Image"
               class="w-1/2 h-full object-cover"
-              style="filter: drop-shadow(0 0 60px rgba(0,0,0,0.30));"
+              style="filter: drop-shadow(0 0 60px rgba(0, 0, 0, 0.3))"
             />
             <!-- Customizing Cases -->
             <div
@@ -173,7 +172,12 @@
                   'bg-[#ffffff] border border-black/20 aspect-square rounded-[8px] p-[10px] cursor-pointer',
                 ]"
                 :style="
-                  selectedColor === color.id ? { borderColor: darkColor, boxShadow: '0 0 20px rgba(0,0,0,0.10)'} : {}
+                  selectedColor === color.id
+                    ? {
+                        borderColor: darkColor,
+                        boxShadow: '0 0 20px rgba(0,0,0,0.10)',
+                      }
+                    : {}
                 "
               >
                 <!-- <svg
@@ -248,27 +252,50 @@ export default {
   },
 
   created() {
+    // Fetch product using the `id` from route params or another source
     this.product = this.$store.state.products[this.id];
 
-    // Set colorTitle to the colorName of the first color in the colors array
-    this.colorTitle = this.products[this.id].colors[0].colorName;
-    this.imageSrc =
-      this.products[this.id].colors[0].availableModels[
-        Object.keys(this.products[this.id].colors[0].availableModels)[0]
-      ][0].image;
-    this.productName = this.products[this.id].colors[0].name;
-    this.selectedColor = this.products[this.id].colors[0].id;
+    // Set initial color and its details
+    const firstColor = this.product.colors[0];
+    this.colorTitle = firstColor.colorName;
+    this.selectedColor = firstColor.id;
 
-    // Initialize available brands and models based on the first color in the colors array
-    this.availableBrands = Object.keys(
-      this.products[this.id].colors[0].availableModels
-    );
-    this.selectedBrand =
-      this.availableBrands.length > 0 ? this.availableBrands[0] : null;
-    this.selectedModel =
-      this.products[this.id].colors[0].availableModels[
-        this.selectedBrand
-      ][0].name; // first model of the first brand
+    // Get the route params for brand and model, if provided
+    const routeBrand = this.$route.query.brand;
+    const routeModel = this.$route.query.model;
+
+    // Initialize available brands based on the first color in the colors array
+    this.availableBrands = Object.keys(firstColor.availableModels);
+
+    // If a brand and model are provided in the route, use them. Otherwise, use defaults.
+    if (routeBrand && firstColor.availableModels[routeBrand]) {
+      this.selectedBrand = routeBrand;
+      const availableModelsForBrand = firstColor.availableModels[routeBrand];
+
+      // If a model is provided in the route, use it. Otherwise, default to the first model.
+      const modelExists = availableModelsForBrand.some(
+        (model) => model.name === routeModel
+      );
+      this.selectedModel = modelExists
+        ? routeModel
+        : availableModelsForBrand[0].name;
+
+      // Set the image source based on the selected brand and model
+      const selectedModelObj = availableModelsForBrand.find(
+        (model) => model.name === this.selectedModel
+      );
+      this.imageSrc = selectedModelObj ? selectedModelObj.image : null;
+    } else {
+      // Default to the first available brand and model if no route params are provided
+      this.selectedBrand =
+        this.availableBrands.length > 0 ? this.availableBrands[0] : null;
+      this.selectedModel =
+        firstColor.availableModels[this.selectedBrand][0].name;
+      this.imageSrc = firstColor.availableModels[this.selectedBrand][0].image;
+    }
+
+    // Initialize product name from the first color
+    this.productName = firstColor.name;
 
     // Initialize Safari tab bar color
     this.updateSafariTabBarColor();
