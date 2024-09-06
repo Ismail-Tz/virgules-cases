@@ -4,7 +4,7 @@
       <h2
         class="text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000] leading-none"
       >
-        All Products
+        {{ this.brand ? this.brand +' '+ this.model: 'All' }} Cases
       </h2>
       <div class="grid grid-cols-3 gap-[40px]">
         <div
@@ -70,7 +70,7 @@
         <div class="col-span-2 rounded-[32px]">
           <div class="grid grid-cols-3 gap-[24px]">
             <div
-              v-for="(item, index) in filteredProducts"
+              v-for="(item, index) in filteredProductsByModel"
               :key="index"
               @click="goToProductPage(index)"
               @mouseover="applyHoverColors(index)"
@@ -84,7 +84,11 @@
               }"
             >
               <img
-                :src="item.colors[0].availableModels.Apple[0].image"
+                :src="
+                  item.colors[0].availableModels[routeBrand]?.find(
+                    (m) => m.name === routeModel
+                  )?.image || item.colors[0].availableModels.Apple[0].image
+                "
                 :alt="item.altText"
                 class="mb-[24px] mt-[12px] h-[300px] w-auto object-contain"
               />
@@ -129,11 +133,12 @@
 </template>
 
 <script>
-import { mapGetters, mapState, mapActions } from 'vuex';
+import { mapGetters, mapState, mapActions } from "vuex";
 import { lightenColor, darkenColor } from "@/utils";
 
 export default {
   name: "MultipleProductsPage",
+  props: ['brand', 'model'],
   data() {
     return {
       openDropdowns: {
@@ -143,8 +148,6 @@ export default {
         printStyle: false,
         color: false,
       },
-
-      
 
       dropdownsData: {
         customizable: {
@@ -182,6 +185,25 @@ export default {
     // VUEX: Using mapGetters to access the products through optional filters
     ...mapState(["selectedOptions"]),
     ...mapGetters(["filteredProducts"]),
+
+    filteredProductsByModel() {
+      return this.$store.getters.filteredProducts.filter((product) => {
+        if (this.brand && this.model) {
+          // Filter products by the selected brand and model
+          return product.colors.some((color) =>
+            color.availableModels[this.brand]?.some(m => m.name === this.model)
+          );
+        }
+        // Return all products if no brand or model is selected
+        return true;
+      });
+    },
+    routeBrand() {
+      return this.$route.params.brand;
+    },
+    routeModel() {
+      return this.$route.params.model;
+    },
 
     computedWidth() {
       return "width: calc(1680px - 540px)";

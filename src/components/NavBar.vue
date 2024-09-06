@@ -197,6 +197,7 @@
                   :key="idx"
                   @mouseenter="hoverModel(brand, model)"
                   @mouseleave="unhoverModel"
+                  @click="goToModelPage(brand, model)"
                   class="cursor-pointer transition-position text-black/70 hover:text-black text-[16px] py-[7px] leading-none font-normal"
                 >
                   {{ model }}
@@ -496,7 +497,6 @@ export default {
   },
 
   watch: {
-
     totalQuantity: {
       handler(newQuantity) {
         this.$nextTick(() => {
@@ -553,7 +553,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['availableDevices']), // Get dynamically extracted devices from Vuex
+    ...mapGetters(["availableDevices"]), // Get dynamically extracted devices from Vuex
 
     isCheckoutPage() {
       return this.$route.path === "/checkout"; // Check if the current route is checkout
@@ -580,7 +580,6 @@ export default {
         (total, product) => total + product.quantity,
         0
       );
-      
     },
     // Calculate the subtotal of the products in the bag
     subtotal() {
@@ -600,6 +599,9 @@ export default {
   },
 
   methods: {
+    goToModelPage(brand, model) {
+      this.$router.push(`/model/${brand}/${model}`);
+    },
     triggerJump() {
       this.isJumping = true;
       setTimeout(() => {
