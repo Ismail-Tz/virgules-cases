@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="fixed top-0 left-0 w-full bg-[#F7FDFC] border-b border-[#0A332E20] h-[60px] z-50 blurry transition-all duration-500 ease-in-out"
+    class="fixed top-0 left-0 w-full select-none bg-[#F7FDFC] border-b border-[#0A332E20] h-[60px] z-50 blurry transition-all duration-500 ease-in-out"
     :class="[
       isBagOpen || isDevicesOpen ? '' : 'h-[60px]', // Empty if open, otherwise 'h-[60px]'
       { 'pointer-events-none': isClosing }, // Adds 'pointer-events-none' if isClosing is true
@@ -174,7 +174,7 @@
     <div
       ref="devicesContent"
       :style="{ height: `${devicesContentHeight}px` }"
-      class="w-full overflow-hidden transition-all duration-500 ease-in-out"
+      class="w-full overflow-hidden select-none transition-all duration-500 ease-in-out"
     >
       <!-- Devices Content Here -->
       <div style="width: calc(1680px - 540px)" class="mx-auto my-[24px]">
