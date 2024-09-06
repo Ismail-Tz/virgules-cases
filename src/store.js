@@ -403,6 +403,30 @@ export const store = createStore({
     products: (state) => state.products,
     bagItems: (state) => state.bag,
 
+    //Getting Available Devices from Products Objects
+    availableDevices: (state) => {
+      const devices = {};
+      
+      state.products.forEach(product => {
+        product.colors.forEach(color => {
+          for (const [brand, models] of Object.entries(color.availableModels)) {
+            if (!devices[brand]) {
+              devices[brand] = new Set(); // Using a Set to avoid repetition
+            }
+            models.forEach(model => devices[brand].add(model.name)); // Add unique device names
+          }
+        });
+      });
+      
+      // Convert the Sets back to arrays for easier use in the component
+      const devicesObj = {};
+      Object.keys(devices).forEach(brand => {
+        devicesObj[brand] = Array.from(devices[brand]);
+      });
+  
+      return devicesObj;
+    },
+
     filteredProducts: (state) => {
       return state.products.filter((product) => {
         // Check if "Customizable" is selected in the dropdown

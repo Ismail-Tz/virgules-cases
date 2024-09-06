@@ -182,7 +182,7 @@
           <!-- Loop through brands and models -->
           <div class="flex justify-between space-x-[80px] relative h-fit">
             <div
-              v-for="(models, brand, index) in deviceData"
+              v-for="(models, brand, index) in availableDevices"
               :key="brand"
               class="relative"
             >
@@ -203,7 +203,7 @@
                 </li>
                 <!-- Add the vertical line centered between two lists -->
                 <div
-                  v-if="index !== Object.keys(deviceData).length - 1"
+                  v-if="index !== Object.keys(availableDevices).length - 1"
                   class="absolute right-[-40px] top-0 bottom-0 w-[1px] bg-black/10"
                   style="height: 100%"
                 ></div>
@@ -482,19 +482,9 @@ export default {
       isDevicesOpen: false,
       devicesContentHeight: 0,
 
-      //temporary data for devices dropdown
+      //for devices dropdown
       hoveredBrand: null,
       hoveredModel: null,
-      deviceData: {
-        Apple: [
-          "iPhone 15",
-          "iPhone 15 Plus",
-          "iPhone 15 Pro",
-          "iPhone 15 Pro Max",
-        ],
-        Samsung: ["Galaxy S24", "Galaxy S24+", "Galaxy S24 Ultra"],
-        Google: ["Pixel 8", "Pixel 8 Pro"],
-      },
       /////////////////////////////////////
 
       isJumping: false,
@@ -563,6 +553,8 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['availableDevices']), // Get dynamically extracted devices from Vuex
+
     isCheckoutPage() {
       return this.$route.path === "/checkout"; // Check if the current route is checkout
     },
