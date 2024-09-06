@@ -886,7 +886,7 @@
             <div
               class="ml-[10px] flex flex-col justify-between h-[45px] text-left"
             >
-              <p class="text-[17px] font-medium leading-[110%] font-[Visby]">
+              <p class="text-[17px] font-medium leading-[110%] font-[Visby] text-black">
                 Payment on delivery
               </p>
               <span
