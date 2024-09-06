@@ -16,7 +16,7 @@
     }"
     @mouseleave="
       closeBag();
-      closeDevices();
+      closeDevicesNonHover();
     "
   >
     <div
