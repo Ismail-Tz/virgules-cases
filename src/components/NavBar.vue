@@ -384,7 +384,7 @@
               <img
                 :src="item.image"
                 alt="Product Image"
-                class="mb-[12px] mt-[12px] h-[300px] w-auto object-contain"
+                class="mb-[20px] mt-[20px] w-9/12 object-contain"
               />
               <h1
                 class="text-black text-left font-[Visby] font-bold text-[16px] mb-[5px] leading-[125%] truncate w-[100%]"
@@ -392,19 +392,19 @@
                 {{ item.title }}
               </h1>
               <h2
-                class="text-black opacity-[60%] text-left font-[Visby] font-semibold text-[14px] mb-[5px] leading-[100%] w-[100%] truncate"
+                class="text-black opacity-[60%] text-left font-[Visby] font-semibold text-[14px] mb-[5px] leading-tight w-[100%] truncate"
               >
                 {{ item.model }} - {{ item.type }}
               </h2>
               <h3
-                class="text-black opacity-[60%] text-left font-[Arial] text-[14px] mb-[5px] leading-[100%] w-[100%] truncate"
+                class="text-black opacity-[60%] text-left font-[Arial] text-[14px] mb-[5px] leading-tight w-[100%] truncate"
               >
                 {{ item.color }}
                 {{ item.customizations ? "- Customized" : "" }}
               </h3>
               <div class="mt-auto w-full flex items-center justify-between">
                 <h3
-                  class="text-black text-left font-[Arial] text-[15px] leading-[100%] truncate"
+                  class="text-black text-left font-[Arial] text-[15px] leading-tight truncate"
                 >
                   MAD {{ item.price }}
                 </h3>
