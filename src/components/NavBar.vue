@@ -441,14 +441,14 @@
                 {{ item.model }} - {{ item.type }}
               </h2>
               <h3
-                class="text-black opacity-[60%] text-left font-[Arial] text-[14px] mb-[5px] leading-tight w-[100%] truncate"
+                class="text-black opacity-[60%] text-left  text-[14px] mb-[5px] leading-tight w-[100%] truncate"
               >
                 {{ item.color }}
                 {{ item.customizations ? "- Customized" : "" }}
               </h3>
               <div class="mt-auto w-full flex items-center justify-between">
                 <h3
-                  class="text-black text-left font-[Arial] text-[15px] leading-tight truncate"
+                  class="text-black text-left  text-[15px] leading-tight truncate"
                 >
                   MAD {{ item.price }}
                 </h3>
