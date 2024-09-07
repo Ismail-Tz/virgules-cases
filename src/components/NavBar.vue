@@ -532,7 +532,7 @@
           </div>
           <button
             :class="[
-              'flex items-center px-6 py-2 border border-black h-full rounded-[20px]',
+              'flex items-center px-6 py-2 border border-black h-full font-medium rounded-[20px]',
               $store.state.bag.length === 0
                 ? 'cursor-not-allowed  bg-none text-gray-400 border-gray-400'
                 : 'hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white',

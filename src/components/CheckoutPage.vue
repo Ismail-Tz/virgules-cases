@@ -671,8 +671,8 @@
                       {{ item.customizations ? "- Customized" : "" }}
                     </p>
                   </div>
-                  <div class="flex justify-between items-center mt-2">
-                    <span class="text-sm font-medium"
+                  <div class="flex justify-between items-end mt-2">
+                    <span class="text-sm font-normal"
                       >MAD {{ item.price }}</span
                     >
                     <div
@@ -733,7 +733,7 @@
             </div>
             <button
               ref="continueButton"
-              class="flex items-center justify-center px-6 py-[10px] text-[18px] border border-black w-full rounded-[20px] hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white"
+              class="flex items-center justify-center px-6 py-[10px] text-[18px] border border-black w-full rounded-[20px] hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white font-medium"
               @click="handleSubmit"
             >
               Continue
@@ -819,7 +819,7 @@
             </div>
           </div>
           <button
-            class="bg-white border border-black/80 py-[12px] px-[16px] rounded-[14px] text-[16px] text-black/80 font-medium leading-none hover:bg-[#f9f9f9] hover:border-black hover:text-black"
+            class="bg-white border border-black/80 py-[12px] px-[16px] rounded-[14px] text-[16px] text-black/80 font-normal leading-none hover:bg-[#f9f9f9] hover:border-black hover:text-black"
             @click="handleChange('email')"
           >
             Change
@@ -839,7 +839,7 @@
           </div>
           <button
             @click="handleChange('phone')"
-            class="bg-white border border-black/80 py-[12px] px-[16px] rounded-[14px] text-[16px] text-black/80 font-medium leading-none hover:bg-[#f9f9f9] hover:border-black hover:text-black"
+            class="bg-white border border-black/80 py-[12px] px-[16px] rounded-[14px] text-[16px] text-black/80 font-normal leading-none hover:bg-[#f9f9f9] hover:border-black hover:text-black"
           >
             Change
           </button>
@@ -855,7 +855,7 @@
           </div>
           <button
             @click="handleChange('address')"
-            class="bg-white border border-black/80 py-[12px] px-[16px] rounded-[14px] text-[16px] text-black/80 font-medium leading-none hover:bg-[#f9f9f9] hover:border-black hover:text-black"
+            class="bg-white border border-black/80 py-[12px] px-[16px] rounded-[14px] text-[16px] text-black/80 font-normal leading-none hover:bg-[#f9f9f9] hover:border-black hover:text-black"
           >
             Change
           </button>
@@ -896,7 +896,7 @@
             </div>
           </div>
           <button
-            class="opacity-20 pointer-events-none bg-white border border-black/80 m-[10px] py-[12px] px-[16px] rounded-[14px] text-[16px] text-black/80 font-medium leading-none hover:bg-[#f9f9f9] hover:border-black hover:text-black"
+            class="opacity-20 pointer-events-none bg-white border border-black/80 m-[10px] py-[12px] px-[16px] rounded-[14px] text-[16px] text-black/80 font-normal leading-none hover:bg-[#f9f9f9] hover:border-black hover:text-black"
           >
             Change
           </button>
@@ -910,7 +910,7 @@
           Total: MAD {{ total }}
         </div>
         <button
-          class="border-[1.5px] border-black text-black font-medium py-3 px-[17.5px] text-[17px] rounded-[20px] hover:bg-black hover:text-white hover:shadow-[0_0_35px_rgba(0,0,0,0.2)]"
+          class="border-[1.5px] border-black text-black font-semibold py-3 px-[17.5px] text-[17px] rounded-[20px] hover:bg-black hover:text-white hover:shadow-[0_0_35px_rgba(0,0,0,0.2)]"
         >
           Confirm Order
         </button>

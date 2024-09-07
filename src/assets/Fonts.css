@@ -35,3 +35,9 @@
     font-weight: 800;
     font-style: normal;
 }
+@font-face {
+  font-family: "SF Pro";
+  src: url("./Fonts/SF-Pro.ttf") format("truetype");
+  font-weight: 100 900; /* This defines the font's weight range */
+  font-style: normal;
+}

@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       fontFamily: {
         visby: ['Visby', 'sans-serif'],
+        sfpro: ['SF Pro', 'sans-serif'],
       },
     },
   },
