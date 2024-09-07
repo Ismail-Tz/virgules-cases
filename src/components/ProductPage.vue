@@ -14,7 +14,7 @@
               :src="imageSrc"
               alt="Case Image"
               class="w-1/2 h-full object-cover"
-              :style="{filter: `drop-shadow(0 0 60px ${darkColor + '4D'})`}"
+              :style="{ filter: `drop-shadow(0 0 60px ${darkColor + '4D'})` }"
             />
             <!-- Customizing Cases -->
             <div
@@ -78,7 +78,7 @@
               <button
                 v-for="device in availableBrands"
                 :key="device"
-                class="border border-black text-black py-[17.5px] px-[20px] text-[15px] rounded-[62px] leading-[100%]"
+                class="border border-black text-black py-[17.5px] px-[20px] text-[15px] rounded-full leading-[100%]"
                 @mouseenter="hoveredButton = device"
                 @mouseleave="hoveredButton = null"
                 @click="selectBrand(device)"
@@ -93,7 +93,7 @@
                 <select
                   v-model="selectedModel"
                   id="device-model-dropdown"
-                  class="border border-black text-black bg-transparent py-[17.5px] px-[20px] text-[15px] leading-[100%] rounded-[62px] focus:outline-none appearance-none focus:ring-indigo-500 focus:border-indigo-500"
+                  class="border border-black text-black bg-transparent py-[17.5px] px-[20px] text-[15px] leading-[100%] rounded-full focus:outline-none appearance-none focus:ring-indigo-500 focus:border-indigo-500"
                   :style="{ borderColor: darkColor, color: darkColor }"
                 >
                   <option
@@ -127,27 +127,66 @@
               >
                 Customize
               </h2>
-              <div class="flex gap-[8px] mb-[8px]">
-                <div class="flex w-full space-x-2">
-                  <input
-                    type="text"
-                    class="w-[30%] bg-transparent border border-black text-black py-[17.5px] px-[20px] text-[15px] italic rounded-[62px] leading-[100%] focus:outline-none focus:ring-1 focus:ring-[#0000006e]"
-                    placeholder="Number"
-                    v-model="customNumber"
-                    :style="{
-                      borderColor: darkColor,
-                      color: darkColor,
-                      focusBorderColor: darkColor,
-                    }"
-                  />
-                  <input
-                    type="text"
-                    class="w-[70%] bg-transparent border border-black text-black py-[17.5px] px-[20px] text-[15px] italic rounded-[62px] leading-[100%] focus:outline-none focus:ring-1 focus:ring-[#0000006e]"
-                    placeholder="Name"
-                    v-model="customName"
-                    :style="{ borderColor: darkColor, color: darkColor }"
-                  />
-                </div>
+              <div class="flex gap-[14px]">
+                
+                  <div class="relative w-1/3">
+                    <input
+                      type="text"
+                      id="customNumber"
+                      class="w-full h-[52px] bg-transparent border border-black text-black py-[17.5px] px-[20px] text-[15px] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] transition-all duration-300 ease-in-out rounded-full leading-[100%] focus:ring-1 focus:ring-[#0000006e]"
+                      placeholder=" "
+                      v-model="customNumber"
+                      :style="{
+                        borderColor: darkColor,
+                        color: darkColor,
+                        focusBorderColor: darkColor,
+                      }"
+                    />
+                    <label
+                      for="customNumber"
+                      :class="[
+                        'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
+                        customNumber
+                          ? 'top-[13px] text-[10px] text-black opacity-80'
+                          : 'text-[15px] text-black opacity-80',
+                      ]"
+                      :style="{
+                        color: darkColor,
+                      }"
+
+                      class="flex items-center"
+                      >Number
+                    </label>
+                  </div>
+                  <div class="relative w-2/3">
+                    <input
+                      type="text"
+                      id="customName"
+                      class="w-full h-[52px] bg-transparent border border-black text-black py-[17.5px] px-[20px] text-[15px] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] transition-all duration-300 ease-in-out rounded-full leading-[100%] focus:ring-1 focus:ring-[#0000006e]"
+                      placeholder=" "
+                      v-model="customName"
+                      :style="{
+                        borderColor: darkColor,
+                        color: darkColor,
+                        focusBorderColor: darkColor,
+                      }"
+                    />
+                    <label
+                      for="customName"
+                      :class="[
+                        'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
+                        customName
+                          ? 'top-[13px] text-[10px] text-black opacity-80'
+                          : 'text-[15px] text-black opacity-80',
+                      ]"
+                      :style="{
+                        color: darkColor,
+                      }"
+
+                      class="flex items-center"
+                      >Name
+                    </label>
+                  </div>
               </div>
             </div>
             <!-- Color/Style Selection -->
@@ -195,7 +234,7 @@
           </div>
           <div>
             <button
-              class="w-full mt-[24px] bg-black text-white py-[17.5px] px-[20px] text-[21px] font-medium border rounded-[62px] leading-[100%] hover:bg-[white] hover:text-black hover:border-black hover:border"
+              class="w-full mt-[24px] bg-black text-white py-[17.5px] px-[20px] text-[21px] font-medium border rounded-full leading-[100%] hover:bg-[white] hover:text-black hover:border-black hover:border"
               :class="{
                 'hover:bg-lightColor hover:text-black hover:border-lightColor': true,
               }"

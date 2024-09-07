@@ -8,13 +8,14 @@
       </h2>
       <div class="grid grid-cols-3 gap-[40px]">
         <div
-          class="col-span-1 bg-[#F9F9F9] border border-[#00000026] rounded-[32px] p-[24px]"
+          class="col-span-1 bg-[#F9F9F9] border border-[#00000026] rounded-[32px] p-[24px] h-fit"
         >
           <div>
             <!-- Loop over dropdown data -->
             <div
-              v-for="(dropdown, key) in dropdownsData"
+              v-for="(dropdown, key, index) in dropdownsData"
               :key="key"
+              :style="{borderBottomWidth: index !== Object.keys(dropdownsData).length - 1 ? '1px' : '0px'}" 
               class="cursor-pointer border-b border-[#00000020] px-[10px]"
             >
               <div
@@ -149,6 +150,7 @@
 <script>
 import { mapGetters, mapState, mapActions } from "vuex";
 import { lightenColor, darkenColor } from "@/utils";
+import { Object } from "core-js";
 
 export default {
   name: "MultipleProductsPage",
