@@ -5,6 +5,7 @@
       @lightColorEvent="lightColorEvent"
       @darkColorEvent="darkColorEvent"
     />
+    <YourOrdersPage/>
     
 
   </div>
@@ -12,10 +13,12 @@
 
 <script>
 import NavBar from "./components/NavBar.vue";
+import YourOrdersPage from "./components/YourOrdersPage.vue";
 export default {
   name: "App",
   components: {
     NavBar,
+    YourOrdersPage,
   },
   methods: {
     lightColorEvent(lightColor) {
