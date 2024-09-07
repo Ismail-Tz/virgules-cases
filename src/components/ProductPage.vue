@@ -7,14 +7,14 @@
             class="relative w-full h-full flex justify-center border rounded-[32px] p-[40px] overflow-hidden"
             :style="{
               backgroundColor: lightColor,
-              borderColor: darkColor + '20',
+              borderColor: darkColor + '26',
             }"
           >
             <img
               :src="imageSrc"
               alt="Case Image"
               class="w-1/2 h-full object-cover"
-              style="filter: drop-shadow(0 0 60px rgba(0, 0, 0, 0.3))"
+              :style="{filter: `drop-shadow(0 0 60px ${darkColor + '60'})`}"
             />
             <!-- Customizing Cases -->
             <div
@@ -65,7 +65,7 @@
             class="bg-[#F5F7F6] text-white border p-[24px] rounded-[32px]"
             :style="{
               backgroundColor: lightColor,
-              borderColor: darkColor + '20',
+              borderColor: darkColor + '26',
             }"
           >
             <h2

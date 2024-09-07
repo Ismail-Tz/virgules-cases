@@ -8,7 +8,7 @@
       </h2>
       <div class="grid grid-cols-3 gap-[40px]">
         <div
-          class="col-span-1 bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
+          class="col-span-1 bg-[#F9F9F9] border border-[#00000026] rounded-[32px] p-[24px]"
         >
           <div>
             <!-- Loop over dropdown data -->
@@ -76,11 +76,11 @@
               @mouseover="applyHoverColors(index)"
               @mouseleave="clearHoverColors"
               @mousemove="updateMouseGradient(index, $event)"
-              class="cursor-pointer bg-[#F9F9F9] border border-[#00000020] rounded-[32px] p-[24px] hover:bg-[#F7FDFC] hover:border-[#0A332E50] flex flex-col items-center"
+              class="cursor-pointer text-left bg-[#F9F9F9] border border-[#00000020] rounded-[32px] p-[24px] hover:bg-[#F7FDFC] hover:border-[#0A332E50] flex flex-col items-center"
               :style="{
                 backgroundImage: hoveredIndex === index ? gradient : 'none',
                 borderColor:
-                  hoveredIndex === index ? darkColor + 60 : '#00000010',
+                  hoveredIndex === index ? darkColor + 60 : '#00000026',
               }"
             >
               <img
@@ -90,10 +90,11 @@
                   )?.image || item.colors[0].availableModels.Apple[0].image
                 "
                 :alt="item.altText"
-                class="mb-[24px] mt-[12px] h-[300px] w-auto object-contain"
+                class="mb-[24px] mt-[12px] w-10/12 object-contain"
+                style="filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.1))"
               />
               <h1
-                class="text-black text-center font-[Visby] font-bold text-[16px] mb-[3px] leading-[125%] truncate w-[100%]"
+                class="text-black font-[Visby] font-bold text-[16px] mb-[3px] leading-tight truncate w-[100%]"
                 :style="{
                   color: hoveredIndex === index ? darkColor : '#000000',
                 }"
@@ -101,7 +102,7 @@
                 {{ item.title }}
               </h1>
               <h2
-                class="text-black text-center font-[Visby] font-semibold text-[16px] mb-[5px] leading-[100%]"
+                class="text-black  font-[Visby] font-semibold text-[15px] opacity-[60%] mb-[5px] leading-tight w-[100%]"
                 :style="{
                   color: hoveredIndex === index ? darkColor : '#000000',
                 }"
@@ -109,21 +110,34 @@
                 {{ item.type }}
               </h2>
               <h3
-                class="text-black text-center font-[Arial] text-[15px] mb-[5px] leading-[100%]"
+                class="text-black   text-[14px] opacity-[60%] mb-[5px] leading-tight w-[100%]"
                 :style="{
                   color: hoveredIndex === index ? darkColor : '#000000',
                 }"
               >
                 {{ item.isCustomizable ? "Customizable" : "Not Customizable" }}
               </h3>
-              <h3
-                class="text-black text-center font-[Arial] text-[15px] leading-[100%]"
+              <div class="mt-[8px] w-full flex items-center justify-between">
+                <h3
                 :style="{
                   color: hoveredIndex === index ? darkColor : '#000000',
                 }"
-              >
-                MAD {{ item.price }}
-              </h3>
+                  class="text-black font-light text-left text-[15px] leading-tight truncate"
+                >
+                  MAD {{ item.price }}
+                </h3>
+
+                <div
+                :style="{
+                  color: hoveredIndex === index ? darkColor : '#000000',
+                  borderColor:
+                  hoveredIndex === index ? darkColor : '#000000',
+                }"
+                  class="flex items-center justify-center opacity-[70%] px-[8px] h-6 border border-[#000000] text-[#00000099] rounded-full ml-2"
+                >
+                  <span class="text-sm">{{ item.colors.length }} Styles</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

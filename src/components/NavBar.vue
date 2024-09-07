@@ -12,7 +12,7 @@
         ? `${devicesContentHeight + 60 + 24}px`
         : '60px',
       backgroundColor: lightColorTp,
-      borderColor: navBarDarkColor + '20',
+      borderColor: navBarDarkColor + '26',
     }"
     @mouseleave="
       closeBag();
