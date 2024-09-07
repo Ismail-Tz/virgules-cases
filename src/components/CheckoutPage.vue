@@ -530,10 +530,10 @@
             >
               Payment
             </h2>
-            <div class="flex gap-[14px]">
+            <div class="flex gap-[14px] w-full flex-wrap gap-y-[14px]">
               <!-- First div (Selected by default) -->
               <div
-                class="w-1/2 p-[20px] bg-white rounded-[24px] border-[1.5px] border-black shadow-[0_0_25px_rgba(0,0,0,0.1)] cursor-pointer"
+                class="flex-1 min-w-[240px] w-1/2 p-[20px] bg-white rounded-[24px] border-[1.5px] border-black shadow-[0_0_25px_rgba(0,0,0,0.1)] cursor-pointer"
               >
                 <div class="flex items-start">
                   <!-- Icon container -->
@@ -575,7 +575,7 @@
 
               <!-- Second div (Unselectable) -->
               <div
-                class="w-1/2 p-[20px] bg-white rounded-[24px] border-[0.5px] border-[#000000] shadow-[0_0_25px_rgba(0,0,0,0.1)] opacity-20 cursor-default pointer-events-none"
+                class="flex-1 min-w-[240px] w-1/2 p-[20px] bg-white rounded-[24px] border-[0.5px] border-[#000000] shadow-[0_0_25px_rgba(0,0,0,0.1)] opacity-20 cursor-default pointer-events-none"
               >
                 <div class="flex items-start">
                   <!-- Empty Icon container (SVG removed) -->

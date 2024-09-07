@@ -118,12 +118,12 @@
               >
                 {{ item.isCustomizable ? "Customizable" : "Not Customizable" }}
               </h3>
-              <div class="mt-[8px] w-full flex items-center justify-between">
+              <div class="mt-[8px] w-full flex flex-wrap gap-y-2 items-center justify-between ">
                 <h3
                 :style="{
                   color: hoveredIndex === index ? darkColor : '#000000',
                 }"
-                  class="text-black font-light text-left text-[15px] leading-tight truncate"
+                  class="text-black font-light text-left text-[15px] leading-tight truncate mr-2"
                 >
                   MAD {{ item.price }}
                 </h3>
@@ -134,7 +134,7 @@
                   borderColor:
                   hoveredIndex === index ? darkColor : '#000000',
                 }"
-                  class="flex items-center justify-center opacity-[70%] px-[8px] h-6 border border-[#000000] text-[#00000099] rounded-full ml-2"
+                  class="flex items-center justify-center opacity-[70%] px-[8px] h-6 border border-[#000000] text-[#00000099] rounded-full"
                 >
                   <span class="text-sm">{{ item.colors.length }} Styles</span>
                 </div>
