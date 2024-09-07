@@ -27,7 +27,7 @@
       <div class="flex items-center w-1/3">
         <router-link :to="{ path: '/' }" :style="{ color: navBarDarkColor }">
           <svg
-            class="w-[36px]"
+            class="w-[32px]"
             width="51"
             height="39"
             viewBox="0 0 51 39"
