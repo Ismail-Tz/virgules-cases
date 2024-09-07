@@ -14,7 +14,7 @@
               :src="imageSrc"
               alt="Case Image"
               class="w-1/2 h-full object-cover"
-              :style="{filter: `drop-shadow(0 0 60px ${darkColor + '60'})`}"
+              :style="{filter: `drop-shadow(0 0 60px ${darkColor + '4D'})`}"
             />
             <!-- Customizing Cases -->
             <div
