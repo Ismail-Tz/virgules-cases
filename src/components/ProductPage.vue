@@ -1,10 +1,10 @@
 <template>
   <div class="flex justify-center mb-[40px] mt-[148px]">
-    <div style="width: calc(1680px - 540px)" class="container">
+    <div class="max-w-[1188px] w-full mx-auto px-6 box-border">
       <div class="grid grid-cols-12 gap-[40px]">
         <div class="relative col-span-7">
           <div
-            class="relative w-full h-full flex justify-center border rounded-[32px] p-[40px] overflow-hidden"
+            class="relative w-full flex justify-center border rounded-[32px] p-[40px] overflow-hidden"
             :style="{
               backgroundColor: lightColor,
               borderColor: darkColor + '26',
@@ -13,7 +13,7 @@
             <img
               :src="imageSrc"
               alt="Case Image"
-              class="w-1/2 h-full object-cover"
+              class="w-1/2 h-auto object-cover"
               :style="{ filter: `drop-shadow(0 0 60px ${darkColor + '4D'})` }"
             />
             <!-- Customizing Cases -->

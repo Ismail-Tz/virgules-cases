@@ -20,8 +20,8 @@
     "
   >
     <div
-      class="container mx-auto flex justify-between items-center h-[60px]"
-      style="width: calc(1680px - 540px)"
+      class="max-w-[1188px] w-full mx-auto px-6 box-border flex justify-between items-center h-[60px]"
+      
     >
       <!-- Left-aligned section (Logo) -->
       <div class="flex items-center w-1/3">
@@ -177,7 +177,7 @@
       class="w-full overflow-hidden select-none transition-all duration-500 ease-in-out"
     >
       <!-- Devices Content Here -->
-      <div style="width: calc(1680px - 540px)" class="mx-auto my-[24px]">
+      <div class="max-w-[1188px] w-full mx-auto px-6 box-border my-[24px]">
         <p class="text-black/60 text-[14px] leading-none mb-[14px] text-left">
           Shop cases for :
         </p>
@@ -232,10 +232,10 @@
     <!-- Bag Content -->
     <div
       ref="bagContent"
-      class="w-full overflow-hidden select-none transition-all duration-500 ease-in-out"
+      class="max-w-[1188px] w-full mx-auto px-6 box-border overflow-hidden select-none transition-all duration-500 ease-in-out"
       :style="{ height: `${bagContentHeight}px` }"
     >
-      <div style="width: calc(1680px - 540px)" class="mx-auto mt-[24px]">
+      <div class="max-w-[1188px] w-full mx-auto box-border mt-[24px]">
         <div class="flex justify-between items-center mb-[24px] py-[1px]">
           <h2
             class="text-[26px] text-left font-[Visby] font-bold text-[#000000]"

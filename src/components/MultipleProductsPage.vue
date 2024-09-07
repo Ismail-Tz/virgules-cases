@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center mb-[40px] mt-[108px]">
-    <div :style="computedWidth">
+    <div class="max-w-[1188px] w-full mx-auto px-6 box-border">
       <h2
         class="text-[26px] mb-[24px] text-left font-[Visby] font-bold text-[#000000] leading-none"
       >

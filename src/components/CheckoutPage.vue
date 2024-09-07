@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center mb-[40px] mt-[94px]">
-    <div :style="computedWidth">
+    <div class="max-w-[1188px] w-full mx-auto px-6 box-border">
       <button
         class="flex items-end justify-center leading-none text-[26px] mb-[24px] text-left font-[Visby] font-semibold text-[#000000]"
         @click="goBack"

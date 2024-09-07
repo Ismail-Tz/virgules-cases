@@ -1,8 +1,8 @@
 <template>
   <div class="w-full overflow-hidden mt-[108px] mb-[40px]">
     <div
-      style="width: calc(1680px - 540px)"
-      class="mx-auto mt-[40px] overflow-hidden"
+    
+      class="max-w-[1188px] w-full mx-auto px-6 box-border mt-[40px] overflow-hidden"
     >
       <div class="flex justify-between items-end">
         <h1
