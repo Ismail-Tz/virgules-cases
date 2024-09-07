@@ -5,7 +5,9 @@
       class="mx-auto mt-[40px] overflow-hidden"
     >
       <div class="flex justify-between items-baseline">
-        <h1 class="text-left font-[visby] font-semibold text-black text-[22px] leading-none">
+        <h1
+          class="text-left font-[visby] font-semibold text-black text-[22px] leading-none"
+        >
           Your Orders
         </h1>
         <p class="font-medium text-[14px] text-black">
@@ -83,6 +85,8 @@
           </div>
         </div>
         <div
+          ref="scrollOrderContainer"
+          @wheel="onScroll"
           class="relative overflow-x-auto whitespace-nowrap hide-scrollbar py-[1px]"
         >
           <div class="flex gap-[24px] w-max px-[24px]">
@@ -131,8 +135,10 @@
         </div>
       </div>
       <div class="flex justify-center items-baseline mt-[40px]">
-        <div class="px-[25px] py-[20px] border border-black/45 rounded-full hover:bg-black hover:border-black hover:cursor-pointer text-black/45 hover:text-white">
-          <h1 class="text-left font-normal text-[18px] leading-none  ">
+        <div
+          class="px-[25px] py-[20px] border border-black/45 rounded-full hover:bg-black hover:border-black hover:cursor-pointer text-black/45 hover:text-white"
+        >
+          <h1 class="text-left font-normal text-[18px] leading-none">
             Continue Shopping
           </h1>
         </div>
@@ -149,6 +155,18 @@ export default {
   computed: {
     bagItems() {
       return this.$store.getters.bagItems;
+    },
+  },
+  methods: {
+    //for mouse wheel support
+    onScroll(event) {
+      // Check if the event has significant vertical scroll
+      if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+        // If vertical scroll is significant, handle it
+        this.$refs.scrollOrderContainer.scrollLeft += event.deltaY;
+        event.preventDefault(); // Prevent default scrolling
+      }
+      // If horizontal scroll, let it pass through
     },
   },
 };

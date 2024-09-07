@@ -343,6 +343,7 @@
         </div>
         <div
           ref="scrollContainer"
+          @wheel="onScroll"
           :class="{ 'select-none': scrolling }"
           class="relative rounded-[32px] overflow-x-auto whitespace-nowrap hide-scrollbar"
         >
@@ -504,7 +505,7 @@
         </div>
         <div
           :class="[
-            'mt-[24px] p-5 bg-white rounded-[32px] h-[93px] border border-[#00000020] flex items-center justify-between',
+            'mt-[24px] text-black p-5 bg-white rounded-[32px] h-[93px] border border-[#00000020] flex items-center justify-between',
             $store.state.bag.length === 0
               ? 'opacity-50 pointer-events-none'
               : '',
@@ -723,6 +724,16 @@ export default {
   },
 
   methods: {
+    //for mouse wheel support
+    onScroll(event) {
+      // Check if the event has significant vertical scroll
+      if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+        // If vertical scroll is significant, handle it
+        this.$refs.scrollContainer.scrollLeft += event.deltaY;
+        event.preventDefault(); // Prevent default scrolling
+      }
+      // If horizontal scroll, let it pass through
+    },
     updateScrollButtons() {
     const scrollContainer = this.$refs.scrollContainer;
     this.canScrollLeft = scrollContainer.scrollLeft > 0;
