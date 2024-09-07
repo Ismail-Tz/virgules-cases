@@ -352,6 +352,8 @@ export const store = createStore({
       // Add more products as needed
     ],
     bag: [],
+    orders: [],
+
     selectedOptions: {
       customizable: [],
       collection: [],
@@ -368,11 +370,23 @@ export const store = createStore({
     },
     clearBag(state) {
       state.bag = [];
-      localStorage.removeItem("bagItems"); // Clear the local storage
+      localStorage.removeItem("bag"); // Clear the local storage
     },
     REMOVE_ITEM(state, index) {
       state.bag.splice(index, 1);
       localStorage.setItem("bag", JSON.stringify(state.bag)); // Sync localStorage
+    },
+
+    // Order-related mutations
+    ADD_ORDER(state, order) {
+      state.orders.push(order);
+    },
+    SET_ORDERS(state, orders) {
+      state.orders = orders;
+    },
+    CLEAR_ORDERS(state) {
+      state.orders = [];
+      
     },
 
     // Mutation to update selectedOptions
@@ -396,7 +410,7 @@ export const store = createStore({
     },
 
     toggleOption({ commit }, payload) {
-      commit('setSelectedOption', payload);
+      commit("setSelectedOption", payload);
     },
   },
   getters: {
@@ -406,31 +420,32 @@ export const store = createStore({
     //Getting Available Devices from Products Objects
     availableDevices: (state) => {
       const devices = {};
-      
-      state.products.forEach(product => {
-        product.colors.forEach(color => {
+
+      state.products.forEach((product) => {
+        product.colors.forEach((color) => {
           for (const [brand, models] of Object.entries(color.availableModels)) {
             if (!devices[brand]) {
               devices[brand] = new Set(); // Using a Set to avoid repetition
             }
-            models.forEach(model => devices[brand].add(model.name)); // Add unique device names
+            models.forEach((model) => devices[brand].add(model.name)); // Add unique device names
           }
         });
       });
-      
+
       // Convert the Sets back to arrays for easier use in the component
       const devicesObj = {};
-      Object.keys(devices).forEach(brand => {
+      Object.keys(devices).forEach((brand) => {
         devicesObj[brand] = Array.from(devices[brand]);
       });
-  
+
       return devicesObj;
     },
 
     filteredProducts: (state) => {
       return state.products.filter((product) => {
         // Check if "Customizable" is selected in the dropdown
-        const isCustomizableSelected = state.selectedOptions.customizable.includes('Customizable');
+        const isCustomizableSelected =
+          state.selectedOptions.customizable.includes("Customizable");
         // If "Customizable" is selected, return only customizable products
         if (isCustomizableSelected) {
           return product.isCustomizable;

@@ -1,11 +1,12 @@
 <template>
-  <div class="w-full overflow-hidden mb-[40px]">
+  <div class="w-full overflow-hidden mt-[108px] mb-[40px]">
     <div
       style="width: calc(1680px - 540px)"
       class="mx-auto mt-[40px] overflow-hidden"
     >
-      <div class="flex justify-between items-baseline">
+      <div class="flex justify-between items-end">
         <h1
+          @click="clearOrders"
           class="text-left font-[visby] font-semibold text-black text-[22px] leading-none"
         >
           Your Orders
@@ -34,6 +35,8 @@
       </div>
 
       <div
+        v-for="(order, index) in orders"
+        :key="index"
         class="mx-auto mt-[24px] w-full rounded-[32px] border border-black/45 py-[24px] overflow-hidden"
       >
         <div
@@ -42,13 +45,15 @@
           <h2
             class="text-[30px] leading-none text-left font-normal text-[#000000]"
           >
-            Order n°0001
+            Order n°{{ order.id }}
           </h2>
           <div class="flex items-center space-x-[12px]">
             <div
               class="flex items-center justify-center px-[10px] py-[7px] border border-black text-black rounded-full"
             >
-              <span class="text-[14px] leading-none">MAD 398</span>
+              <span class="text-[14px] leading-none"
+                >MAD {{ order.checkoutInfo.total }}</span
+              >
             </div>
             <div
               class="flex items-center justify-center px-[10px] py-[7px] border border-black text-black rounded-full space-x-[6px]"
@@ -86,14 +91,13 @@
         </div>
         <div
           ref="scrollOrderContainer"
-          @wheel="onScroll"
           class="relative overflow-x-auto whitespace-nowrap hide-scrollbar py-[1px]"
         >
           <div class="flex gap-[24px] w-max px-[24px]">
             <!-- Bag Items as Filler -->
             <div
-              v-for="(item, index) in bagItems"
-              :key="index"
+              v-for="(item, itemIndex) in order.items"
+              :key="itemIndex"
               class="relative bg-[#FFFFFF] border border-black/20 rounded-[22px] w-[233px] h-[465px] p-[24px] flex flex-col items-center"
             >
               <img
@@ -112,7 +116,7 @@
                 {{ item.model }} - {{ item.type }}
               </h2>
               <h3
-                class="text-black opacity-[60%] text-left  text-[14px] mb-[5px] leading-tight w-[100%] truncate"
+                class="text-black opacity-[60%] text-left text-[14px] mb-[5px] leading-tight w-[100%] truncate"
               >
                 {{ item.color }}
                 {{ item.customizations ? "- Customized" : "" }}
@@ -136,6 +140,7 @@
       </div>
       <div class="flex justify-center items-baseline mt-[40px]">
         <div
+            @click="goHome"
           class="px-[25px] py-[20px] border border-black/45 rounded-full hover:bg-black hover:border-black hover:cursor-pointer text-black/45 hover:text-white"
         >
           <h1 class="text-left font-normal text-[18px] leading-none">
@@ -152,12 +157,20 @@ export default {
   name: "YourOrdersPage",
   // Your component options here
   data() {},
+
   computed: {
-    bagItems() {
-      return this.$store.getters.bagItems;
+    orders() {
+      return this.$store.state.orders;
     },
   },
   methods: {
+    goHome(){
+        this.$router.push("/");
+    },
+    clearOrders() {
+      this.$store.commit("CLEAR_ORDERS");
+      localStorage.removeItem("orders"); // Clear the local storage
+    },
     //for mouse wheel support
     onScroll(event) {
       // Check if the event has significant vertical scroll

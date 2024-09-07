@@ -236,7 +236,7 @@
       :style="{ height: `${bagContentHeight}px` }"
     >
       <div style="width: calc(1680px - 540px)" class="mx-auto mt-[24px]">
-        <div class="flex justify-between items-center mb-[24px]">
+        <div class="flex justify-between items-center mb-[24px] py-[1px]">
           <h2
             class="text-[26px] text-left font-[Visby] font-bold text-[#000000]"
             @click="clearBag"
@@ -244,101 +244,144 @@
             {{ $store.state.bag.length === 0 ? "Your Bag is empty" : "Bag" }}
           </h2>
 
-          <div class="flex space-x-2">
-            <!-- Back Button -->
-            <button
-              :class="{ 'opacity-20 pointer-events-none': !canScrollLeft }"
-              @click="scrollLeft"
-              class="text-black text-[16px] select-none"
+          <div class="flex space-x-[12px]">
+            <div
+              class="flex items-center justify-center opacity-50 px-[10px] py-[7px] border border-black/45 text-black/55 hover:border-black hover:text-black pointer-events-none font-medium bg-white rounded-full space-x-[6px]"
             >
-              <!-- SVG for forward arrow -->
               <svg
-                class="rotate-180"
-                width="30"
-                height="30"
-                viewBox="0 0 30 30"
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <circle
-                  cx="15"
-                  cy="15"
-                  r="15"
-                  fill="white"
-                  style="fill: white; fill-opacity: 1"
-                />
-                <circle
-                  cx="15"
-                  cy="15"
-                  r="14.5"
-                  stroke="black"
-                  stroke-opacity="0.45"
-                  style="stroke: black; stroke-opacity: 0.45"
-                />
                 <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M13.6454 20.5021C13.3496 20.7815 12.8871 20.7815 12.5912 20.5022C12.2704 20.1992 12.2704 19.6889 12.5911 19.3859L17.379 14.8634C17.5879 14.6661 17.5879 14.3337 17.379 14.1364L12.5911 9.6139C12.2704 9.3109 12.2704 8.8006 12.5912 8.4976C12.8871 8.2183 13.3496 8.2183 13.6454 8.4977L19.2305 13.7729C19.6483 14.1675 19.6483 14.8323 19.2305 15.2269L13.6454 20.5021Z"
-                  fill="black"
-                  fill-opacity="0.55"
-                  style="fill: black; fill-opacity: 0.55"
-                />
-                <path
-                  d="M12.4196 20.6839L12.4196 20.6839C12.8118 21.0543 13.4249 21.0542 13.817 20.6838C13.817 20.6838 13.817 20.6838 13.817 20.6838L19.4022 15.4086C19.9244 14.9154 19.9244 14.0844 19.4022 13.5912L13.817 8.31595L13.6454 8.4977L13.817 8.31595C13.4249 7.94555 12.8118 7.94556 12.4196 8.3158L12.4195 8.31585C11.9943 8.71749 11.9942 9.39396 12.4194 9.79563L12.4195 9.79564L17.2074 14.3182L17.2074 14.3182C17.3118 14.4168 17.3118 14.583 17.2074 14.6816L17.2074 14.6816L12.4195 19.2042C11.9943 19.6058 11.9943 20.2824 12.4196 20.6839Z"
-                  stroke="black"
-                  stroke-opacity="0.55"
-                  style="stroke: black; stroke-opacity: 0.55"
-                  stroke-width="0.5"
+                  d="M9.17969 0H4.81974C4.24175 0.000554723 3.68759 0.23151 3.27888 0.642176C2.87018 1.05284 2.64033 1.60967 2.63977 2.19043V13.2265C2.62932 13.4287 2.69344 13.6277 2.81986 13.7855C2.88264 13.8565 2.96044 13.9126 3.04756 13.9496C3.13469 13.9866 3.22894 14.0036 3.32343 13.9994C3.47304 13.9983 3.61842 13.9494 3.73857 13.8598C3.91899 13.7213 4.08898 13.5697 4.24717 13.406L6.98929 10.6577L9.75359 13.4069C9.91286 13.5659 10.0808 13.7158 10.2566 13.8561C10.3771 13.9488 10.5246 13.999 10.6764 13.999C10.7708 14.0033 10.865 13.9863 10.9521 13.9493C11.0391 13.9123 11.1168 13.8562 11.1795 13.7851C11.3061 13.6275 11.3702 13.4284 11.3596 13.2261V2.19043C11.359 1.60968 11.1292 1.05287 10.7205 0.64221C10.3118 0.231547 9.75767 0.000579933 9.17969 0ZM3.77715 2.19043C3.77765 1.91275 3.88766 1.64658 4.08307 1.45023C4.27849 1.25387 4.54339 1.14334 4.81974 1.14284H9.17969C9.45605 1.14334 9.72094 1.25387 9.91636 1.45023C10.1118 1.64658 10.2218 1.91275 10.2223 2.19043L10.2218 12.2646L7.7883 9.84391C7.57785 9.63576 7.29434 9.51918 6.99905 9.51935C6.70375 9.51953 6.42038 9.63646 6.21019 9.84486L3.77715 12.2658V2.19043Z"
+                  fill="currentColor"
+                  fill-opacity="0.45"
+                  style="fill: currentColor; fill-opacity: 1"
                 />
               </svg>
-            </button>
 
-            <!-- Forward Button -->
-            <button
-              :class="{ 'opacity-20 pointer-events-none': !canScrollRight }"
-              @click="scrollRight"
-              class="text-black text-[16px] select-none"
+              <span class="text-[14px] leading-none">Your Saves</span>
+            </div>
+            <div
+              @click="goToOrders"
+              class="flex items-center justify-center px-[10px] py-[7px] border border-black/45 text-black/55 hover:border-black hover:text-black hover:cursor-pointer font-medium bg-white rounded-full space-x-[6px]"
             >
-              <!-- SVG for forward arrow -->
               <svg
-                width="30"
-                height="30"
-                viewBox="0 0 30 30"
+                width="14"
+                height="16"
+                viewBox="0 0 14 16"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <circle
-                  cx="15"
-                  cy="15"
-                  r="15"
-                  fill="white"
-                  style="fill: white; fill-opacity: 1"
-                />
-                <circle
-                  cx="15"
-                  cy="15"
-                  r="14.5"
-                  stroke="black"
-                  stroke-opacity="0.45"
-                  style="stroke: black; stroke-opacity: 0.45"
-                />
                 <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M13.6454 20.5021C13.3496 20.7815 12.8871 20.7815 12.5912 20.5022C12.2704 20.1992 12.2704 19.6889 12.5911 19.3859L17.379 14.8634C17.5879 14.6661 17.5879 14.3337 17.379 14.1364L12.5911 9.6139C12.2704 9.3109 12.2704 8.8006 12.5912 8.4976C12.8871 8.2183 13.3496 8.2183 13.6454 8.4977L19.2305 13.7729C19.6483 14.1675 19.6483 14.8323 19.2305 15.2269L13.6454 20.5021Z"
-                  fill="black"
-                  fill-opacity="0.55"
-                  style="fill: black; fill-opacity: 0.55"
-                />
-                <path
-                  d="M12.4196 20.6839L12.4196 20.6839C12.8118 21.0543 13.4249 21.0542 13.817 20.6838C13.817 20.6838 13.817 20.6838 13.817 20.6838L19.4022 15.4086C19.9244 14.9154 19.9244 14.0844 19.4022 13.5912L13.817 8.31595L13.6454 8.4977L13.817 8.31595C13.4249 7.94555 12.8118 7.94556 12.4196 8.3158L12.4195 8.31585C11.9943 8.71749 11.9942 9.39396 12.4194 9.79563L12.4195 9.79564L17.2074 14.3182L17.2074 14.3182C17.3118 14.4168 17.3118 14.583 17.2074 14.6816L17.2074 14.6816L12.4195 19.2042C11.9943 19.6058 11.9943 20.2824 12.4196 20.6839Z"
-                  stroke="black"
-                  stroke-opacity="0.55"
-                  style="stroke: black; stroke-opacity: 0.55"
-                  stroke-width="0.5"
+                  d="M13.9094 4.8303C13.7132 4.19909 13.2947 3.66105 12.7322 3.31653L8.22458 0.765728C7.84946 0.55811 7.42801 0.449219 6.99958 0.449219C6.57115 0.449219 6.14971 0.55811 5.77458 0.765728L1.26701 3.31653C1.02433 3.45928 0.808134 3.64311 0.627999 3.85988C0.222017 4.30658 -0.00208379 4.88983 1.46041e-05 5.49431V10.5002C0.000489351 10.9432 0.118075 11.3782 0.340783 11.7607C0.563491 12.1433 0.883353 12.4598 1.26776 12.6779L5.77533 15.2287C6.14927 15.44 6.57118 15.5509 7.00033 15.5509C7.42947 15.5509 7.85138 15.44 8.22532 15.2287L12.7329 12.6779C13.1172 12.4597 13.4369 12.1432 13.6595 11.7606C13.8821 11.3781 13.9996 10.9431 14 10.5002V5.49431C13.9999 5.26988 13.9694 5.04651 13.9094 4.8303ZM6.36364 8.47101V14.0962L1.8933 11.5662C1.70518 11.4594 1.54865 11.3045 1.43966 11.1172C1.33066 10.9299 1.27311 10.717 1.27285 10.5002L1.27592 5.59272L6.36364 8.47101ZM7.00001 7.36451L1.85289 4.45431C1.86604 4.44494 1.87967 4.43628 1.89372 4.42835L3.76283 3.37068L8.95449 6.26013L7.00001 7.36451ZM12.7273 5.59198V10.5002C12.727 10.717 12.6695 10.9299 12.5605 11.1172C12.4515 11.3045 12.2949 11.4594 12.1068 11.5662L7.63637 14.0962V8.47101L12.7273 5.59198ZM7.59914 1.87744L12.1067 4.42824C12.1208 4.43617 12.1344 4.44484 12.1475 4.4542L10.2552 5.52442L5.0626 2.63497L6.40087 1.87744C6.58446 1.77625 6.79054 1.7232 7.00001 1.7232C7.20948 1.7232 7.41556 1.77625 7.59914 1.87744Z"
+                  fill="currentColor"
+                  fill-opacity="0.45"
+                  style="fill: currentColor; fill-opacity: 1"
                 />
               </svg>
-            </button>
+
+              <span class="text-[14px] leading-none">Orders</span>
+            </div>
+            <div class="flex space-x-2">
+              <!-- Back Button -->
+              <button
+                :class="{ 'opacity-20 pointer-events-none': !canScrollLeft }"
+                @click="scrollLeft"
+                class="text-black text-[16px] select-none"
+              >
+                <!-- SVG for forward arrow -->
+                <svg
+                  class="rotate-180"
+                  width="30"
+                  height="30"
+                  viewBox="0 0 30 30"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="15"
+                    cy="15"
+                    r="15"
+                    fill="white"
+                    style="fill: white; fill-opacity: 1"
+                  />
+                  <circle
+                    cx="15"
+                    cy="15"
+                    r="14.5"
+                    stroke="black"
+                    stroke-opacity="0.45"
+                    style="stroke: black; stroke-opacity: 0.45"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M13.6454 20.5021C13.3496 20.7815 12.8871 20.7815 12.5912 20.5022C12.2704 20.1992 12.2704 19.6889 12.5911 19.3859L17.379 14.8634C17.5879 14.6661 17.5879 14.3337 17.379 14.1364L12.5911 9.6139C12.2704 9.3109 12.2704 8.8006 12.5912 8.4976C12.8871 8.2183 13.3496 8.2183 13.6454 8.4977L19.2305 13.7729C19.6483 14.1675 19.6483 14.8323 19.2305 15.2269L13.6454 20.5021Z"
+                    fill="black"
+                    fill-opacity="0.55"
+                    style="fill: black; fill-opacity: 0.55"
+                  />
+                  <path
+                    d="M12.4196 20.6839L12.4196 20.6839C12.8118 21.0543 13.4249 21.0542 13.817 20.6838C13.817 20.6838 13.817 20.6838 13.817 20.6838L19.4022 15.4086C19.9244 14.9154 19.9244 14.0844 19.4022 13.5912L13.817 8.31595L13.6454 8.4977L13.817 8.31595C13.4249 7.94555 12.8118 7.94556 12.4196 8.3158L12.4195 8.31585C11.9943 8.71749 11.9942 9.39396 12.4194 9.79563L12.4195 9.79564L17.2074 14.3182L17.2074 14.3182C17.3118 14.4168 17.3118 14.583 17.2074 14.6816L17.2074 14.6816L12.4195 19.2042C11.9943 19.6058 11.9943 20.2824 12.4196 20.6839Z"
+                    stroke="black"
+                    stroke-opacity="0.55"
+                    style="stroke: black; stroke-opacity: 0.55"
+                    stroke-width="0.5"
+                  />
+                </svg>
+              </button>
+
+              <!-- Forward Button -->
+              <button
+                :class="{ 'opacity-20 pointer-events-none': !canScrollRight }"
+                @click="scrollRight"
+                class="text-black text-[16px] select-none"
+              >
+                <!-- SVG for forward arrow -->
+                <svg
+                  width="30"
+                  height="30"
+                  viewBox="0 0 30 30"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="15"
+                    cy="15"
+                    r="15"
+                    fill="white"
+                    style="fill: white; fill-opacity: 1"
+                  />
+                  <circle
+                    cx="15"
+                    cy="15"
+                    r="14.5"
+                    stroke="black"
+                    stroke-opacity="0.45"
+                    style="stroke: black; stroke-opacity: 0.45"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M13.6454 20.5021C13.3496 20.7815 12.8871 20.7815 12.5912 20.5022C12.2704 20.1992 12.2704 19.6889 12.5911 19.3859L17.379 14.8634C17.5879 14.6661 17.5879 14.3337 17.379 14.1364L12.5911 9.6139C12.2704 9.3109 12.2704 8.8006 12.5912 8.4976C12.8871 8.2183 13.3496 8.2183 13.6454 8.4977L19.2305 13.7729C19.6483 14.1675 19.6483 14.8323 19.2305 15.2269L13.6454 20.5021Z"
+                    fill="black"
+                    fill-opacity="0.55"
+                    style="fill: black; fill-opacity: 0.55"
+                  />
+                  <path
+                    d="M12.4196 20.6839L12.4196 20.6839C12.8118 21.0543 13.4249 21.0542 13.817 20.6838C13.817 20.6838 13.817 20.6838 13.817 20.6838L19.4022 15.4086C19.9244 14.9154 19.9244 14.0844 19.4022 13.5912L13.817 8.31595L13.6454 8.4977L13.817 8.31595C13.4249 7.94555 12.8118 7.94556 12.4196 8.3158L12.4195 8.31585C11.9943 8.71749 11.9942 9.39396 12.4194 9.79563L12.4195 9.79564L17.2074 14.3182L17.2074 14.3182C17.3118 14.4168 17.3118 14.583 17.2074 14.6816L17.2074 14.6816L12.4195 19.2042C11.9943 19.6058 11.9943 20.2824 12.4196 20.6839Z"
+                    stroke="black"
+                    stroke-opacity="0.55"
+                    style="stroke: black; stroke-opacity: 0.55"
+                    stroke-width="0.5"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
         <div
@@ -724,6 +767,10 @@ export default {
   },
 
   methods: {
+    goToOrders() {
+      this.closeBag();
+      this.$router.push("/your-orders");
+    },
     //for mouse wheel support
     onScroll(event) {
       // Check if the event has significant vertical scroll
@@ -735,40 +782,42 @@ export default {
       // If horizontal scroll, let it pass through
     },
     updateScrollButtons() {
-    const scrollContainer = this.$refs.scrollContainer;
-    this.canScrollLeft = scrollContainer.scrollLeft > 0;
-    this.canScrollRight =
-      scrollContainer.scrollLeft + scrollContainer.clientWidth <
-      scrollContainer.scrollWidth;
-  },
-  scrollLeft() {
-    if (!this.scrolling) { // Check if it's already scrolling
-      this.scrolling = true; // Set scrolling to true to prevent new scrolls
       const scrollContainer = this.$refs.scrollContainer;
-      scrollContainer.scrollBy({ left: -this.itemWidth, behavior: "smooth" });
-      
-      requestAnimationFrame(() => {
-        setTimeout(() => {
-          this.updateScrollButtons();
-          this.scrolling = false; // Reset after scroll finishes
-        }, 200); // Adjust timing based on the scroll speed
-      });
-    }
-  },
-  scrollRight() {
-    if (!this.scrolling) { // Same handling for the right scroll
-      this.scrolling = true;
-      const scrollContainer = this.$refs.scrollContainer;
-      scrollContainer.scrollBy({ left: this.itemWidth, behavior: "smooth" });
-      
-      requestAnimationFrame(() => {
-        setTimeout(() => {
-          this.updateScrollButtons();
-          this.scrolling = false;
-        }, 200); // Adjust timing based on the scroll speed
-      });
-    }
-  },
+      this.canScrollLeft = scrollContainer.scrollLeft > 0;
+      this.canScrollRight =
+        scrollContainer.scrollLeft + scrollContainer.clientWidth <
+        scrollContainer.scrollWidth;
+    },
+    scrollLeft() {
+      if (!this.scrolling) {
+        // Check if it's already scrolling
+        this.scrolling = true; // Set scrolling to true to prevent new scrolls
+        const scrollContainer = this.$refs.scrollContainer;
+        scrollContainer.scrollBy({ left: -this.itemWidth, behavior: "smooth" });
+
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            this.updateScrollButtons();
+            this.scrolling = false; // Reset after scroll finishes
+          }, 200); // Adjust timing based on the scroll speed
+        });
+      }
+    },
+    scrollRight() {
+      if (!this.scrolling) {
+        // Same handling for the right scroll
+        this.scrolling = true;
+        const scrollContainer = this.$refs.scrollContainer;
+        scrollContainer.scrollBy({ left: this.itemWidth, behavior: "smooth" });
+
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            this.updateScrollButtons();
+            this.scrolling = false;
+          }, 200); // Adjust timing based on the scroll speed
+        });
+      }
+    },
 
     goToModelPage(brand, model) {
       this.closeDevicesNonHover();

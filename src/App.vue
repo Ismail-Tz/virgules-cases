@@ -5,20 +5,15 @@
       @lightColorEvent="lightColorEvent"
       @darkColorEvent="darkColorEvent"
     />
-    <YourOrdersPage/>
-    
-
   </div>
 </template>
 
 <script>
 import NavBar from "./components/NavBar.vue";
-import YourOrdersPage from "./components/YourOrdersPage.vue";
 export default {
   name: "App",
   components: {
     NavBar,
-    YourOrdersPage,
   },
   methods: {
     lightColorEvent(lightColor) {
@@ -36,6 +31,10 @@ export default {
   },
   created() {
     this.$store.dispatch("initializeBag");
+    const savedOrders = localStorage.getItem("orders");
+    if (savedOrders) {
+      this.$store.commit("SET_ORDERS", JSON.parse(savedOrders));
+    }
   },
 };
 </script>

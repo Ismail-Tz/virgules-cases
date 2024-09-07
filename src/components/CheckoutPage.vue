@@ -886,7 +886,9 @@
             <div
               class="ml-[10px] flex flex-col justify-between h-[45px] text-left"
             >
-              <p class="text-[17px] font-medium leading-[110%] font-[Visby] text-black">
+              <p
+                class="text-[17px] font-medium leading-[110%] font-[Visby] text-black"
+              >
                 Payment on delivery
               </p>
               <span
@@ -910,6 +912,7 @@
           Total: MAD {{ total }}
         </div>
         <button
+          @click="confirmOrder"
           class="border-[1.5px] border-black text-black font-semibold py-3 px-[17.5px] text-[17px] rounded-[20px] hover:bg-black hover:text-white hover:shadow-[0_0_35px_rgba(0,0,0,0.2)]"
         >
           Confirm Order
@@ -954,10 +957,50 @@ export default {
         this.showScrollIndicator = newVal.length > 3;
       },
       immediate: true, // Trigger the watch when the component mounts
-      deep: true // Ensure deep watch for arrays
+      deep: true, // Ensure deep watch for arrays
     },
   },
   methods: {
+    confirmOrder() {
+      // Necessary checkout data from component vars
+      const checkoutData = {
+        phone: this.phone,
+        email: this.email,
+        shippingAddress: this.address,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        city: this.city,
+        postalCode: this.postalCode,
+
+        payment: "Payment On Delivery",
+        subtotal: this.subtotal,
+        shipping: this.shippingCost,
+        total: this.total,
+      };
+
+      // Combine the checkout data with the bag items to create the order
+      const newOrder = {
+        id: Date.now(), // Unique ID for the order
+        items: this.$store.state.bag, // The items in the current bag
+        checkoutInfo: checkoutData, // The checkout information (phone, email, etc.)
+        date: new Date(), // Current date and time
+      };
+
+      // Add the order to Vuex and localStorage
+      this.$store.commit("ADD_ORDER", newOrder);
+      localStorage.setItem("orders", JSON.stringify(this.$store.state.orders));
+
+      // Clear the bag and form fields after confirming the order
+      this.$store.commit("clearBag"); // Existing mutation
+      this.clearFields();
+
+      // Close the modal
+      //this.closeModal();
+
+      // Redirect to YourOrdersPage
+      this.$router.push('/your-orders');
+    },
+
     clearValidation(field) {
       // Directly access and modify the validation state property
       this[`${field}Invalid`] = false;
@@ -999,6 +1042,17 @@ export default {
       // Trigger the overlay
       this.openModal();
     },
+
+    clearFields() {
+      // Reset all form fields to their default values
+      this.email = "";
+      this.phone = "";
+      this.postalCode = "";
+      this.address = "";
+      this.firstName = "";
+      this.lastName = "";
+      this.city = "";
+    },
     saveData() {
       this.savedEmail = this.email;
       this.savedPhone = this.phone;
@@ -1032,30 +1086,29 @@ export default {
       setTimeout(() => {
         this.isModalClosing = false;
       }, 300);
-
     },
 
     handleScroll(event) {
-  const scrollTop = event.target.scrollTop;
+      const scrollTop = event.target.scrollTop;
 
-  if (this.bagItems.length > 3) {
-    if (scrollTop > 10) {
-      this.showScrollIndicator = false;
-      clearTimeout(this.scrollTimeout);
-    } else {
-      clearTimeout(this.scrollTimeout);
-      this.scrollTimeout = setTimeout(() => {
-        if (scrollTop === 0) {
-          this.showScrollIndicator = true;
+      if (this.bagItems.length > 3) {
+        if (scrollTop > 10) {
+          this.showScrollIndicator = false;
+          clearTimeout(this.scrollTimeout);
+        } else {
+          clearTimeout(this.scrollTimeout);
+          this.scrollTimeout = setTimeout(() => {
+            if (scrollTop === 0) {
+              this.showScrollIndicator = true;
+            }
+          }, 5000); // 5 seconds pause before showing the indicator again
         }
-      }, 5000); // 5 seconds pause before showing the indicator again
-    }
-  } else {
-    // If there are 3 or fewer items, always hide the scroll indicator
-    this.showScrollIndicator = false;
-    clearTimeout(this.scrollTimeout);
-  }
-},
+      } else {
+        // If there are 3 or fewer items, always hide the scroll indicator
+        this.showScrollIndicator = false;
+        clearTimeout(this.scrollTimeout);
+      }
+    },
     goBack() {
       this.$router.back(); // Navigate back to the previous page
     },
