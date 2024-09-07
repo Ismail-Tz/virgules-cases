@@ -7,12 +7,13 @@
     ]"
     :style="{
       height: isBagOpen
-        ? `${bagContentHeight + 60 + 24}px`
+        ? `min(${bagContentHeight + 60 + 24}px, 100vh)` // Limits height to the viewport height
         : isDevicesOpen
-        ? `${devicesContentHeight + 60 + 24}px`
+        ? `min(${devicesContentHeight + 60 + 24}px, 100vh)` // Limits height to viewport if devices are open
         : '60px',
       backgroundColor: lightColorTp,
       borderColor: navBarDarkColor + '26',
+      overflowY: isBagOpen || isDevicesOpen ? 'auto' : 'hidden', // Enables scroll if content overflows
     }"
     @mouseleave="
       closeBag();
@@ -21,7 +22,6 @@
   >
     <div
       class="max-w-[1188px] w-full mx-auto px-6 box-border flex justify-between items-center h-[60px]"
-      
     >
       <!-- Left-aligned section (Logo) -->
       <div class="flex items-center w-1/3">
@@ -386,7 +386,6 @@
         </div>
         <div
           ref="scrollContainer"
-          @wheel="onScroll"
           :class="{ 'select-none': scrolling }"
           class="relative rounded-[32px] overflow-x-auto whitespace-nowrap hide-scrollbar"
         >
@@ -441,14 +440,14 @@
                 {{ item.model }} - {{ item.type }}
               </h2>
               <h3
-                class="text-black opacity-[60%] text-left  text-[14px] mb-[5px] leading-snug w-[100%] truncate"
+                class="text-black opacity-[60%] text-left text-[14px] mb-[5px] leading-snug w-[100%] truncate"
               >
                 {{ item.color }}
                 {{ item.customizations ? "- Customized" : "" }}
               </h3>
               <div class="mt-auto w-full flex items-center justify-between">
                 <h3
-                  class="text-black text-left  text-[15px] leading-snug truncate"
+                  class="text-black text-left text-[15px] leading-snug truncate"
                 >
                   MAD {{ item.price }}
                 </h3>
