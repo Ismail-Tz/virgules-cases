@@ -74,15 +74,18 @@
             >
               Select Device
             </h2>
-            <div class="flex gap-[8px] mb-[8px]">
+            <div class="flex gap-[8px] mb-[8px] flex-wrap">
               <button
                 v-for="device in availableBrands"
                 :key="device"
-                class="border border-black text-black py-[17.5px] px-[20px] text-[15px] rounded-full leading-[100%]"
+                class="border border-black text-black py-[17.5px] px-[20px] text-[15px] rounded-full leading-[100%] flex-shrink-0"
                 @mouseenter="hoveredButton = device"
                 @mouseleave="hoveredButton = null"
                 @click="selectBrand(device)"
                 :style="buttonStyles(device)"
+                :class="{
+                  'text-[13px] px-[16px] py-[14px]': isParentDivSmall, // Adjust sizes when container is small
+                }"
               >
                 {{ device }}
               </button>
@@ -128,65 +131,62 @@
                 Customize
               </h2>
               <div class="flex gap-[14px]">
-                
-                  <div class="relative w-1/3">
-                    <input
-                      type="text"
-                      id="customNumber"
-                      class="w-full h-[52px] bg-transparent border border-black text-black py-[17.5px] px-[20px] text-[15px] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] transition-all duration-300 ease-in-out rounded-full leading-[100%] focus:ring-1 focus:ring-[#0000006e]"
-                      placeholder=" "
-                      v-model="customNumber"
-                      :style="{
-                        borderColor: darkColor,
-                        color: darkColor,
-                        focusBorderColor: darkColor,
-                      }"
-                    />
-                    <label
-                      for="customNumber"
-                      :class="[
-                        'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
-                        customNumber
-                          ? 'top-[13px] text-[10px] text-black opacity-80'
-                          : 'text-[15px] text-black opacity-80',
-                      ]"
-                      :style="{
-                        color: darkColor,
-                      }"
-
-                      class="flex items-center"
-                      >Number
-                    </label>
-                  </div>
-                  <div class="relative w-2/3">
-                    <input
-                      type="text"
-                      id="customName"
-                      class="w-full h-[52px] bg-transparent border border-black text-black py-[17.5px] px-[20px] text-[15px] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] transition-all duration-300 ease-in-out rounded-full leading-[100%] focus:ring-1 focus:ring-[#0000006e]"
-                      placeholder=" "
-                      v-model="customName"
-                      :style="{
-                        borderColor: darkColor,
-                        color: darkColor,
-                        focusBorderColor: darkColor,
-                      }"
-                    />
-                    <label
-                      for="customName"
-                      :class="[
-                        'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
-                        customName
-                          ? 'top-[13px] text-[10px] text-black opacity-80'
-                          : 'text-[15px] text-black opacity-80',
-                      ]"
-                      :style="{
-                        color: darkColor,
-                      }"
-
-                      class="flex items-center"
-                      >Name
-                    </label>
-                  </div>
+                <div class="relative w-1/3">
+                  <input
+                    type="text"
+                    id="customNumber"
+                    class="w-full h-[52px] bg-transparent border border-black text-black py-[17.5px] px-[20px] text-[15px] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] transition-all duration-300 ease-in-out rounded-full leading-[100%] focus:ring-1 focus:ring-[#0000006e]"
+                    placeholder=" "
+                    v-model="customNumber"
+                    :style="{
+                      borderColor: darkColor,
+                      color: darkColor,
+                      focusBorderColor: darkColor,
+                    }"
+                  />
+                  <label
+                    for="customNumber"
+                    :class="[
+                      'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
+                      customNumber
+                        ? 'top-[13px] text-[10px] text-black opacity-80'
+                        : 'text-[15px] text-black opacity-80',
+                    ]"
+                    :style="{
+                      color: darkColor,
+                    }"
+                    class="flex items-center"
+                    >Number
+                  </label>
+                </div>
+                <div class="relative w-2/3">
+                  <input
+                    type="text"
+                    id="customName"
+                    class="w-full h-[52px] bg-transparent border border-black text-black py-[17.5px] px-[20px] text-[15px] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] transition-all duration-300 ease-in-out rounded-full leading-[100%] focus:ring-1 focus:ring-[#0000006e]"
+                    placeholder=" "
+                    v-model="customName"
+                    :style="{
+                      borderColor: darkColor,
+                      color: darkColor,
+                      focusBorderColor: darkColor,
+                    }"
+                  />
+                  <label
+                    for="customName"
+                    :class="[
+                      'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
+                      customName
+                        ? 'top-[13px] text-[10px] text-black opacity-80'
+                        : 'text-[15px] text-black opacity-80',
+                    ]"
+                    :style="{
+                      color: darkColor,
+                    }"
+                    class="flex items-center"
+                    >Name
+                  </label>
+                </div>
               </div>
             </div>
             <!-- Color/Style Selection -->
@@ -202,13 +202,13 @@
             >
               Selected: <span class="font-bold">{{ colorTitle }}</span>
             </p>
-            <div class="grid grid-cols-7 gap-[6px]">
+            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-[6px]">
               <div
                 v-for="color in products[this.id].colors"
                 :key="color.id"
                 @click="handleClick(color)"
                 :class="[
-                  'bg-[#ffffff] border border-black/20 aspect-square rounded-[8px] p-[10px] cursor-pointer',
+                  'bg-[#ffffff] border border-black/20 aspect-square rounded-[8px] cursor-pointer flex justify-center items-center',
                 ]"
                 :style="
                   selectedColor === color.id
@@ -226,7 +226,7 @@
                 <circle  cx="50" cy="50" r="50" :fill="color.colorHex" />
               </svg> -->
                 <div
-                  class="w-full aspect-square rounded-full inner-shadow"
+                  class="w-[65%] aspect-square rounded-full inner-shadow"
                   :style="{ backgroundColor: color.colorHex }"
                 ></div>
               </div>
