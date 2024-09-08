@@ -3,7 +3,7 @@
     class="fixed top-0 left-0 w-full select-none bg-[#F7FDFC] border-b border-[#0A332E20] h-[60px] z-50 blurry transition-all duration-500 ease-in-out"
     :class="[
       isBagOpen || isDevicesOpen ? '' : 'h-[60px]', // Empty if open, otherwise 'h-[60px]'
-      { 'pointer-events-none': isClosing }, // Adds 'pointer-events-none' if isClosing is true
+      // Adds 'pointer-events-none' if isClosing is true
     ]"
     :style="{
       height: isBagOpen
@@ -17,7 +17,7 @@
     }"
     @mouseleave="
       closeBag();
-      closeDevicesNonHover();
+      closeDevices();
     "
   >
     <div
@@ -704,16 +704,19 @@ export default {
     this.updateNavBarColors();
 
     // Wait for the DOM to be fully updated
-  this.$nextTick(() => {
-    // Attach the scroll listener to the single scrollContainer
-    this.$refs.scrollContainer.addEventListener("scroll", this.updateScrollButtons);
+    this.$nextTick(() => {
+      // Attach the scroll listener to the single scrollContainer
+      this.$refs.scrollContainer.addEventListener(
+        "scroll",
+        this.updateScrollButtons
+      );
 
-    // Also, update the scroll buttons initially to ensure they are set up correctly
-    this.updateScrollButtons();
+      // Also, update the scroll buttons initially to ensure they are set up correctly
+      this.updateScrollButtons();
 
-    // Add a resize listener to handle updates when the window is resized
-    window.addEventListener("resize", this.handleResize);
-  });
+      // Add a resize listener to handle updates when the window is resized
+      window.addEventListener("resize", this.handleResize);
+    });
   },
 
   computed: {
@@ -786,9 +789,9 @@ export default {
       // If horizontal scroll, let it pass through
     },
     handleResize() {
-    // When the window is resized, re-evaluate the scroll buttons
-    this.updateScrollButtons();
-  },
+      // When the window is resized, re-evaluate the scroll buttons
+      this.updateScrollButtons();
+    },
     updateScrollButtons() {
       const scrollContainer = this.$refs.scrollContainer;
       this.canScrollLeft = scrollContainer.scrollLeft > 0;
@@ -828,7 +831,7 @@ export default {
     },
 
     goToModelPage(brand, model) {
-      this.closeDevicesNonHover();
+      this.closeDevices();
       this.$router.push(`/model/${brand}/${model}`);
     },
     triggerJump() {
@@ -886,6 +889,7 @@ export default {
     toggleBag() {
       this.isBagOpen = !this.isBagOpen;
       if (this.isDevicesOpen) this.closeDevices(); // Close devices if open
+      console.log(this.devicesContentHeight);
 
       this.$nextTick(() => {
         const bagContentEl = this.$refs.bagContent;
@@ -922,20 +926,21 @@ export default {
     closeDevices() {
       this.isDevicesOpen = false;
       this.$nextTick(() => {
+        // Set height to 0 to transition
         this.devicesContentHeight = 0;
       });
     },
-    closeDevicesNonHover() {
-      this.isClosing = true; // Start closing
-      this.isDevicesOpen = false;
-      this.$nextTick(() => {
-        this.devicesContentHeight = 0;
-        // Reset the isClosing flag after the animation duration (500ms)
-        setTimeout(() => {
-          this.isClosing = false;
-        }, 300);
-      });
-    },
+    // closeDevicesNonHover() {
+    //   this.isClosing = true; // Start closing
+    //   this.isDevicesOpen = false;
+    //   this.$nextTick(() => {
+    //     this.devicesContentHeight = 0;
+    //     // Reset the isClosing flag after the animation duration (500ms)
+    //     setTimeout(() => {
+    //       this.isClosing = false;
+    //     }, 300);
+    //   });
+    // },
 
     // Increment and decrement quantity in bagged items
 

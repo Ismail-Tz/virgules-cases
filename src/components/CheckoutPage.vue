@@ -22,7 +22,7 @@
         </svg>
         Checkout
       </button>
-      <div class="grid grid-cols-3 gap-[40px]">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-[40px]">
         <div
           class="col-span-2 bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
         >
@@ -601,7 +601,7 @@
           </div>
         </div>
         <div
-          class="relative col-span-1 bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
+          class="relative col-span-2 lg:col-span-1  bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
         >
           <div
             @scroll="handleScroll"
