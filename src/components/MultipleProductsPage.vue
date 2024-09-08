@@ -77,7 +77,7 @@
               @mouseover="applyHoverColors(index)"
               @mouseleave="clearHoverColors"
               @mousemove="updateMouseGradient(index, $event)"
-              class="cursor-pointer text-left bg-[#F9F9F9] border border-[#00000020] rounded-[32px] p-[24px] hover:bg-[#F7FDFC] hover:border-[#0A332E50] flex flex-col items-center"
+              class="cursor-pointer text-left bg-[#F9F9F9] border border-[#00000020] rounded-[32px] p-[24px] flex flex-col items-center"
               :style="{
                 backgroundImage: hoveredIndex === index ? gradient : 'none',
                 borderColor:
