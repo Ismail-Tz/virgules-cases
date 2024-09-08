@@ -1,7 +1,6 @@
 <template>
   <div class="w-full overflow-hidden mt-[108px] mb-[40px]">
     <div
-    
       class="max-w-[1188px] w-full mx-auto px-6 box-border mt-[40px] overflow-hidden"
     >
       <div class="flex justify-between items-end">
@@ -87,6 +86,106 @@
 
               <span class="text-[14px] leading-none">On Its Way</span>
             </div>
+            <div class="flex space-x-2">
+              <!-- Back Button -->
+              <button
+                :class="{
+                  'opacity-20 pointer-events-none': !canScrollLeft[index],
+                }"
+                @click="scrollLeft(index)"
+                class="text-black text-[16px] select-none"
+              >
+                <!-- SVG for backward arrow -->
+                <svg
+                  class="rotate-180"
+                  width="30"
+                  height="30"
+                  viewBox="0 0 30 30"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="15"
+                    cy="15"
+                    r="15"
+                    fill="white"
+                    style="fill: white; fill-opacity: 1"
+                  />
+                  <circle
+                    cx="15"
+                    cy="15"
+                    r="14.5"
+                    stroke="black"
+                    stroke-opacity="0.45"
+                    style="stroke: black; stroke-opacity: 0.45"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M13.6454 20.5021C13.3496 20.7815 12.8871 20.7815 12.5912 20.5022C12.2704 20.1992 12.2704 19.6889 12.5911 19.3859L17.379 14.8634C17.5879 14.6661 17.5879 14.3337 17.379 14.1364L12.5911 9.6139C12.2704 9.3109 12.2704 8.8006 12.5912 8.4976C12.8871 8.2183 13.3496 8.2183 13.6454 8.4977L19.2305 13.7729C19.6483 14.1675 19.6483 14.8323 19.2305 15.2269L13.6454 20.5021Z"
+                    fill="black"
+                    fill-opacity="0.55"
+                    style="fill: black; fill-opacity: 0.55"
+                  />
+                  <path
+                    d="M12.4196 20.6839L12.4196 20.6839C12.8118 21.0543 13.4249 21.0542 13.817 20.6838C13.817 20.6838 13.817 20.6838 13.817 20.6838L19.4022 15.4086C19.9244 14.9154 19.9244 14.0844 19.4022 13.5912L13.817 8.31595L13.6454 8.4977L13.817 8.31595C13.4249 7.94555 12.8118 7.94556 12.4196 8.3158L12.4195 8.31585C11.9943 8.71749 11.9942 9.39396 12.4194 9.79563L12.4195 9.79564L17.2074 14.3182L17.2074 14.3182C17.3118 14.4168 17.3118 14.583 17.2074 14.6816L17.2074 14.6816L12.4195 19.2042C11.9943 19.6058 11.9943 20.2824 12.4196 20.6839Z"
+                    stroke="black"
+                    stroke-opacity="0.55"
+                    style="stroke: black; stroke-opacity: 0.55"
+                    stroke-width="0.5"
+                  />
+                </svg>
+              </button>
+
+              <!-- Forward Button -->
+              <button
+                :class="{
+                  'opacity-20 pointer-events-none': !canScrollRight[index],
+                }"
+                @click="scrollRight(index)"
+                class="text-black text-[16px] select-none"
+              >
+                <!-- SVG for forward arrow -->
+                <svg
+                  width="30"
+                  height="30"
+                  viewBox="0 0 30 30"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="15"
+                    cy="15"
+                    r="15"
+                    fill="white"
+                    style="fill: white; fill-opacity: 1"
+                  />
+                  <circle
+                    cx="15"
+                    cy="15"
+                    r="14.5"
+                    stroke="black"
+                    stroke-opacity="0.45"
+                    style="stroke: black; stroke-opacity: 0.45"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M13.6454 20.5021C13.3496 20.7815 12.8871 20.7815 12.5912 20.5022C12.2704 20.1992 12.2704 19.6889 12.5911 19.3859L17.379 14.8634C17.5879 14.6661 17.5879 14.3337 17.379 14.1364L12.5911 9.6139C12.2704 9.3109 12.2704 8.8006 12.5912 8.4976C12.8871 8.2183 13.3496 8.2183 13.6454 8.4977L19.2305 13.7729C19.6483 14.1675 19.6483 14.8323 19.2305 15.2269L13.6454 20.5021Z"
+                    fill="black"
+                    fill-opacity="0.55"
+                    style="fill: black; fill-opacity: 0.55"
+                  />
+                  <path
+                    d="M12.4196 20.6839L12.4196 20.6839C12.8118 21.0543 13.4249 21.0542 13.817 20.6838C13.817 20.6838 13.817 20.6838 13.817 20.6838L19.4022 15.4086C19.9244 14.9154 19.9244 14.0844 19.4022 13.5912L13.817 8.31595L13.6454 8.4977L13.817 8.31595C13.4249 7.94555 12.8118 7.94556 12.4196 8.3158L12.4195 8.31585C11.9943 8.71749 11.9942 9.39396 12.4194 9.79563L12.4195 9.79564L17.2074 14.3182L17.2074 14.3182C17.3118 14.4168 17.3118 14.583 17.2074 14.6816L17.2074 14.6816L12.4195 19.2042C11.9943 19.6058 11.9943 20.2824 12.4196 20.6839Z"
+                    stroke="black"
+                    stroke-opacity="0.55"
+                    style="stroke: black; stroke-opacity: 0.55"
+                    stroke-width="0.5"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
         <div
@@ -140,7 +239,7 @@
       </div>
       <div class="flex justify-center items-baseline mt-[40px]">
         <div
-            @click="goHome"
+          @click="goHome"
           class="px-[25px] py-[20px] border border-black/45 rounded-full hover:bg-black hover:border-black hover:cursor-pointer text-black/45 hover:text-white"
         >
           <h1 class="text-left font-normal text-[18px] leading-none">
@@ -156,16 +255,125 @@
 export default {
   name: "YourOrdersPage",
   // Your component options here
-  data() {},
+  data() {
+    return {
+      scrolling: false,
+      canScrollLeft: [], // Initialize as an empty array to track each container's state
+      canScrollRight: [], // Initialize as an empty array to track each container's state
+    };
+  },
+
+  mounted() {
+    this.$nextTick(() => {
+      // Ensure items are populated before iterating
+      if (Array.isArray(this.items)) {
+        this.items.forEach((item, index) => {
+          const scrollContainer = this.$refs.scrollOrderContainer[index];
+          if (scrollContainer) {
+            // Bind updateScrollButtons to maintain the correct context
+            scrollContainer.addEventListener("scroll", () =>
+              this.updateScrollButtons(index)
+            );
+          }
+        });
+      }
+    });
+    // Initialize the scroll buttons for each container on mount
+    this.$nextTick(() => {
+      this.$refs.scrollOrderContainer.forEach((_, index) => {
+        // Initially, you can't scroll left, but you can scroll right
+        this.canScrollLeft[index] = false;
+        this.canScrollRight[index] = true;
+
+        // Update scroll state based on actual dimensions
+        this.updateScrollButtons(index);
+
+        // Add scroll listener to each container
+        const scrollContainer = this.$refs.scrollOrderContainer[index];
+        if (scrollContainer) {
+          // Bind updateScrollButtons to maintain the correct context
+          scrollContainer.addEventListener("scroll", () =>
+            this.updateScrollButtons(index)
+          );
+        }
+      });
+
+      // Add a window resize listener to update scroll buttons when the container sizes change
+      window.addEventListener("resize", this.handleResize);
+    });
+  },
+  beforeUnmount() {
+  window.removeEventListener("resize", this.handleResize);
+},
 
   computed: {
     orders() {
       return this.$store.state.orders;
     },
+
+    itemWidth() {
+      // Assuming you want to calculate the width for a specific container, e.g., the first one
+      const index = 0; // Example: use index 0 for demonstration, adjust as needed
+      const scrollContainer = this.$refs.scrollOrderContainer[index];
+
+      if (!scrollContainer) return 0; // Ensure scrollContainer exists
+
+      const item = scrollContainer.querySelector(".flex > div");
+      const gap = parseFloat(
+        getComputedStyle(scrollContainer.querySelector(".flex")).gap
+      );
+      return item ? item.offsetWidth + gap : 0;
+    },
   },
   methods: {
-    goHome(){
-        this.$router.push("/");
+    handleResize() {
+    // Update the scroll buttons for all containers on resize
+    this.$refs.scrollOrderContainer.forEach((_, index) => {
+      this.updateScrollButtons(index);
+    });
+  },
+    updateScrollButtons(index) {
+      const scrollContainer = this.$refs.scrollOrderContainer[index];
+
+      // Ensure you update the correct state for each container
+      this.canScrollLeft[index] = scrollContainer.scrollLeft > 0;
+      this.canScrollRight[index] =
+        scrollContainer.scrollLeft + scrollContainer.clientWidth <
+        scrollContainer.scrollWidth;
+    },
+    scrollLeft(index) {
+      if (!this.scrolling) {
+        this.scrolling = true;
+        const scrollContainer = this.$refs.scrollOrderContainer[index];
+
+        scrollContainer.scrollBy({ left: -this.itemWidth, behavior: "smooth" });
+
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            this.updateScrollButtons(index); // Update after scrolling left
+            this.scrolling = false;
+          }, 200); // Adjust based on scroll speed
+        });
+      }
+    },
+    scrollRight(index) {
+      if (!this.scrolling) {
+        this.scrolling = true;
+        const scrollContainer = this.$refs.scrollOrderContainer[index];
+
+        scrollContainer.scrollBy({ left: this.itemWidth, behavior: "smooth" });
+
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            this.updateScrollButtons(index); // Update after scrolling right
+            this.scrolling = false;
+          }, 200); // Adjust based on scroll speed
+        });
+      }
+    },
+
+    goHome() {
+      this.$router.push("/");
     },
     clearOrders() {
       this.$store.commit("CLEAR_ORDERS");

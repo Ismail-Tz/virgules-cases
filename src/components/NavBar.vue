@@ -293,7 +293,7 @@
                 @click="scrollLeft"
                 class="text-black text-[16px] select-none"
               >
-                <!-- SVG for forward arrow -->
+                <!-- SVG for backward arrow -->
                 <svg
                   class="rotate-180"
                   width="30"
@@ -703,12 +703,17 @@ export default {
     this.checkIfOnProductPage(this.$route);
     this.updateNavBarColors();
 
-    this.$nextTick(() => {
-      this.$refs.scrollContainer.addEventListener(
-        "scroll",
-        this.updateScrollButtons
-      );
-    });
+    // Wait for the DOM to be fully updated
+  this.$nextTick(() => {
+    // Attach the scroll listener to the single scrollContainer
+    this.$refs.scrollContainer.addEventListener("scroll", this.updateScrollButtons);
+
+    // Also, update the scroll buttons initially to ensure they are set up correctly
+    this.updateScrollButtons();
+
+    // Add a resize listener to handle updates when the window is resized
+    window.addEventListener("resize", this.handleResize);
+  });
   },
 
   computed: {
@@ -780,6 +785,10 @@ export default {
       }
       // If horizontal scroll, let it pass through
     },
+    handleResize() {
+    // When the window is resized, re-evaluate the scroll buttons
+    this.updateScrollButtons();
+  },
     updateScrollButtons() {
       const scrollContainer = this.$refs.scrollContainer;
       this.canScrollLeft = scrollContainer.scrollLeft > 0;
