@@ -44,13 +44,13 @@
 
       <!-- Center-aligned section (Text buttons) -->
       <div class="flex justify-center w-1/3">
-        <a
+        <button
           v-if="!isCheckoutPage"
-          href="#"
           @mouseenter="toggleDevices"
+          @click="toggleDevices"
           class="text-[#0A332E] hover:bg-[#00000007] px-3 py-2 text-[14px] rounded-xl"
           :style="{ color: navBarDarkColor }"
-          >Devices</a
+          >Devices</button
         >
         <a
           v-if="!isCheckoutPage"
@@ -605,6 +605,10 @@
   </nav>
   <!-- Overlay for blur and darkness -->
   <div
+  @click="
+      closeBag();
+      closeDevices();
+    "
     v-if="isBagOpen || isDevicesOpen"
     class="fixed inset-0 bg-black bg-opacity-[0.035] z-40 transition-opacity duration-500 ease-in-out"
     :class="
@@ -699,13 +703,14 @@ export default {
     },
   },
   mounted() {
-    // Check on initial load
-    this.checkIfOnProductPage(this.$route);
-    this.updateNavBarColors();
+  // Check on initial load
+  this.checkIfOnProductPage(this.$route);
+  this.updateNavBarColors();
 
-    // Wait for the DOM to be fully updated
-    this.$nextTick(() => {
-      // Attach the scroll listener to the single scrollContainer
+  // Wait for the DOM to be fully updated
+  this.$nextTick(() => {
+    if (this.$refs.scrollContainer) {
+      // Attach the scroll listener to the scrollContainer
       this.$refs.scrollContainer.addEventListener(
         "scroll",
         this.updateScrollButtons
@@ -716,8 +721,18 @@ export default {
 
       // Add a resize listener to handle updates when the window is resized
       window.addEventListener("resize", this.handleResize);
-    });
-  },
+    } else {
+      console.warn("scrollContainer ref is not available.");
+    }
+  });
+},
+
+beforeUnmount() {
+  if (this.$refs.scrollContainer) {
+    this.$refs.scrollContainer.removeEventListener("scroll", this.updateScrollButtons);
+  }
+  window.removeEventListener("resize", this.handleResize);
+},
 
   computed: {
     ...mapGetters(["availableDevices"]), // Get dynamically extracted devices from Vuex
