@@ -173,7 +173,7 @@
     <!-- Devices Content -->
     <div
       ref="devicesContent"
-      :style="{ height: `${devicesContentHeight}px` }"
+      :style="{ height: isDevicesOpen ? `${devicesContentHeight}px` : '0px' }"
       class="w-full overflow-hidden select-none transition-all duration-500 ease-in-out"
     >
       <!-- Devices Content Here -->
@@ -233,7 +233,7 @@
     <div
       ref="bagContent"
       class="max-w-[1188px] w-full mx-auto px-6 box-border overflow-hidden select-none transition-all duration-500 ease-in-out"
-      :style="{ height: `${bagContentHeight}px` }"
+      :style="{ height: isBagOpen ? `${bagContentHeight}px` : '0px' }"
     >
       <div class="max-w-[1188px] w-full mx-auto box-border mt-[24px]">
         <div class="flex justify-between items-center mb-[24px] py-[1px]">
