@@ -13,6 +13,7 @@ module.exports = {
       screens: {
         '1056': '1056px',  // Custom breakpoint for exactly 1056px
         '750': '750px',
+        '450': '450px',
       },
     },
   },
