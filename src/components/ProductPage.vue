@@ -11,26 +11,35 @@
             }"
           >
             <img
+              ref="image"
               :src="imageSrc"
               alt="Case Image"
               class="w-1/2 h-auto object-cover"
+              @load="updateScale"
               :style="{ filter: `drop-shadow(0 0 60px ${darkColor + '4D'})` }"
             />
+
             <!-- Customizing Cases -->
             <div
-              v-if="products[id].isCustomizable"
+              v-if="products[id].isCustomizable && isImageLoaded"
               class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
+              :style="{
+                transform: `scale(${scaledImageText})`,
+                marginTop: getMarginTop(), // Dynamically compute margin-top based on brand and scale
+              }"
             >
               <span
                 class="custom-text name-text leading-[100%] font-semibold"
                 :style="{ color: darkColor, fontFamily: customFont }"
-                >{{ customName || "VIRGULES" }}</span
               >
+                {{ customName || "NAME" }}
+              </span>
               <span
                 class="custom-text number-text leading-[100%] font-bold"
                 :style="{ color: darkColor, fontFamily: customFont }"
-                >{{ customNumber || "00" }}</span
               >
+                {{ customNumber || "10" }}
+              </span>
             </div>
           </div>
         </div>
@@ -202,7 +211,9 @@
             >
               Selected: <span class="font-bold">{{ colorTitle }}</span>
             </p>
-            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-[6px]">
+            <div
+              class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-[6px]"
+            >
               <div
                 v-for="color in products[this.id].colors"
                 :key="color.id"
@@ -287,6 +298,9 @@ export default {
       customNumber: "",
       customName: "",
       customFont: "visby, sans-serif",
+      imageScale: 1, // Holds the image scale
+      scaleFactor: 2.5, // Allows you to adjust the text scaling factor
+      isImageLoaded: false, // Flag to check if the image has been loaded
     };
   },
 
@@ -340,7 +354,40 @@ export default {
     this.updateSafariTabBarColor();
   },
 
+  mounted() {
+    this.updateScale();
+    window.addEventListener("resize", this.updateScale);
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.updateScale);
+  },
+
   methods: {
+    updateScale() {
+      const image = this.$refs.image;
+      if (image) {
+        const imageWidth = image.naturalWidth; // Intrinsic width of the image
+        const displayedWidth = image.clientWidth; // Rendered (current) width of the image
+        this.imageScale = displayedWidth / imageWidth; // Scale based on actual image size
+
+        // Set the flag to true once the image is loaded and scaling is applied
+        this.isImageLoaded = true;
+      }
+    },
+    getMarginTop() {
+    // Base margin values in pixels
+    const samsungMargin = 120; // Margin for Samsung
+    const otherMargin = 40;    // Margin for other brands
+
+    // Calculate scaled margin
+    const scaleAdjustedSamsungMargin = samsungMargin * this.scaledImageText;
+    const scaleAdjustedOtherMargin = otherMargin * this.scaledImageText;
+
+    // Return margin-top based on the selected brand
+    return this.selectedBrand === 'Samsung' 
+      ? `${scaleAdjustedSamsungMargin}px` 
+      : `${scaleAdjustedOtherMargin}px`;
+  },
     goBack() {
       this.$router.back(); // Navigate back to the previous page
     },
@@ -497,6 +544,10 @@ export default {
   computed: {
     // VUEX: Using mapGetters to access the colors array from the store
     ...mapGetters(["products"]),
+
+    scaledImageText() {
+      return this.imageScale * this.scaleFactor;
+    },
 
     lightColor() {
       const color = this.products[this.id].colors.find(

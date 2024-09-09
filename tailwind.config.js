@@ -10,6 +10,10 @@ module.exports = {
         visby: ['Visby', 'sans-serif'],
         sfpro: ['SF Pro', 'sans-serif'],
       },
+      screens: {
+        '1056': '1056px',  // Custom breakpoint for exactly 1056px
+        '750': '750px',
+      },
     },
   },
   plugins: [],

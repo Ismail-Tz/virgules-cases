@@ -4,11 +4,11 @@
       <h2
         class="text-[26px] mb-[40px] text-left font-[Visby] font-bold text-[#000000] leading-none"
       >
-        {{ this.brand ? this.brand + " " + this.model : "All" }} Cases
+        {{ this.brand ? this.model : "All" }} Cases
       </h2>
-      <div class="grid grid-cols-3 gap-[40px]">
+      <div class="grid grid-cols-12 gap-[30px] lg:gap-[40px]">
         <div
-          class="col-span-1 bg-[#F9F9F9] border border-[#00000026] rounded-[32px] p-[24px] h-fit"
+          class="col-span-4 md:col-span-5 1056:col-span-4 bg-[#F9F9F9] border border-[#00000026] rounded-[32px] p-[20px] lg:p-[24px] h-fit"
         >
           <div>
             <!-- Loop over dropdown data -->
@@ -68,8 +68,8 @@
             </div>
           </div>
         </div>
-        <div class="col-span-2 rounded-[32px]">
-          <div class="grid grid-cols-3 gap-[24px]">
+        <div class="col-span-8 md:col-span-7 1056:col-span-8 rounded-[32px]">
+          <div class="grid grid-cols-2 1056:grid-cols-3 gap-[20px] lg:gap-[24px]">
             <div
               v-for="(item, index) in filteredProductsByModel"
               :key="index"
@@ -77,7 +77,7 @@
               @mouseover="applyHoverColors(index)"
               @mouseleave="clearHoverColors"
               @mousemove="updateMouseGradient(index, $event)"
-              class="cursor-pointer text-left bg-[#F9F9F9] border border-[#00000020] rounded-[32px] p-[24px] flex flex-col items-center"
+              class="cursor-pointer text-left bg-[#F9F9F9] border border-[#00000020] rounded-[32px] p-[20px] lg:p-[24px] flex flex-col items-center"
               :style="{
                 backgroundImage: hoveredIndex === index ? gradient : 'none',
                 borderColor:

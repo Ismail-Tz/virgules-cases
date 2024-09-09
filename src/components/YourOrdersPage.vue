@@ -248,13 +248,16 @@
       </div>
       <div class="flex justify-center items-baseline mt-[40px]">
         <div
-          @click="goHome"
-          class="px-[25px] py-[20px] border border-black/45 rounded-full hover:bg-black hover:border-black hover:cursor-pointer text-black/45 hover:text-white"
-        >
-          <h1 class="text-left font-normal text-[18px] leading-none">
-            Continue Shopping
-          </h1>
-        </div>
+  @click="goHome"
+  class="px-[25px] py-[20px] border border-black/45 rounded-full text-black/45
+         hover:bg-black hover:border-black hover:cursor-pointer hover:text-white
+         transition-colors duration-200 ease-in-out"
+>
+  <h1 class="text-left font-normal text-[18px] leading-none">
+    Continue Shopping
+  </h1>
+</div>
+
       </div>
     </div>
   </div>
