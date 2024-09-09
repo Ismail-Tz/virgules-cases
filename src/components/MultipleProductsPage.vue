@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center mb-[40px] mt-[108px]">
+  <div class="flex justify-center mb-[40px] mt-[84px] 450:mt-[108px]">
     <div class="max-w-[1188px] w-full mx-auto px-6 box-border">
       <h2
         class="text-[26px] mb-[24px] 750:mb-[30px] lg:mb-[40px] text-left font-[Visby] font-bold text-[#000000] leading-none"
@@ -37,7 +37,7 @@
           :class="{
             'fixed inset-x-0 bottom-0 top-[84px] bg-[#F8F8F8CC] rounded-t-[32px] border border-t border-[#00000026] blurry  z-[60]  p-[32px] transform transition-transform ease-in-out duration-500 flex flex-col': true,
             'translate-y-full opacity-0': !isFilterOpen,
-            'translate-y-0 opacity-100': isFilterOpen,
+            'translate-y-0 opacity-100': filterClosing,
           }"
         >
           <!-- Close With confirming selection -->
@@ -271,6 +271,7 @@ export default {
   props: ["brand", "model"],
   data() {
     return {
+      filterClosing: false, // Flag to handle the filter closing animation
       isFilterOpen: false, // Controls the visibility of the filter overlay
       openDropdowns: {
         customizable: false,
@@ -349,7 +350,12 @@ export default {
       this.isFilterOpen = !this.isFilterOpen;
     },
     closeFilter() {
-      this.isFilterOpen = false;
+      this.filterClosing = true;
+
+      this.$nextTick(() => {
+        this.isFilterOpen = false; // Hide the overlay after the animation ends
+
+  });
     },
     toggleSelection(key, option) {
       this.toggleOption({ key, option });
