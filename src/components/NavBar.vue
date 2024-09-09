@@ -3,17 +3,19 @@
     class="fixed top-0 left-0 w-full select-none bg-[#F7FDFC] border-b border-[#0A332E20] h-[60px] z-50 blurry transition-all duration-500 ease-in-out"
     :class="[
       isBagOpen || isDevicesOpen ? '' : 'h-[60px]', // Empty if open, otherwise 'h-[60px]'
-      // Adds 'pointer-events-none' if isClosing is true
     ]"
     :style="{
       height: isBagOpen
         ? `min(${bagContentHeight + 60 + 24}px, 100vh)` // Limits height to the viewport height
         : isDevicesOpen
         ? `min(${devicesContentHeight + 60 + 24}px, 100vh)` // Limits height to viewport if devices are open
+        : menuOpen
+        ? '100vh'
         : '60px',
+        
       backgroundColor: lightColorTp,
       borderColor: navBarDarkColor + '26',
-      overflowY: isBagOpen || isDevicesOpen ? 'auto' : 'hidden', // Enables scroll if content overflows
+      overflowY: isBagOpen || isDevicesOpen || menuOpen ? 'auto' : 'hidden', // Enables scroll if content overflows
     }"
     @mouseleave="
       closeBag();
@@ -72,7 +74,7 @@
       <!-- Right-aligned section (Symbol buttons) -->
       <div class="flex justify-end items-center space-x-4 w-1/3">
         <a
-          v-if="!isCheckoutPage"
+          v-if="!isCheckoutPage && !menuOpen"
           :style="{ color: navBarDarkColor }"
           class="cursor-pointer"
         >
@@ -111,8 +113,8 @@
           </svg>
         </a>
         <a
-          v-if="!isCheckoutPage"
-          class="text-[#0A332E] hover:text-black cursor-pointer"
+          v-if="!isCheckoutPage && !menuOpen"
+          class="text-[#0A332E] hover:text-black cursor-pointer transition-all duration-300 ease-in-out"
           :style="{ color: navBarDarkColor }"
           @click="toggleBag"
         >
@@ -173,6 +175,7 @@
           v-if="!isCheckoutPage"
           :style="{ color: navBarDarkColor }"
           class="cursor-pointer block 750:hidden"
+          @click="xButton"
         >
           <svg
             width="18"
@@ -181,10 +184,34 @@
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
+            <!-- Top Line -->
             <path
-              d="M5.05926 10.2308H18.2692C18.6727 10.2308 19 9.90348 19 9.5C19 9.09652 18.6727 8.76923 18.2692 8.76923H5.05926C4.65578 8.76923 4.32849 9.09652 4.32849 9.5C4.32849 9.90348 4.65578 10.2308 5.05926 10.2308ZM8.76923 18.2692C8.76923 17.8657 9.09652 17.5385 9.5 17.5385H18.2692C18.6727 17.5385 19 17.8657 19 18.2692C19 18.6727 18.6727 19 18.2692 19H9.5C9.09652 19 8.76923 18.6727 8.76923 18.2692ZM0 0.730769C0 0.327287 0.327288 0 0.73077 0H18.2692C18.6727 0 19 0.327287 19 0.730769C19 1.13425 18.6727 1.46154 18.2692 1.46154H0.73077C0.327288 1.46154 0 1.13425 0 0.730769Z"
+              :class="
+                menuOpen || isBagOpen
+                  ? 'rotate-45 translate-x-[-6px] translate-y-[6px] scale-x-[1.31]'
+                  : ''
+              "
+              class="transition-transform duration-300 ease-in-out origin-center"
+              d="M0.73077 1.46154H18.2692C18.6727 1.46154 19 1.13425 19 0.730769C19 0.327287 18.6727 0 18.2692 0H0.73077C0.327288 0 0 0.327287 0 0.730769C0 1.13425 0.327288 1.46154 0.73077 1.46154Z"
               fill="currentColor"
-              style="fill: currentColor; fill-opacity: 1"
+            />
+            <!-- Middle Line (Fades out when open) -->
+            <path
+              :class="menuOpen || isBagOpen ? 'scale-x-[-0]' : ''"
+              class="transition-all duration-300 ease-in-out"
+              d="M5.05926 10.2308H18.2692C18.6727 10.2308 19 9.90348 19 9.5C19 9.09652 18.6727 8.76923 18.2692 8.76923H5.05926C4.65578 8.76923 4.32849 9.09652 4.32849 9.5C4.32849 9.90348 4.65578 10.2308 5.05926 10.2308Z"
+              fill="currentColor"
+            />
+            <!-- Bottom Line -->
+            <path
+              :class="
+                menuOpen || isBagOpen
+                  ? '-rotate-45 translate-x-[-6px] translate-y-[-6px] scale-x-[1.31]'
+                  : ''
+              "
+              class="transition-transform duration-300 ease-in-out origin-center"
+              d="M0.73077 18.2692H18.2692C18.6727 18.2692 19 17.9419 19 17.5385C19 17.135 18.6727 16.8077 18.2692 16.8077H0.73077C0.327288 16.8077 0 17.135 0 17.5385C0 17.9419 0.327288 18.2692 0.73077 18.2692Z"
+              fill="currentColor"
             />
           </svg>
         </a>
@@ -665,6 +692,8 @@ export default {
       scrolling: false,
       canScrollLeft: false,
       canScrollRight: true,
+
+      menuOpen: false,
     };
   },
 
@@ -718,6 +747,10 @@ export default {
       this.updateNavBarColors();
     },
     isDevicesOpen() {
+      // Update navbar colors when bag state changes
+      this.updateNavBarColors();
+    },
+    menuOpen() {
       // Update navbar colors when bag state changes
       this.updateNavBarColors();
     },
@@ -812,6 +845,14 @@ export default {
   },
 
   methods: {
+    xButton() {
+      if (this.isBagOpen) {this.closeBag();}
+      else {this.toggleMenu()}
+    },
+    toggleMenu() {
+      this.menuOpen = !this.menuOpen;
+    },
+
     goToOrders() {
       this.closeBag();
       this.$router.push("/your-orders");
@@ -1023,13 +1064,13 @@ export default {
     checkIfOnProductPage(route) {
       if (route.name === "ProductPage" || route.path.startsWith("/product/")) {
         // On product page, set product colors if neither the bag nor devices are open
-        if (!this.isBagOpen && !this.isDevicesOpen) {
+        if (!this.isBagOpen && !this.isDevicesOpen && !this.menuOpen) {
           this.navBarLightColor = this.lightColorMsg;
           this.navBarDarkColor = this.darkColorMsg;
         }
       } else {
         // Not on product page, set default colors if neither the bag nor devices are open
-        if (!this.isBagOpen && !this.isDevicesOpen) {
+        if (!this.isBagOpen && !this.isDevicesOpen && !this.menuOpen) {
           this.navBarLightColor = "#F9F9F9";
           this.navBarDarkColor = "#000000";
           this.updateSafariTabColor(this.isDarkMode ? "#000000" : "#F9F9F9");
@@ -1037,7 +1078,7 @@ export default {
       }
     },
     updateNavBarColors() {
-      if (this.isBagOpen || this.isDevicesOpen) {
+      if (this.isBagOpen || this.isDevicesOpen || this.menuOpen) {
         // Either bag or devices dropdown is open, set default colors
         this.navBarLightColor = "#F9F9F9";
         this.navBarDarkColor = "#000000";
