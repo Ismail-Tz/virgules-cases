@@ -35,7 +35,7 @@
         ></div>
         <div
           :class="{
-            'fixed inset-x-0 bottom-0 top-[84px] bg-[#F8F8F8CC] rounded-t-[32px] border border-t border-[#00000026] blurry  z-[60]  p-[32px] transform transition-transform ease-in-out duration-500': true,
+            'fixed inset-x-0 bottom-0 top-[84px] bg-[#F8F8F8CC] rounded-t-[32px] border border-t border-[#00000026] blurry  z-[60]  p-[32px] transform transition-transform ease-in-out duration-500 flex flex-col': true,
             'translate-y-full opacity-0': !isFilterOpen,
             'translate-y-0 opacity-100': isFilterOpen,
           }"
@@ -46,7 +46,7 @@
           </button>
 
           <!-- Dropdown data (reusing the same loop) -->
-          <div class="w-full">
+          <div class="w-full flex-1 overflow-y-auto">
             <div
               v-for="(dropdown, key, index) in dropdownsData"
               :key="key"
@@ -61,7 +61,7 @@
               <div
                 @click="toggleDropdown(key)"
                 @mousedown.prevent
-                class="flex justify-between items-center py-[17.5px] h-[52px]"
+                class="flex justify-between items-center py-[12px]"
               >
                 <span class="font-semibold text-[17px] text-black">{{
                   dropdown.title
@@ -83,7 +83,7 @@
                   />
                 </svg>
               </div>
-              <div v-if="openDropdowns[key]" class="py-2 text-left">
+              <div v-if="openDropdowns[key]" class="pb-[10px] pt-[5px] text-left">
                 <div
                   v-for="(option, index) in dropdown.options"
                   :key="index"
