@@ -43,29 +43,30 @@
       </div>
 
       <!-- Center-aligned section (Text buttons) -->
-      <div class="flex justify-center w-1/3">
+      <div class="justify-center w-1/3 hidden 750:flex">
         <button
           v-if="!isCheckoutPage"
           @mouseenter="toggleDevices"
           @click="toggleDevices"
           class="text-[#0A332E] hover:bg-[#00000007] px-3 py-2 text-[14px] rounded-xl"
           :style="{ color: navBarDarkColor }"
-          >Devices</button
         >
-        <a
+          Devices
+        </button>
+        <button
           v-if="!isCheckoutPage"
-          href="#"
           class="text-[#0A332E] hover:bg-[#00000007] px-3 py-2 text-[14px] rounded-xl"
           :style="{ color: navBarDarkColor }"
-          >Customization</a
         >
-        <a
+          Customization
+        </button>
+        <button
           v-if="!isCheckoutPage"
-          href="#"
           class="text-[#0A332E] hover:bg-[#00000007] px-3 py-2 text-[14px] rounded-xl"
           :style="{ color: navBarDarkColor }"
-          >Featured</a
         >
+          Featured
+        </button>
       </div>
 
       <!-- Right-aligned section (Symbol buttons) -->
@@ -91,7 +92,7 @@
           </svg>
         </a>
         <a
-          class="text-[#0A332E] hover:text-black cursor-pointer"
+          class="text-[#0A332E] hover:text-black cursor-pointer hidden 750:block"
           :style="{ color: navBarDarkColor }"
         >
           <svg
@@ -166,6 +167,25 @@
             >
               {{ totalQuantity <= 99 ? totalQuantity : "99" }}
             </text>
+          </svg>
+        </a>
+        <a
+          v-if="!isCheckoutPage"
+          :style="{ color: navBarDarkColor }"
+          class="cursor-pointer block 750:hidden"
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 19 19"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5.05926 10.2308H18.2692C18.6727 10.2308 19 9.90348 19 9.5C19 9.09652 18.6727 8.76923 18.2692 8.76923H5.05926C4.65578 8.76923 4.32849 9.09652 4.32849 9.5C4.32849 9.90348 4.65578 10.2308 5.05926 10.2308ZM8.76923 18.2692C8.76923 17.8657 9.09652 17.5385 9.5 17.5385H18.2692C18.6727 17.5385 19 17.8657 19 18.2692C19 18.6727 18.6727 19 18.2692 19H9.5C9.09652 19 8.76923 18.6727 8.76923 18.2692ZM0 0.730769C0 0.327287 0.327288 0 0.73077 0H18.2692C18.6727 0 19 0.327287 19 0.730769C19 1.13425 18.6727 1.46154 18.2692 1.46154H0.73077C0.327288 1.46154 0 1.13425 0 0.730769Z"
+              fill="currentColor"
+              style="fill: currentColor; fill-opacity: 1"
+            />
           </svg>
         </a>
       </div>
@@ -605,7 +625,7 @@
   </nav>
   <!-- Overlay for blur and darkness -->
   <div
-  @click="
+    @click="
       closeBag();
       closeDevices();
     "
@@ -703,36 +723,39 @@ export default {
     },
   },
   mounted() {
-  // Check on initial load
-  this.checkIfOnProductPage(this.$route);
-  this.updateNavBarColors();
+    // Check on initial load
+    this.checkIfOnProductPage(this.$route);
+    this.updateNavBarColors();
 
-  // Wait for the DOM to be fully updated
-  this.$nextTick(() => {
+    // Wait for the DOM to be fully updated
+    this.$nextTick(() => {
+      if (this.$refs.scrollContainer) {
+        // Attach the scroll listener to the scrollContainer
+        this.$refs.scrollContainer.addEventListener(
+          "scroll",
+          this.updateScrollButtons
+        );
+
+        // Also, update the scroll buttons initially to ensure they are set up correctly
+        this.updateScrollButtons();
+
+        // Add a resize listener to handle updates when the window is resized
+        window.addEventListener("resize", this.handleResize);
+      } else {
+        console.warn("scrollContainer ref is not available.");
+      }
+    });
+  },
+
+  beforeUnmount() {
     if (this.$refs.scrollContainer) {
-      // Attach the scroll listener to the scrollContainer
-      this.$refs.scrollContainer.addEventListener(
+      this.$refs.scrollContainer.removeEventListener(
         "scroll",
         this.updateScrollButtons
       );
-
-      // Also, update the scroll buttons initially to ensure they are set up correctly
-      this.updateScrollButtons();
-
-      // Add a resize listener to handle updates when the window is resized
-      window.addEventListener("resize", this.handleResize);
-    } else {
-      console.warn("scrollContainer ref is not available.");
     }
-  });
-},
-
-beforeUnmount() {
-  if (this.$refs.scrollContainer) {
-    this.$refs.scrollContainer.removeEventListener("scroll", this.updateScrollButtons);
-  }
-  window.removeEventListener("resize", this.handleResize);
-},
+    window.removeEventListener("resize", this.handleResize);
+  },
 
   computed: {
     ...mapGetters(["availableDevices"]), // Get dynamically extracted devices from Vuex
