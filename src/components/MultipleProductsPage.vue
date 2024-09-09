@@ -2,13 +2,15 @@
   <div class="flex justify-center mb-[40px] mt-[108px]">
     <div class="max-w-[1188px] w-full mx-auto px-6 box-border">
       <h2
-        class="text-[26px] mb-[40px] text-left font-[Visby] font-bold text-[#000000] leading-none"
+        class="text-[26px] mb-[24px] 750:mb-[30px] lg:mb-[40px] text-left font-[Visby] font-bold text-[#000000] leading-none"
       >
         {{ this.brand ? this.model : "All" }} Cases
       </h2>
       <div class="grid grid-cols-12 gap-[24px] 750:gap-[30px] lg:gap-[40px]">
         <!-- Filter button (visible on mobile) -->
-        <div class="750:hidden flex col-span-12 bg-[#f9f9f9] border border-black/15 items-center rounded-[24px] px-[10px] py-[8px]">
+        <div
+          class="750:hidden flex col-span-12 bg-[#f9f9f9] border border-black/15 items-center rounded-[24px] px-[10px] py-[8px]"
+        >
           <button
             @click="toggleFilter"
             class="py-[5px] px-[10px] text-[15px] 450:text-[16px] font-normal font-black/70 z-20 relative"
@@ -18,17 +20,29 @@
         </div>
 
         <!-- Filter overlay (manually handle the animation with Tailwind) -->
+        <!-- Overlay for blur and darkness -->
+        <div
+          @click="
+            closeFilter()
+          "
+          v-if="isFilterOpen"
+          class="fixed inset-0 bg-black bg-opacity-[0.1] z-[59] transition-opacity duration-500 ease-in-out"
+          :class="
+            isFilterOpen
+              ? 'backdrop-blur-[10px] opacity-100'
+              : 'opacity-0'
+          "
+        ></div>
         <div
           :class="{
-            'fixed inset-x-0 bottom-0 top-[84px] bg-[#F8F8F8CC] blurry z-50 p-4 transform transition-transform ease-in-out duration-500': true,
+            'fixed inset-x-0 bottom-0 top-[84px] bg-[#F8F8F8CC] rounded-t-[32px] border border-t border-[#00000026] blurry  z-[60]  p-[32px] transform transition-transform ease-in-out duration-500': true,
             'translate-y-full opacity-0': !isFilterOpen,
             'translate-y-0 opacity-100': isFilterOpen,
           }"
         >
-          <!-- Arrow down button to close the filter -->
-          <button @click="closeFilter" class="self-end p-2">
-            &#x25BC;
-            <!-- Arrow Down Icon -->
+          <!-- Close With confirming selection -->
+          <button @click="closeFilter" class="self-end p-[10px] border border-black text-black rounded-full w-full mb-[24px]">
+            Done
           </button>
 
           <!-- Dropdown data (reusing the same loop) -->
@@ -234,7 +248,9 @@
                   }"
                   class="flex items-center justify-center opacity-[70%] px-[8px] h-6 border border-[#000000] text-[#00000099] rounded-full"
                 >
-                  <span class="text-[12px] 450:text-[14px]">{{ item.colors.length }} Styles</span>
+                  <span class="text-[12px] 450:text-[14px]"
+                    >{{ item.colors.length }} Styles</span
+                  >
                 </div>
               </div>
             </div>

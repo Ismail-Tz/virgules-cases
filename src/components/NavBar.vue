@@ -12,7 +12,7 @@
         : menuOpen
         ? '100vh'
         : '60px',
-        
+
       backgroundColor: lightColorTp,
       borderColor: navBarDarkColor + '26',
       overflowY: isBagOpen || isDevicesOpen || menuOpen ? 'auto' : 'hidden', // Enables scroll if content overflows
@@ -77,6 +77,7 @@
           v-if="!isCheckoutPage && !menuOpen"
           :style="{ color: navBarDarkColor }"
           class="cursor-pointer"
+          :class="{'hidden': isBagOpen, '750:inline-block': isBagOpen}"
         >
           <svg
             id="Layer_2"
@@ -114,7 +115,10 @@
         </a>
         <a
           v-if="!isCheckoutPage && !menuOpen"
-          class="text-[#0A332E] hover:text-black cursor-pointer transition-all duration-300 ease-in-out"
+          :class="[
+            'text-[#0A332E] hover:text-black cursor-pointer transition-all duration-300 ease-in-out',
+            { hidden: isBagOpen, '750:inline-block': isBagOpen },
+          ]"
           :style="{ color: navBarDarkColor }"
           @click="toggleBag"
         >
@@ -846,8 +850,11 @@ export default {
 
   methods: {
     xButton() {
-      if (this.isBagOpen) {this.closeBag();}
-      else {this.toggleMenu()}
+      if (this.isBagOpen) {
+        this.closeBag();
+      } else {
+        this.toggleMenu();
+      }
     },
     toggleMenu() {
       this.menuOpen = !this.menuOpen;
