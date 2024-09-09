@@ -94,8 +94,9 @@
             </div>
           </div>
         </div>
+        <!-- desktop dropdowns -->
         <div
-          class="col-span-4 md:col-span-5 1056:col-span-4 bg-[#F9F9F9] border border-[#00000026] rounded-[32px] p-[20px] lg:p-[24px] h-fit hidden 750:block"
+          class="col-span-5 1056:col-span-4 bg-[#F9F9F9] border border-[#00000026] rounded-[32px] p-[15px] 450:p-[20px] lg:p-[24px] h-fit hidden 750:block"
         >
           <div>
             <!-- Loop over dropdown data -->
@@ -161,7 +162,7 @@
           </div>
         </div>
         <div
-          class="col-span-12 750:col-span-8 md:col-span-7 1056:col-span-8 rounded-[32px]"
+          class="col-span-12 750:col-span-7 md:col-span-7 1056:col-span-8 rounded-[32px]"
         >
           <div
             class="grid grid-cols-2 1056:grid-cols-3 gap-[20px] lg:gap-[24px]"
