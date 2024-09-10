@@ -426,7 +426,7 @@
       <!-- Scroll Indicator -->
       <div
         v-if="showScrollIndicator"
-        class="scroll-indicator flex items-baseline justify-center absolute left-1/2 transform -translate-x-1/2 bottom-[236px] px-3 py-1 bg-[#fff] text-black/80 text-xs rounded-full opacity-80 border border-black/20 shadow-[0_0_25px_rgba(0,0,0,0.2)]"
+        class="scroll-indicator flex items-baseline justify-center absolute left-1/2 transform -translate-x-1/2 bottom-[236px] px-3 py-1 bg-[#fff] text-black/60 text-xs rounded-full border border-black/20 shadow-[0_0_25px_rgba(0,0,0,0.2)]"
       >
         Scroll down for more
         <svg
