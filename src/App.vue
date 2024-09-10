@@ -38,9 +38,9 @@ export default {
     }
   },
   mounted() {
-    // Disable pinch-to-zoom
+    // Disable pinch-to-zoom only when scale is not 1
     document.addEventListener('touchmove', function(event) {
-      if (event.scale !== 1) {
+      if (event.scale !== undefined && event.scale !== 1) {
         event.preventDefault();
       }
     }, { passive: false });
