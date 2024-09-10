@@ -1106,8 +1106,10 @@ export default {
       const wasDesktop = this.isDesktop;
       this.isDesktop = window.innerWidth >= 750;
 
-      this.bagContentHeight = window.innerHeight - 60;
-
+      // Update the bag content height based on the window height
+      if (!this.isDesktop) {
+        this.bagContentHeight = window.innerHeight - 60;
+      }
       // Close the bag if switching between mobile and desktop
       if (wasDesktop !== this.isDesktop && (this.isBagOpen)) {
         this.bagContentHeight = 0;
