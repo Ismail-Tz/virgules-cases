@@ -918,6 +918,8 @@ export default {
       menuOpen: false,
 
       showScrollIndicator: false,
+
+      closeTimeout: null, // Variable to store the timeout ID
     };
   },
 
@@ -991,7 +993,7 @@ export default {
     this.checkIfOnProductPage(this.$route);
     this.updateNavBarColors();
 
-    window.addEventListener("resize", this.bagCloseOnResize);
+    window.addEventListener("resize", this.overlaysCloseOnResize);
     // Wait for the DOM to be fully updated
     this.$nextTick(() => {
       if (this.$refs.scrollContainer) {
@@ -1020,7 +1022,7 @@ export default {
       );
     }
     window.removeEventListener("resize", this.handleResize);
-    window.removeEventListener("resize", this.bagCloseOnResize);
+    window.removeEventListener("resize", this.overlaysCloseOnResize);
   },
 
   computed: {
@@ -1099,7 +1101,7 @@ export default {
         clearTimeout(this.scrollTimeout);
       }
     },
-    bagCloseOnResize() {
+    overlaysCloseOnResize() {
       // Update the isDesktop flag based on the window width
       const wasDesktop = this.isDesktop;
       this.isDesktop = window.innerWidth >= 750;
@@ -1107,16 +1109,28 @@ export default {
       this.bagContentHeight = window.innerHeight - 60;
 
       // Close the bag if switching between mobile and desktop
-      if (wasDesktop !== this.isDesktop && this.isBagOpen) {
+      if (wasDesktop !== this.isDesktop && (this.isBagOpen)) {
+        this.bagContentHeight = 0;
         this.closeBag();
+      }
+      if (wasDesktop !== this.isDesktop && (this.isDevicesOpen)) {
+        this.devicesContentHeightHeight = 0;
+        this.closeDevices();
+      }
+      if (wasDesktop !== this.isDesktop && (this.menuOpen)) {
+        this.toggleMenu();
       }
     },
     xButton() {
       console.log(this.bagContentHeight);
       if (this.isBagOpen) {
-        this.closeBag();
+        this.$nextTick(() => {
+          this.closeBag();
+        });
       } else {
-        this.toggleMenu();
+        this.$nextTick(() => {
+          this.toggleMenu();
+        });
       }
     },
     toggleMenu() {
@@ -1236,13 +1250,17 @@ export default {
     // Toggle the Bag
 
     toggleBag() {
+      // Check if the bag is closing and clear the timeout to prevent hidden class from being applied
+      if (this.closeTimeout) {
+        clearTimeout(this.closeTimeout);
+        this.closeTimeout = null; // Reset the timeout ID
+      }
+
       this.isBagOpen = !this.isBagOpen;
 
       if (this.isDevicesOpen) {
         this.closeDevices(); // Close devices if open
       }
-
-      console.log(this.devicesContentHeight);
 
       this.$nextTick(() => {
         this.isDesktop = window.innerWidth >= 750; // Check if it's desktop size
@@ -1254,34 +1272,37 @@ export default {
           if (this.isBagOpen) {
             // When opening the bag
             bagContentEl.classList.remove("hidden"); // Unhide the element
-            this.bagContentHeight = this.isDesktop
-              ? bagContentEl.scrollHeight // For desktop, use scrollHeight
-              : window.innerHeight - 60; // For mobile, set height to 100vh
+            requestAnimationFrame(() => {
+              // Ensure height is set after un-hiding the element
+              this.bagContentHeight = this.isDesktop
+                ? bagContentEl.scrollHeight // For desktop, use scrollHeight
+                : window.innerHeight - 60; // For mobile, set height to 100vh
+            });
           } else {
-            // When closing the bag
-            this.bagContentHeight = "0px"; // Set height to 0px
-            setTimeout(() => {
-              // Add hidden class after the closing animation
-              bagContentEl.classList.add("hidden");
-            }, 500); // Match this delay with your animation duration
+            this.closeBag(); // Handle closing logic
           }
         }
       });
     },
+
     closeBag() {
       this.isBagOpen = false;
 
       this.$nextTick(() => {
-        // Set bagContentHeight to 0 for the closing animation
-        this.bagContentHeight = 0;
+        const bagContentEl = this.isDesktop
+          ? this.$refs.bagContent
+          : this.$refs.bagContentMobile;
 
-        // Set a timeout to apply the hidden class after the animation
-        setTimeout(() => {
-          const bagContentMobile = this.$refs.bagContentMobile;
-          if (bagContentMobile) {
-            bagContentMobile.classList.add("hidden");
-          }
-        }, 500); // Match this delay with your animation duration
+        if (bagContentEl) {
+          // Set bagContentHeight to 0 for the closing animation
+          this.bagContentHeight = 0;
+
+          // Store the timeout ID and apply the hidden class after the animation
+          this.closeTimeout = setTimeout(() => {
+            bagContentEl.classList.add("hidden");
+            this.closeTimeout = null; // Clear timeout ID after execution
+          }, 500); // Match this delay with your animation duration
+        }
       });
     },
     toggleDevices() {

@@ -1,8 +1,34 @@
 <template>
-  <div class="flex justify-center mb-[40px] mt-[148px]">
-    <div class="max-w-[1188px] w-full mx-auto px-6 box-border">
-      <div class="grid grid-cols-12 gap-[40px]">
-        <div class="relative col-span-7">
+  <div class="flex justify-center mb-[40px] mt-[84px] 750:mt-[148px]">
+    <div class="max-w-[1188px] w-full mx-auto px-6 box-border select-none">
+      <div class="grid grid-cols-12 gap-y-[24px] 750:gap-[40px]">
+        <div class="relative col-span-12 750:col-span-7">
+          <div class="mb-[24px] pl-[2px] block 750:hidden">
+            <h1
+              class="text-black text-left font-[Visby] font-bold text-[26px] 450:text-[28px] mb-[10px] leading-[100%]"
+              :style="{ color: darkColor, borderColor: darkColor }"
+            >
+              {{ colorTitle + " " + this.products[this.id].title }}
+            </h1>
+            <h2
+              class="text-black text-left font-[Visby] font-semibold text-[20px] 450:text-[21px] mb-[8px] leading-[100%]"
+              :style="{ color: darkColor, borderColor: darkColor }"
+            >
+              {{ this.products[this.id].type }}
+            </h2>
+            <h3
+              class="text-black text-left text-[16px] 450:text-[18px] mb-[10px] leading-[100%]"
+              :style="{ color: darkColor, borderColor: darkColor }"
+            >
+              MAD {{ this.products[this.id].price }}
+            </h3>
+            <h4
+              class="text-gray-500 text-left text-[15px] 450:text-[14px] leading-[100%]"
+              :style="{ color: darkColor, borderColor: darkColor }"
+            >
+              By {{ this.products[this.id].designer }}
+            </h4>
+          </div>
           <div
             class="relative w-full flex justify-center border rounded-[32px] p-[40px] overflow-hidden"
             :style="{
@@ -14,7 +40,7 @@
               ref="image"
               :src="imageSrc"
               alt="Case Image"
-              class="w-1/2 h-auto object-cover"
+              class="w-[75%] 450:w-1/2 h-auto object-cover"
               @load="updateScale"
               :style="{ filter: `drop-shadow(0 0 60px ${darkColor + '4D'})` }"
             />
@@ -43,8 +69,8 @@
             </div>
           </div>
         </div>
-        <div class="col-span-5">
-          <div class="mb-[24px] pl-[2px]">
+        <div class="col-span-12 750:col-span-5">
+          <div class="mb-[24px] pl-[2px] hidden 750:block">
             <h1
               class="text-black text-left font-[Visby] font-bold text-[28px] mb-[10px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
@@ -70,200 +96,211 @@
               By {{ this.products[this.id].designer }}
             </h4>
           </div>
-          <div
-            class="bg-[#F5F7F6] text-white border p-[24px] rounded-[32px]"
-            :style="{
-              backgroundColor: lightColor,
-              borderColor: darkColor + '26',
-            }"
-          >
-            <h2
-              class="text-black text-left font-[Visby] font-extrabold text-[20px] mb-[24px] leading-[100%] after"
-              :style="{ color: darkColor, borderColor: darkColor }"
+          <div class="col-span-12 750:col-span-5">
+            <div
+              class="bg-[#F5F7F6] text-white border p-[24px] rounded-[32px]"
+              :style="{
+                backgroundColor: lightColor,
+                borderColor: darkColor + '26',
+              }"
             >
-              Select Device
-            </h2>
-            <div class="flex gap-[8px] mb-[8px] flex-wrap">
-              <button
-                v-for="device in availableBrands"
-                :key="device"
-                class="border border-black text-black py-[17.5px] px-[20px] text-[15px] rounded-full leading-[100%] flex-shrink-0"
-                @mouseenter="hoveredButton = device"
-                @mouseleave="hoveredButton = null"
-                @click="selectBrand(device)"
-                :style="buttonStyles(device)"
-                :class="{
-                  'text-[13px] px-[16px] py-[14px]': isParentDivSmall, // Adjust sizes when container is small
-                }"
-              >
-                {{ device }}
-              </button>
-            </div>
-            <div class="flex">
-              <label for="device-model-dropdown"></label>
-              <div class="select-wrapper w-full">
-                <select
-                  v-model="selectedModel"
-                  id="device-model-dropdown"
-                  class="border border-black text-black bg-transparent py-[17.5px] px-[20px] text-[15px] leading-[100%] rounded-full focus:outline-none appearance-none focus:ring-indigo-500 focus:border-indigo-500"
-                  :style="{ borderColor: darkColor, color: darkColor }"
-                >
-                  <option
-                    v-for="model in currentBrandModels"
-                    :key="model"
-                    :value="model"
-                  >
-                    {{ model }}
-                  </option>
-                </select>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  class="w-[15px] h-[15px] text-black absolute right-[20px] top-1/2 transform -translate-y-1/2 pointer-events-none"
-                  :style="{ borderColor: darkColor, color: darkColor }"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M10 12.293l4.293-4.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L10 12.293z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-            <!-- Customize section (only in customizable products) -->
-            <div v-if="products[id].isCustomizable">
               <h2
-                class="text-black text-left font-[Visby] font-extrabold text-[20px] my-[24px] leading-[100%] after"
+                class="text-black text-left font-[Visby] font-extrabold text-[20px] mb-[24px] leading-[100%] after"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
-                Customize
+                Select Device
               </h2>
-              <div class="flex gap-[14px]">
-                <div class="relative w-1/3">
-                  <input
-                    type="text"
-                    id="customNumber"
-                    class="w-full h-[52px] bg-transparent border border-black text-black py-[17.5px] px-[20px] text-[15px] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] transition-all duration-300 ease-in-out rounded-full leading-[100%] focus:ring-1 focus:ring-[#0000006e]"
-                    placeholder=" "
-                    v-model="customNumber"
-                    :style="{
-                      borderColor: darkColor,
-                      color: darkColor,
-                      focusBorderColor: darkColor,
-                    }"
-                  />
-                  <label
-                    for="customNumber"
-                    :class="[
-                      'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
-                      customNumber
-                        ? 'top-[13px] text-[10px] text-black opacity-80'
-                        : 'text-[15px] text-black opacity-80',
-                    ]"
-                    :style="{
-                      color: darkColor,
-                    }"
-                    class="flex items-center"
-                    >Number
-                  </label>
-                </div>
-                <div class="relative w-2/3">
-                  <input
-                    type="text"
-                    id="customName"
-                    class="w-full h-[52px] bg-transparent border border-black text-black py-[17.5px] px-[20px] text-[15px] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] transition-all duration-300 ease-in-out rounded-full leading-[100%] focus:ring-1 focus:ring-[#0000006e]"
-                    placeholder=" "
-                    v-model="customName"
-                    :style="{
-                      borderColor: darkColor,
-                      color: darkColor,
-                      focusBorderColor: darkColor,
-                    }"
-                  />
-                  <label
-                    for="customName"
-                    :class="[
-                      'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
-                      customName
-                        ? 'top-[13px] text-[10px] text-black opacity-80'
-                        : 'text-[15px] text-black opacity-80',
-                    ]"
-                    :style="{
-                      color: darkColor,
-                    }"
-                    class="flex items-center"
-                    >Name
-                  </label>
+              <div class="flex gap-[8px] mb-[8px] flex-wrap">
+                <button
+                  v-for="device in availableBrands"
+                  :key="device"
+                  class="border border-black text-black py-[17.5px] px-[17.5px] 450:px-[20px] text-[15px] rounded-full leading-[100%] flex-shrink-0"
+                  @mouseenter="hoveredButton = device"
+                  @mouseleave="hoveredButton = null"
+                  @click="selectBrand(device)"
+                  :style="buttonStyles(device)"
+                  :class="{
+                    'text-[13px] px-[16px] py-[14px]': isParentDivSmall, // Adjust sizes when container is small
+                  }"
+                >
+                  {{ device }}
+                </button>
+              </div>
+              <div class="flex">
+                <label for="device-model-dropdown"></label>
+                <div class="select-wrapper w-full">
+                  <select
+                    v-model="selectedModel"
+                    id="device-model-dropdown"
+                    class="border border-black text-black bg-transparent py-[17.5px] px-[20px] text-[15px] leading-[100%] rounded-full focus:outline-none appearance-none focus:ring-indigo-500 focus:border-indigo-500"
+                    :style="{ borderColor: darkColor, color: darkColor }"
+                  >
+                    <option
+                      v-for="model in currentBrandModels"
+                      :key="model"
+                      :value="model"
+                    >
+                      {{ model }}
+                    </option>
+                  </select>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    class="w-[15px] h-[15px] text-black absolute right-[20px] top-1/2 transform -translate-y-1/2 pointer-events-none"
+                    :style="{ borderColor: darkColor, color: darkColor }"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 12.293l4.293-4.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L10 12.293z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
                 </div>
               </div>
-            </div>
-            <!-- Color/Style Selection -->
-            <h4
-              class="text-black text-left font-[Visby] font-extrabold text-[15px] mt-[24px] mb-[10px] leading-[100%] after"
-              :style="{ color: darkColor, borderColor: darkColor }"
-            >
-              Other colors
-            </h4>
-            <p
-              class="text-black text-left text-[12px] mb-[6px]"
-              :style="{ color: darkColor, borderColor: darkColor }"
-            >
-              Selected: <span class="font-bold">{{ colorTitle }}</span>
-            </p>
-            <div
-              class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-[6px]"
-            >
-              <div
-                v-for="color in products[this.id].colors"
-                :key="color.id"
-                @click="handleClick(color)"
-                :class="[
-                  'bg-[#ffffff] border border-black/20 aspect-square rounded-[8px] cursor-pointer flex justify-center items-center',
-                ]"
-                :style="
-                  selectedColor === color.id
-                    ? {
+              <!-- Customize section (only in customizable products) -->
+              <div v-if="products[id].isCustomizable">
+                <h2
+                  class="text-black text-left font-[Visby] font-extrabold text-[20px] my-[24px] leading-[100%] after"
+                  :style="{ color: darkColor, borderColor: darkColor }"
+                >
+                  Customize
+                </h2>
+                <div class="flex gap-[14px]">
+                  <div class="relative w-[35%]">
+                    <input
+                      type="text"
+                      id="customNumber"
+                      class="w-full h-[52px] bg-transparent border border-black text-black py-[17.5px] px-[20px] text-[15px] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] transition-all duration-300 ease-in-out rounded-full leading-[100%] focus:ring-1 focus:ring-[#0000006e]"
+                      placeholder=" "
+                      v-model="customNumber"
+                      :style="{
                         borderColor: darkColor,
-                        boxShadow: '0 0 20px rgba(0,0,0,0.10)',
-                      }
-                    : {}
-                "
+                        color: darkColor,
+                        focusBorderColor: darkColor,
+                      }"
+                    />
+                    <label
+                      for="customNumber"
+                      :class="[
+                        'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
+                        customNumber
+                          ? 'top-[13px] text-[10px] text-black opacity-80'
+                          : 'text-[15px] text-black opacity-80',
+                      ]"
+                      :style="{
+                        color: darkColor,
+                      }"
+                      class="flex items-center"
+                      >Number
+                    </label>
+                  </div>
+                  <div class="relative w-[65%]">
+                    <input
+                      type="text"
+                      id="customName"
+                      class="w-full h-[52px] bg-transparent border border-black text-black py-[17.5px] px-[20px] text-[15px] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] transition-all duration-300 ease-in-out rounded-full leading-[100%] focus:ring-1 focus:ring-[#0000006e]"
+                      placeholder=" "
+                      v-model="customName"
+                      :style="{
+                        borderColor: darkColor,
+                        color: darkColor,
+                        focusBorderColor: darkColor,
+                      }"
+                    />
+                    <label
+                      for="customName"
+                      :class="[
+                        'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
+                        customName
+                          ? 'top-[13px] text-[10px] text-black opacity-80'
+                          : 'text-[15px] text-black opacity-80',
+                      ]"
+                      :style="{
+                        color: darkColor,
+                      }"
+                      class="flex items-center"
+                      >Name
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <!-- Color/Style Selection -->
+              <h4
+                class="text-black text-left font-[Visby] font-extrabold text-[15px] mt-[24px] mb-[10px] leading-[100%] after"
+                :style="{ color: darkColor, borderColor: darkColor }"
               >
-                <!-- <svg
+                Other colors
+              </h4>
+              <p
+                class="text-black text-left text-[12px] mb-[6px]"
+                :style="{ color: darkColor, borderColor: darkColor }"
+              >
+                Selected: <span class="font-bold">{{ colorTitle }}</span>
+              </p>
+              <div
+                class="grid grid-cols-5 450:grid-cols-8 750:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-[10px] 750:gap-[6px]"
+              >
+                <div
+                  v-for="color in products[this.id].colors"
+                  :key="color.id"
+                  @click="handleClick(color)"
+                  :class="[
+                    'bg-[#ffffff] border border-black/20 aspect-square rounded-[8px] cursor-pointer flex justify-center items-center',
+                  ]"
+                  :style="
+                    selectedColor === color.id
+                      ? {
+                          borderColor: darkColor,
+                          boxShadow: '0 0 20px rgba(0,0,0,0.10)',
+                        }
+                      : {}
+                  "
+                >
+                  <!-- <svg
                 class="full-size-svg" 
                 viewBox="0 0 100 100"
                 preserveAspectRatio="xMidYMid meet">
                 <circle  cx="50" cy="50" r="50" :fill="color.colorHex" />
               </svg> -->
-                <div
-                  class="w-[65%] aspect-square rounded-full inner-shadow"
-                  :style="{ backgroundColor: color.colorHex }"
-                ></div>
+                  <div
+                    class="w-[65%] aspect-square rounded-full inner-shadow"
+                    :style="{ backgroundColor: color.colorHex }"
+                  ></div>
+                </div>
               </div>
             </div>
-          </div>
-          <div>
-            <button
-              class="w-full mt-[24px] bg-black text-white py-[17.5px] px-[20px] text-[21px] font-medium border rounded-full leading-[100%] hover:bg-[white] hover:text-black hover:border-black hover:border"
-              :class="{
-                'hover:bg-lightColor hover:text-black hover:border-lightColor': true,
-              }"
-              :style="
-                isAddToCartHovered
-                  ? {
-                      backgroundColor: lightColor,
-                      color: 'black',
-                      borderColor: darkColor,
-                    }
-                  : { backgroundColor: darkColor, borderColor: darkColor }
-              "
-              @mouseenter="isAddToCartHovered = true"
-              @mouseleave="isAddToCartHovered = false"
-              @click="addToBag"
-            >
-              Add to Bag
-            </button>
+            <div>
+              <button
+                class="w-full mt-[24px] bg-black text-white py-[17.5px] px-[20px] text-[21px] font-medium border rounded-full leading-[100%] hover:bg-[white] hover:text-black hover:border-black hover:border"
+                :class="{
+                  'hover:bg-lightColor hover:text-black hover:border-lightColor': true,
+                }"
+                :style="
+                  isAddToCartHovered
+                    ? {
+                        backgroundColor: lightColor,
+                        color: darkColor,
+                        borderColor: darkColor,
+                      }
+                    : {
+                        backgroundColor: darkColor,
+                        borderColor: darkColor,
+                        color: lightColor,
+                      }
+                "
+                @mouseenter="isAddToCartHovered = true"
+                @mouseleave="isAddToCartHovered = false"
+                @mousedown="isAddToCartHovered = true"
+                @mouseup="isAddToCartHovered = false"
+                @touchstart="isAddToCartHovered = true"
+                @touchend="isAddToCartHovered = false"
+                @touchcancel="isAddToCartHovered = false"
+                @click="addToBag"
+              >
+                Add to Bag
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -375,19 +412,19 @@ export default {
       }
     },
     getMarginTop() {
-    // Base margin values in pixels
-    const samsungMargin = 120; // Margin for Samsung
-    const otherMargin = 40;    // Margin for other brands
+      // Base margin values in pixels
+      const samsungMargin = 120; // Margin for Samsung
+      const otherMargin = 40; // Margin for other brands
 
-    // Calculate scaled margin
-    const scaleAdjustedSamsungMargin = samsungMargin * this.scaledImageText;
-    const scaleAdjustedOtherMargin = otherMargin * this.scaledImageText;
+      // Calculate scaled margin
+      const scaleAdjustedSamsungMargin = samsungMargin * this.scaledImageText;
+      const scaleAdjustedOtherMargin = otherMargin * this.scaledImageText;
 
-    // Return margin-top based on the selected brand
-    return this.selectedBrand === 'Samsung' 
-      ? `${scaleAdjustedSamsungMargin}px` 
-      : `${scaleAdjustedOtherMargin}px`;
-  },
+      // Return margin-top based on the selected brand
+      return this.selectedBrand === "Samsung"
+        ? `${scaleAdjustedSamsungMargin}px`
+        : `${scaleAdjustedOtherMargin}px`;
+    },
     goBack() {
       this.$router.back(); // Navigate back to the previous page
     },
@@ -660,5 +697,15 @@ export default {
 .name-text {
   margin-top: 0;
   font-size: 40px; /* Adjust the font size as needed */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge, and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 </style>
