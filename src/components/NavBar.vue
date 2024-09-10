@@ -283,7 +283,7 @@
     <!-- Bag Content -->
     <div
       ref="bagContent"
-      class="max-w-[1188px] w-full mx-auto px-6 box-border overflow-hidden select-none transition-all duration-500 ease-in-out"
+      class="hidden 750:block max-w-[1188px] w-full mx-auto px-6 box-border overflow-hidden select-none transition-all duration-500 ease-in-out"
       :style="{ height: isBagOpen ? `${bagContentHeight}px` : '0px' }"
     >
       <div class="max-w-[1188px] w-full mx-auto box-border mt-[24px]">
@@ -681,6 +681,7 @@ export default {
       navBarLightColor: "",
       navBarDarkColor: "",
       isBagOpen: false,
+      isDesktop: window.innerWidth >= 750, // Check if it's desktop size on load
       bagContentHeight: 0,
       isDevicesOpen: false,
       isClosing: false,
@@ -764,6 +765,7 @@ export default {
     this.checkIfOnProductPage(this.$route);
     this.updateNavBarColors();
 
+    window.addEventListener('resize', this.bagResize);
     // Wait for the DOM to be fully updated
     this.$nextTick(() => {
       if (this.$refs.scrollContainer) {
@@ -785,6 +787,7 @@ export default {
   },
 
   beforeUnmount() {
+    window.removeEventListener('resize', this.bagResize);
     if (this.$refs.scrollContainer) {
       this.$refs.scrollContainer.removeEventListener(
         "scroll",
@@ -848,7 +851,23 @@ export default {
     },
   },
 
+  bagResize() {
+      // Update the isDesktop flag based on the window width
+      this.isDesktop = window.innerWidth >= 750;
+
+      this.$nextTick(() => {
+        if (this.isDesktop) {
+        // Get the height of the desktop content container
+        this.bagContentHeight = this.$refs.bagContent.scrollHeight;
+      } else {
+        // Get the height of the mobile content container
+        this.bagContentHeight = this.$refs.bagContentMobile.scrollHeight;
+      }
+      });
+    },
+
   methods: {
+
     xButton() {
       if (this.isBagOpen) {
         this.closeBag();
