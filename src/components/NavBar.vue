@@ -75,7 +75,7 @@
       </div>
 
       <!-- Right-aligned section (Symbol buttons) -->
-      <div class="flex justify-end items-center space-x-4 w-1/3">
+      <div class="flex justify-end items-center space-x-[22px] 750:space-x-4 w-1/3">
         <a
           v-if="!isCheckoutPage && !menuOpen"
           :style="{ color: navBarDarkColor }"
@@ -302,7 +302,7 @@
         <div
           v-for="(item, index) in bagItems"
           :key="index"
-          class="p-4 bg-white rounded-[18px] relative border border-[#00000010] mb-[10px]"
+          class="p-4 bg-white rounded-[18px] relative border border-[#00000026] mb-[10px]"
         >
           <div class="flex">
             <img
@@ -447,7 +447,7 @@
       </div>
       <!-- Bottom section -->
       <div
-        class="absolute bottom-0 left-0 right-0 p-[24px] backdrop-blur-[30px] bg-[#ffffffcc] z-30 border-t border-[#00000010]"
+        class="absolute bottom-0 left-0 right-0 p-[24px] backdrop-blur-[30px] bg-[#ffffffcc] z-30 border-t border-[#00000033]"
       >
         <div
           :class="[

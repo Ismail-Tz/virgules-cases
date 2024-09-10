@@ -22,26 +22,25 @@
         <!-- Filter overlay (manually handle the animation with Tailwind) -->
         <!-- Overlay for blur and darkness -->
         <div
-          @click="
-            closeFilter()
-          "
+          @click="closeFilter()"
           v-if="isFilterOpen"
           class="fixed inset-0 bg-black bg-opacity-[0.1] z-[59] transition-opacity duration-500 ease-in-out"
           :class="
-            isFilterOpen
-              ? 'backdrop-blur-[10px] opacity-100'
-              : 'opacity-0'
+            isFilterOpen ? 'backdrop-blur-[10px] opacity-100' : 'opacity-0'
           "
         ></div>
         <div
           :class="{
             'fixed inset-x-0 bottom-0 top-[84px] bg-[#F8F8F8CC] rounded-t-[32px] border border-t border-[#00000026] blurry  z-[60]  p-[32px] transform transition-transform ease-in-out duration-500 flex flex-col': true,
-            'translate-y-full opacity-0': !isFilterOpen,
+            'translate-y-[130%] opacity-0': !isFilterOpen,
             'translate-y-0 opacity-100': filterClosing,
           }"
         >
           <!-- Close With confirming selection -->
-          <button @click="closeFilter" class="self-end p-[10px] border border-black text-black rounded-full w-full mb-[24px]">
+          <button
+            @click="closeFilter"
+            class="self-end p-[10px] border border-black text-black rounded-full w-full mb-[24px]"
+          >
             Done
           </button>
 
@@ -83,7 +82,10 @@
                   />
                 </svg>
               </div>
-              <div v-if="openDropdowns[key]" class="pb-[10px] pt-[5px] text-left">
+              <div
+                v-if="openDropdowns[key]"
+                class="pb-[10px] pt-[5px] text-left"
+              >
                 <div
                   v-for="(option, index) in dropdown.options"
                   :key="index"
@@ -351,11 +353,10 @@ export default {
     },
     closeFilter() {
       this.filterClosing = true;
-
+      
       this.$nextTick(() => {
         this.isFilterOpen = false; // Hide the overlay after the animation ends
-
-  });
+      });
     },
     toggleSelection(key, option) {
       this.toggleOption({ key, option });
