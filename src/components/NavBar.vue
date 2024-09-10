@@ -5,13 +5,16 @@
       isBagOpen || isDevicesOpen ? '' : 'h-[60px]', // Empty if open, otherwise 'h-[60px]'
     ]"
     :style="{
-      height: isBagOpen
-        ? `min(${bagContentHeight + 60 + 24}px, 100vh)` // Limits height to the viewport height
-        : isDevicesOpen
-        ? `min(${devicesContentHeight + 60 + 24}px, 100vh)` // Limits height to viewport if devices are open
-        : menuOpen
-        ? '100vh'
-        : '60px',
+      height:
+        !isDesktop && isBagOpen
+          ? `${bagContentHeight + 60}px` // On mobile, use only bagContentHeight when the bag is open
+          : isBagOpen
+          ? `min(${bagContentHeight + 60 + 24}px, 100vh)` // Limits height to the viewport height on desktop
+          : isDevicesOpen
+          ? `min(${devicesContentHeight + 60 + 24}px, 100vh)` // Limits height to viewport if devices are open
+          : menuOpen
+          ? '100vh'
+          : '60px', // Default height
 
       backgroundColor: lightColorTp,
       borderColor: navBarDarkColor + '26',
@@ -283,12 +286,18 @@
     <!-- Mobile Bag Content -->
     <div
       ref="bagContentMobile"
-      class="block 750:hidden relative w-full bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
+      class="block 750:hidden relative w-full p-[24px] overflow-y-auto select-none transition-all duration-500 ease-in-out"
       :style="{ height: isBagOpen ? `${bagContentHeight}px` : '0px hidden' }"
     >
+      <h2
+        class="text-[26px] text-left font-[Visby] font-bold text-[#000000]"
+        @click="clearBag"
+      >
+        {{ $store.state.bag.length === 0 ? "Your Bag is empty" : "Bag" }}
+      </h2>
       <div
         @scroll="handleScroll"
-        class="overflow-y-scroll h-[674px] rounded-[18px]"
+        class="overflow-y-scroll h-[674px] rounded-[18px] mt-[24px]"
       >
         <div
           v-for="(item, index) in bagItems"
@@ -357,15 +366,62 @@
               <div class="flex justify-between items-end mt-2">
                 <span class="text-sm font-normal">MAD {{ item.price }}</span>
                 <div
-                  class="flex items-center justify-center px-[8px] h-6 border border-[#00000099] text-[#00000099] rounded-full ml-2"
+                  class="flex items-center justify-center px-[3px] py-[3px] h-6 border border-[#00000099] text-[#00000099] rounded-full ml-2"
                 >
-                  <span class="text-sm">x{{ item.quantity }}</span>
+                  <button
+                    @click="decrementQuantity(index)"
+                    class="text-black rounded-full pl-[8px] pr-[5px] text-[14px] font-bold h-full"
+                  >
+                    <svg
+                      width="13"
+                      height="2"
+                      viewBox="0 0 13 2"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M0.470703 1C0.470703 0.585786 0.80649 0.25 1.2207 0.25H12.2501C12.6643 0.25 13.0001 0.585786 13.0001 1C13.0001 1.41421 12.6643 1.75 12.2501 1.75H1.2207C0.80649 1.75 0.470703 1.41421 0.470703 1Z"
+                        fill="black"
+                        style="fill: black; fill-opacity: 1"
+                      />
+                    </svg>
+                  </button>
+                  <input
+                    :value="item.quantity"
+                    @input="validateQuantity(index, $event.target.value)"
+                    type="number"
+                    min="1"
+                    max="99"
+                    class="text-center w-[35px] rounded-[4px] text-black text-[15px] no-arrows focus:outline-none bg-transparent"
+                  />
+                  <button
+                    @click="incrementQuantity(index)"
+                    class="text-black rounded-full pl-[5px] pr-[8px] text-[14px] font-bold h-full"
+                  >
+                    <svg
+                      width="13"
+                      height="14"
+                      viewBox="0 0 13 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M6.26471 0.735352C6.67892 0.735352 7.01471 1.07114 7.01471 1.48535V6.25006H11.7794C12.1936 6.25006 12.5294 6.58584 12.5294 7.00006C12.5294 7.41427 12.1936 7.75006 11.7794 7.75006H7.01471V12.5148C7.01471 12.929 6.67892 13.2648 6.26471 13.2648C5.85049 13.2648 5.51471 12.929 5.51471 12.5148V7.75006H0.75C0.335786 7.75006 0 7.41427 0 7.00006C0 6.58584 0.335786 6.25006 0.75 6.25006H5.51471V1.48535C5.51471 1.07114 5.85049 0.735352 6.26471 0.735352Z"
+                        fill="black"
+                        style="fill: black; fill-opacity: 1"
+                      />
+                    </svg>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="h-[210px]">&nbsp;</div>
+        <div class="h-[170px]">&nbsp;</div>
       </div>
       <!-- Scroll Indicator -->
       <div
@@ -391,47 +447,54 @@
       </div>
       <!-- Bottom section -->
       <div
-        class="absolute bottom-0 left-0 right-0 p-[24px] backdrop-blur-[30px] bg-[#ffffffcc] rounded-b-[32px] z-30 border-t border-[#00000010]"
+        class="absolute bottom-0 left-0 right-0 p-[24px] backdrop-blur-[30px] bg-[#ffffffcc] z-30 border-t border-[#00000010]"
       >
-        <div class="flex justify-between mb-[10px]">
-          <span class="text-black">Subtotal</span>
-          <span class="text-black">MAD {{ subtotal }}</span>
-        </div>
-        <div class="flex justify-between mb-[20px]">
-          <span class="text-black">Shipping</span>
-          <span
-            class="text-[#00A354] font-medium"
-            :class="shippingCost === 'Free' ? 'text-[#00A354]' : 'text-black'"
-            >{{ shippingCost }}</span
-          >
-        </div>
-        <hr class="border-t-[1px] border-black opacity-20 mb-[20px]" />
-        <div class="flex justify-between mb-[24px]">
-          <span class="text-black font-bold">Total</span>
-          <span class="text-black font-bold">MAD {{ total }}</span>
-        </div>
-        <button
-          ref="continueButton"
-          class="flex items-center justify-center px-6 py-[10px] text-[18px] border border-black w-full rounded-[20px] hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white font-medium"
-          @click="handleSubmit"
+        <div
+          :class="[
+            $store.state.bag.length === 0
+              ? 'opacity-50 pointer-events-none'
+              : '',
+          ]"
         >
-          Continue
-          <svg
-            class="ml-[8px] w-[15px] h-[15px]"
-            fill="currentColor"
-            viewBox="0 0 17 15"
-            xmlns="http://www.w3.org/2000/svg"
+          <div class="flex justify-between mb-[10px]">
+            <span class="text-black">Subtotal</span>
+            <span class="text-black">MAD {{ subtotal }}</span>
+          </div>
+          <div class="flex justify-between mb-[20px]">
+            <span class="text-black">Shipping</span>
+            <span
+              class="text-[#00A354] font-medium"
+              :class="shippingCost === 'Free' ? 'text-[#00A354]' : 'text-black'"
+              >{{ shippingCost }}</span
+            >
+          </div>
+          <hr class="border-t-[1px] border-black opacity-20 mb-[20px]" />
+          <div class="flex justify-between mb-[24px]">
+            <span class="text-black font-bold">Total</span>
+            <span class="text-black font-bold">MAD {{ total }}</span>
+          </div>
+          <button
+            class="flex items-center justify-center px-6 py-[10px] text-[18px] border text-black border-black w-full rounded-[20px] hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white font-medium"
+            @click="goToCheckout"
           >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M9.1824 13.9504C8.85482 13.6132 8.86263 13.0743 9.19984 12.7467L13.7246 8.35116L1.35151 8.35116C0.881386 8.35116 0.500273 7.97004 0.500273 7.49992C0.500273 7.02979 0.881386 6.64868 1.35151 6.64868L13.7246 6.64868L9.19984 2.25315C8.86263 1.92558 8.85482 1.38666 9.1824 1.04945C9.50998 0.712234 10.0489 0.704423 10.3861 1.032L16.4157 6.88934C16.5807 7.04963 16.6738 7.26988 16.6738 7.49992C16.6738 7.72996 16.5807 7.9502 16.4157 8.11049L10.3861 13.9678C10.0489 14.2954 9.50997 14.2876 9.1824 13.9504Z"
+            Continue
+            <svg
+              class="ml-[8px] w-[15px] h-[15px]"
               fill="currentColor"
               viewBox="0 0 17 15"
-              style="fill: currentColor; fill-opacity: 1"
-            />
-          </svg>
-        </button>
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M9.1824 13.9504C8.85482 13.6132 8.86263 13.0743 9.19984 12.7467L13.7246 8.35116L1.35151 8.35116C0.881386 8.35116 0.500273 7.97004 0.500273 7.49992C0.500273 7.02979 0.881386 6.64868 1.35151 6.64868L13.7246 6.64868L9.19984 2.25315C8.86263 1.92558 8.85482 1.38666 9.1824 1.04945C9.50998 0.712234 10.0489 0.704423 10.3861 1.032L16.4157 6.88934C16.5807 7.04963 16.6738 7.26988 16.6738 7.49992C16.6738 7.72996 16.5807 7.9502 16.4157 8.11049L10.3861 13.9678C10.0489 14.2954 9.50997 14.2876 9.1824 13.9504Z"
+                fill="currentColor"
+                viewBox="0 0 17 15"
+                style="fill: currentColor; fill-opacity: 1"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
     <!-- Bag Content -->
@@ -853,6 +916,8 @@ export default {
       canScrollRight: true,
 
       menuOpen: false,
+
+      showScrollIndicator: false,
     };
   },
 
@@ -861,6 +926,13 @@ export default {
   },
 
   watch: {
+    bagItems: {
+      handler(newVal) {
+        this.showScrollIndicator = newVal.length > 3;
+      },
+      immediate: true, // Trigger the watch when the component mounts
+      deep: true, // Ensure deep watch for arrays
+    },
     totalQuantity: {
       handler(newQuantity) {
         this.$nextTick(() => {
@@ -1006,12 +1078,33 @@ export default {
   },
 
   methods: {
+    handleScroll(event) {
+      const scrollTop = event.target.scrollTop;
+
+      if (this.bagItems.length > 3) {
+        if (scrollTop > 10) {
+          this.showScrollIndicator = false;
+          clearTimeout(this.scrollTimeout);
+        } else {
+          clearTimeout(this.scrollTimeout);
+          this.scrollTimeout = setTimeout(() => {
+            if (scrollTop === 0) {
+              this.showScrollIndicator = true;
+            }
+          }, 5000); // 5 seconds pause before showing the indicator again
+        }
+      } else {
+        // If there are 3 or fewer items, always hide the scroll indicator
+        this.showScrollIndicator = false;
+        clearTimeout(this.scrollTimeout);
+      }
+    },
     bagCloseOnResize() {
       // Update the isDesktop flag based on the window width
       const wasDesktop = this.isDesktop;
       this.isDesktop = window.innerWidth >= 750;
 
-      console.log(this.isDesktop);
+      this.bagContentHeight = window.innerHeight - 60;
 
       // Close the bag if switching between mobile and desktop
       if (wasDesktop !== this.isDesktop && this.isBagOpen) {
@@ -1019,6 +1112,7 @@ export default {
       }
     },
     xButton() {
+      console.log(this.bagContentHeight);
       if (this.isBagOpen) {
         this.closeBag();
       } else {
@@ -1143,7 +1237,11 @@ export default {
 
     toggleBag() {
       this.isBagOpen = !this.isBagOpen;
-      if (this.isDevicesOpen) this.closeDevices(); // Close devices if open
+
+      if (this.isDevicesOpen) {
+        this.closeDevices(); // Close devices if open
+      }
+
       console.log(this.devicesContentHeight);
 
       this.$nextTick(() => {
@@ -1153,11 +1251,20 @@ export default {
           : this.$refs.bagContentMobile;
 
         if (bagContentEl) {
-          this.bagContentHeight = this.isBagOpen
-            ? this.isDesktop
+          if (this.isBagOpen) {
+            // When opening the bag
+            bagContentEl.classList.remove("hidden"); // Unhide the element
+            this.bagContentHeight = this.isDesktop
               ? bagContentEl.scrollHeight // For desktop, use scrollHeight
-              : window.innerHeight // For mobile, set height to 100vh
-            : "0px"; // If closed, set height to 0px
+              : window.innerHeight - 60; // For mobile, set height to 100vh
+          } else {
+            // When closing the bag
+            this.bagContentHeight = "0px"; // Set height to 0px
+            setTimeout(() => {
+              // Add hidden class after the closing animation
+              bagContentEl.classList.add("hidden");
+            }, 500); // Match this delay with your animation duration
+          }
         }
       });
     },
@@ -1165,7 +1272,16 @@ export default {
       this.isBagOpen = false;
 
       this.$nextTick(() => {
+        // Set bagContentHeight to 0 for the closing animation
         this.bagContentHeight = 0;
+
+        // Set a timeout to apply the hidden class after the animation
+        setTimeout(() => {
+          const bagContentMobile = this.$refs.bagContentMobile;
+          if (bagContentMobile) {
+            bagContentMobile.classList.add("hidden");
+          }
+        }, 500); // Match this delay with your animation duration
       });
     },
     toggleDevices() {
@@ -1377,6 +1493,21 @@ export default {
   }
   100% {
     transform: translateY(0); /* Back to the original position */
+  }
+}
+
+.scroll-indicator {
+  animation: bounce 1.5s infinite ease-in-out;
+  transition: opacity 0.3s ease-in-out;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+  50% {
+    transform: translate(-50%, -5px);
   }
 }
 </style>
