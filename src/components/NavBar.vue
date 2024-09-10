@@ -286,7 +286,7 @@
     <!-- Mobile Bag Content -->
     <div
       ref="bagContentMobile"
-      class="block 750:hidden relative w-full p-[24px] overflow-y-auto select-none transition-all duration-500 ease-in-out"
+      class="block 750:hidden relative w-full p-[24px] overflow-y-hidden select-none transition-all duration-500 ease-in-out"
       :style="{ height: isBagOpen ? `${bagContentHeight}px` : '0px hidden' }"
     >
       <h2
@@ -297,7 +297,7 @@
       </h2>
       <div
         @scroll="handleScroll"
-        class="overflow-y-scroll h-[674px] rounded-[18px] mt-[24px]"
+        class="overflow-y-scroll hide-scrollbar h-full rounded-[18px] mt-[24px]"
       >
         <div
           v-for="(item, index) in bagItems"
@@ -421,7 +421,7 @@
             </div>
           </div>
         </div>
-        <div class="h-[170px]">&nbsp;</div>
+        <div class="h-[284px]">&nbsp;</div>
       </div>
       <!-- Scroll Indicator -->
       <div
@@ -1136,10 +1136,13 @@ export default {
       }
     },
     toggleMenu() {
+      this.$refs.bagContentMobile.classList.add("hidden");
+      this.closeBag();
       this.menuOpen = !this.menuOpen;
     },
 
     goToOrders() {
+      this.bagContentHeight = 0;
       this.closeBag();
       this.$router.push("/your-orders");
     },
