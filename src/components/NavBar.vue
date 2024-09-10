@@ -286,7 +286,7 @@
     <!-- Mobile Bag Content -->
     <div
       ref="bagContentMobile"
-      class="block 750:hidden relative w-full p-[24px] overflow-y-hidden select-none transition-all duration-500 ease-in-out"
+      class="block 750:hidden relative w-full  p-[24px] pt-[12px] 750:pt-[24px] overflow-y-hidden select-none transition-all duration-500 ease-in-out"
       :style="{ height: isBagOpen ? `${bagContentHeight}px` : '0px hidden' }"
     >
       <h2
@@ -1112,11 +1112,15 @@ export default {
       }
       // Close the bag if switching between mobile and desktop
       if (wasDesktop !== this.isDesktop && (this.isBagOpen)) {
-        this.bagContentHeight = 0;
+        
         this.closeBag();
+        if (!this.isDesktop) {
+          this.$refs.bagContent.classList.add('hidden');}else{
+            this.$refs.bagContent.classList.add('remove')
+          }
       }
       if (wasDesktop !== this.isDesktop && (this.isDevicesOpen)) {
-        this.devicesContentHeightHeight = 0;
+        this.devicesContentHeight = 0;
         this.closeDevices();
       }
       if (wasDesktop !== this.isDesktop && (this.menuOpen)) {
