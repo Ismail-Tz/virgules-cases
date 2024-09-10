@@ -753,7 +753,7 @@
                   />
                   <button
                     @click="incrementQuantity(index)"
-                    class="text-black rounded-full pl-[5px] pr-[8px] text-[14px] font-bold h-full"
+                    class=" touch-manipulation text-black rounded-full pl-[5px] pr-[8px] text-[14px] font-bold h-full"
                   >
                     <svg
                       width="13"

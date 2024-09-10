@@ -2,6 +2,10 @@ html {
     -webkit-text-size-adjust: 100%;
   }
   
+  body {
+    touch-action: manipulation;
+  }
+  
   input, textarea, select {
     touch-action: manipulation; /* Prevent zooming and panning */
   }
