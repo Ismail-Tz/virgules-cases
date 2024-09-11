@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="fixed top-0 left-0 w-full select-none bg-[#F7FDFC] border-b border-[#0A332E20] h-[60px] z-50 blurry transition-all duration-500 ease-in-out"
+    class="fixed top-0 left-0 w-full select-none bg-[#F7FDFC] border-b border-[#0A332E20] h-[60px] z-50 blurry transition-all duration-[400ms] 750:duration-500 ease-in-out"
     :class="[
       isBagOpen || isDevicesOpen ? '' : 'h-[60px]', // Empty if open, otherwise 'h-[60px]'
     ]"
@@ -19,6 +19,8 @@
       backgroundColor: lightColorTp,
       borderColor: navBarDarkColor + '26',
       overflowY: isBagOpen || isDevicesOpen || menuOpen ? 'auto' : 'hidden', // Enables scroll if content overflows
+      willChange: !isDesktop && (isBagOpen || menuOpen) ? 'height' : 'auto' // Optimize height changes on mobile
+
     }"
     @mouseleave="
       closeBag();
@@ -286,8 +288,8 @@
     <!-- Mobile Bag Content -->
     <div
       ref="bagContentMobile"
-      class="block 750:hidden relative w-full  p-[24px] pt-[12px] 750:pt-[24px] overflow-y-hidden select-none transition-all duration-500 ease-in-out"
-      :style="{ height: isBagOpen ? `${bagContentHeight}px` : '0px hidden' }"
+      class="block 750:hidden relative w-full  p-[24px] pt-[12px] 750:pt-[24px] overflow-y-hidden select-none transition-all duration-[400ms] 750:duration-500 ease-in-out"
+      :style="{ height: isBagOpen ? `${bagContentHeight}px` : '0px hidden', willChange: 'height' }"
     >
       <h2
         class="text-[26px] text-left font-[Visby] font-bold text-[#000000]"
@@ -993,6 +995,7 @@ export default {
     this.checkIfOnProductPage(this.$route);
     this.updateNavBarColors();
 
+    window.addEventListener('scroll', this.handleWindowScroll, { passive: true });
     window.addEventListener("resize", this.overlaysCloseOnResize);
     // Wait for the DOM to be fully updated
     this.$nextTick(() => {
@@ -1023,6 +1026,8 @@ export default {
     }
     window.removeEventListener("resize", this.handleResize);
     window.removeEventListener("resize", this.overlaysCloseOnResize);
+    window.removeEventListener('scroll', this.handleWindowScroll);
+
   },
 
   computed: {
@@ -1080,6 +1085,15 @@ export default {
   },
 
   methods: {
+    handleWindowScroll() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+      // Only close if vertical scroll occurs (ignore X-axis scrolls)
+      if (scrollTop > 0) {
+        this.closeBag();
+        this.closeDevices();
+      }
+    },
     handleScroll(event) {
       const scrollTop = event.target.scrollTop;
 
@@ -1295,6 +1309,10 @@ export default {
     },
 
     closeBag() {
+      if (this.closeTimeout) {
+        clearTimeout(this.closeTimeout);
+        this.closeTimeout = null; // Reset the timeout ID
+      }
       this.isBagOpen = false;
 
       this.$nextTick(() => {

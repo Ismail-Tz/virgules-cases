@@ -34,7 +34,7 @@
       </div>
       <div v-if="orders.length > 0">
         <div
-          v-for="(order, index) in orders"
+          v-for="(order, index) in orders.slice().reverse()"
           :key="index"
           class="mx-auto mt-[24px] w-full rounded-[32px] border border-black/45 py-[24px] overflow-hidden"
         >
@@ -240,7 +240,7 @@
       <!-- No Orders Message -->
       <div v-else class="flex justify-center items-center h-64 mt-8">
         <h2
-          class="text-3xl sm:text-5xl  font-semibold text-black/75 text-center"
+          class="text-3xl sm:text-5xl font-semibold text-black/75 text-center"
         >
           You have no orders yet.
           <span class="whitespace-nowrap">Start shopping now!</span>
@@ -248,16 +248,13 @@
       </div>
       <div class="flex justify-center items-baseline mt-[40px]">
         <div
-  @click="goHome"
-  class="px-[25px] py-[20px] border border-black/45 rounded-full text-black/45
-         hover:bg-black hover:border-black hover:cursor-pointer hover:text-white
-         transition-colors duration-200 ease-in-out"
->
-  <h1 class="text-left font-normal text-[18px] leading-none">
-    Continue Shopping
-  </h1>
-</div>
-
+          @click="goHome"
+          class="px-[25px] py-[20px] border border-black/45 rounded-full text-black/45 hover:bg-black hover:border-black hover:cursor-pointer hover:text-white transition-colors duration-200 ease-in-out"
+        >
+          <h1 class="text-left font-normal text-[18px] leading-none">
+            Continue Shopping
+          </h1>
+        </div>
       </div>
     </div>
   </div>
