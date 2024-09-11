@@ -1,12 +1,12 @@
 <template>
-  <div class="flex justify-center mb-[40px] mt-[94px]">
-    <div class="max-w-[1188px] w-full mx-auto px-6 box-border">
+  <div class="flex justify-center mb-[24px] 750:mb-[40px] mt-[84px] 750:mt-[94px]">
+    <div class="max-w-[1188px] w-full mx-auto 750:px-6 box-border">
       <button
-        class="flex items-end justify-center leading-none text-[26px] mb-[24px] text-left font-[Visby] font-semibold text-[#000000]"
+        class="flex items-end justify-center px-6 750:px-0 leading-none text-[26px] mb-[24px] text-left font-[Visby] font-semibold text-[#000000]"
         @click="goBack"
       >
         <svg
-          class="mr-[10px] w-[18px] h-[22px] rotate-180"
+          class="mr-[10px] w-[18px] h-[18px] 750:w-[18px] 750:h-[22px] rotate-180"
           fill="currentColor"
           viewBox="0 0 17 15"
           xmlns="http://www.w3.org/2000/svg"
@@ -20,11 +20,15 @@
             style="fill: currentColor; fill-opacity: 1"
           />
         </svg>
-        Checkout
+        <span v-if="isOneStep">Checkout</span>
+        <span v-else class="text-[22px] 750:text-[26px]">
+          {{ currentStep === 1 ? "Order Review" : "Checkout Info" }}
+        </span>
       </button>
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-[40px]">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-y-[24px] gap-[40px]">
         <div
-          class="col-span-2 bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
+          class="relative col-span-1 lg:col-span-2 bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
+          v-if="currentStep === 2 || isOneStep"
         >
           <div>
             <!-- Contact Info -->
@@ -600,17 +604,53 @@
             </div>
           </div>
         </div>
+        <!-- Mobile: Back and Continue buttons -->
+        <div v-if="!isOneStep && currentStep === 2" class="flex gap-[12px]">
+          <!-- Back Button (1/3) -->
+          <!-- <button
+            class="flex items-center justify-center px-6 py-[10px] text-black text-[18px] border border-black w-1/3 rounded-[20px] hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white font-medium"
+            @click="goBack"
+          >
+            Back
+          </button> -->
+
+          <!-- Continue Button (2/3) -->
+          <button
+            ref="continueButton"
+            class="flex items-center justify-center px-6 py-[10px] text-black text-[18px] border border-black w-full rounded-[24px] hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white font-medium"
+            @click="handleSubmit"
+          >
+            Continue
+            <svg
+              class="ml-[8px] w-[15px] h-[15px]"
+              fill="currentColor"
+              viewBox="0 0 17 15"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M9.1824 13.9504C8.85482 13.6132 8.86263 13.0743 9.19984 12.7467L13.7246 8.35116L1.35151 8.35116C0.881386 8.35116 0.500273 7.97004 0.500273 7.49992C0.500273 7.02979 0.881386 6.64868 1.35151 6.64868L13.7246 6.64868L9.19984 2.25315C8.86263 1.92558 8.85482 1.38666 9.1824 1.04945C9.50998 0.712234 10.0489 0.704423 10.3861 1.032L16.4157 6.88934C16.5807 7.04963 16.6738 7.26988 16.6738 7.49992C16.6738 7.72996 16.5807 7.9502 16.4157 8.11049L10.3861 13.9678C10.0489 14.2954 9.50997 14.2876 9.1824 13.9504Z"
+                fill="currentColor"
+                viewBox="0 0 17 15"
+                style="fill: currentColor; fill-opacity: 1"
+              />
+            </svg>
+          </button>
+        </div>
         <div
-          class="relative col-span-2 lg:col-span-1  bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
+          class="overflow-y-hidden 750:relative col-span-1 750:bg-[#F9F9F9] 750:border border-[#00000010] rounded-[32px] px-[24px] 750:p-[24px]"
+          v-if="currentStep === 1 || isOneStep"
         >
           <div
             @scroll="handleScroll"
-            class="overflow-y-scroll h-[674px] rounded-[18px]"
+            class="overflow-y-scroll 750:h-[674px] rounded-[18px]"
+            :style="{ height: `calc(100vh - 154px)` }"
           >
             <div
               v-for="(item, index) in bagItems"
               :key="index"
-              class="p-4 bg-white rounded-[18px] relative border border-[#00000010] mb-[10px]"
+              class="p-4 rounded-[18px] relative border bg-[#F9F9F9] 750:bg-white border-[#00000010] mb-[10px]"
             >
               <div class="flex">
                 <img
@@ -624,7 +664,7 @@
                   <div>
                     <div class="flex justify-between items-center mb-1">
                       <h2
-                        class="text-base truncate font-[Visby] font-bold flex-grow mr-2"
+                        class="text-base text-black truncate font-[Visby] font-bold flex-grow mr-2"
                       >
                         {{ item.title }}
                       </h2>
@@ -710,7 +750,7 @@
           </div>
           <!-- Bottom section -->
           <div
-            class="absolute bottom-0 left-0 right-0 p-[24px] backdrop-blur-[30px] bg-[#ffffffcc] rounded-b-[32px] z-30 border-t border-[#00000010]"
+            class="absolute bottom-0 left-0 right-0 p-[24px] backdrop-blur-[30px] bg-[#ffffffcc] rounded-b-[32px] z-[29] border-t border-[#00000033] 750:border-[#00000015]"
           >
             <div class="flex justify-between mb-[10px]">
               <span class="text-black">Subtotal</span>
@@ -927,6 +967,9 @@ export default {
   name: "CheckoutPage",
   data() {
     return {
+      isOneStep: window.innerWidth >= 1024,
+      currentStep: 1, // 1 for Order Review, 2 for Checkout Info
+
       // Your data properties go here
       isModalVisible: false, // Controls visibility of the modal
       isModalClosing: false,
@@ -961,6 +1004,14 @@ export default {
     },
   },
   methods: {
+    handleResize() {
+      this.isOneStep = window.innerWidth >= 1024;
+    },
+
+
+    goToStep(step) {
+      this.currentStep = step;
+    },
     confirmOrder() {
       // Necessary checkout data from component vars
       const checkoutData = {
@@ -998,7 +1049,7 @@ export default {
       //this.closeModal();
 
       // Redirect to YourOrdersPage
-      this.$router.push('/your-orders');
+      this.$router.push("/your-orders");
     },
 
     clearValidation(field) {
@@ -1006,6 +1057,11 @@ export default {
       this[`${field}Invalid`] = false;
     },
     handleSubmit() {
+      if (!this.isOneStep && this.currentStep === 1) {
+        // Move from order review (step 1) to checkout info (step 2)
+        this.currentStep = 2;
+        return;
+      }
       this.submitAttempted = true; // Set flag to true on submit attempt
       // Validate all fields
       this.validateEmail();
@@ -1110,6 +1166,10 @@ export default {
       }
     },
     goBack() {
+      if (this.currentStep === 2) {
+        this.goToStep(1); // Go back to order review
+        return;
+      }
       this.$router.back(); // Navigate back to the previous page
     },
     validateEmail() {
@@ -1133,7 +1193,13 @@ export default {
   },
   mounted() {
     // Code to run when the component is mounted goes here
+    window.addEventListener("resize", this.handleResize);
   },
+  beforeUnmount() {
+    // Remove the event listener when the component is destroyed
+    window.removeEventListener("resize", this.handleResize);
+  },
+
   computed: {
     bagItems() {
       return this.$store.getters.bagItems;

@@ -304,7 +304,7 @@
         <div
           v-for="(item, index) in bagItems"
           :key="index"
-          class="p-4 bg-white rounded-[18px] relative border border-[#00000026] mb-[10px]"
+          class="p-4 bg-white rounded-[18px] relative border border-[#00000010] mb-[10px]"
         >
           <div class="flex">
             <img
