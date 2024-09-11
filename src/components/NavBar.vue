@@ -181,7 +181,6 @@
           </svg>
         </a>
         <a
-          v-if="!isCheckoutPage"
           :style="{ color: navBarDarkColor }"
           class="cursor-pointer block 750:hidden"
           @click="xButton"

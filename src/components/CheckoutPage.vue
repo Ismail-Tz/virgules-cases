@@ -1,5 +1,7 @@
 <template>
-  <div class="flex justify-center mb-[24px] 750:mb-[40px] mt-[84px] 750:mt-[94px]">
+  <div
+    class="flex justify-center mb-[24px] 750:mb-[40px] mt-[84px] 750:mt-[94px]"
+  >
     <div class="max-w-[1188px] w-full mx-auto 750:px-6 box-border">
       <button
         class="flex items-end justify-center px-6 750:px-0 leading-none text-[26px] mb-[24px] text-left font-[Visby] font-semibold text-[#000000]"
@@ -27,17 +29,17 @@
       </button>
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-y-[24px] gap-[40px]">
         <div
-          class="relative col-span-1 lg:col-span-2 bg-[#F9F9F9] border border-[#00000010] rounded-[32px] p-[24px]"
+          class="relative col-span-1 lg:col-span-2 750:bg-[#F9F9F9] 750:border border-[#00000010] rounded-[32px] px-[24px] 750:p-[24px]"
           v-if="currentStep === 2 || isOneStep"
         >
           <div>
             <!-- Contact Info -->
             <h2
-              class="text-[22px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
+              class="text-[18px] 750:text-[22px] mb-[10px] 750:mb-[24px] mt-[10px] 750:mt-0 text-left font-[Visby] font-bold text-[#000000]"
             >
               Contact Information
             </h2>
-            <div class="relative w-full mb-[14px]">
+            <div class="relative w-full mb-[10px] 750:mb-[14px]">
               <input
                 type="email"
                 id="email"
@@ -113,9 +115,9 @@
                 </template>
               </label>
             </div>
-            <div class="flex gap-[14px]">
+            <div class="flex flex-wrap gap-[10px] 750:gap-[14px]">
               <div
-                class="relative flex items-center h-[50px] bg-white border border-[#00000033] text-black text-[15px] rounded-full focus-within:border-[#000000] transition-all duration-300 ease-in-out w-auto"
+                class="relative flex items-center h-[50px] bg-white border border-[#00000033] text-black text-[15px] rounded-full focus-within:border-[#000000] transition-all duration-300 ease-in-out w-full 750:w-auto"
               >
                 <select
                   id="countryCode"
@@ -134,7 +136,7 @@
                 </svg>
               </div>
 
-              <div class="relative flex-grow">
+              <div class="relative w-full 750:flex-grow">
                 <input
                   type="tel"
                   id="phone"
@@ -215,12 +217,14 @@
             <!-- Shipping Address -->
 
             <h2
-              class="text-[22px] mt-[44px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
+              class="text-[18px] 750:text-[22px] mb-[10px] 750:mb-[24px] mt-[30px] 750:mt-[44px] text-left font-[Visby] font-bold text-[#000000]"
             >
               Shipping Address
             </h2>
-            <div class="flex gap-[14px] mb-[14px]">
-              <div class="relative w-1/2">
+            <div
+              class="flex 750:flex-nowrap flex-wrap gap-[10px] 750:gap-[14px] mb-[10px] 750:mb-[14px]"
+            >
+              <div class="relative w-full 750:w-1/2">
                 <input
                   type="text"
                   id="firstName"
@@ -270,7 +274,7 @@
                 </label>
               </div>
 
-              <div class="relative w-1/2">
+              <div class="relative w-full 750:w-1/2">
                 <input
                   type="text"
                   id="lastName"
@@ -321,8 +325,10 @@
               </div>
             </div>
 
-            <div class="flex gap-[14px] mb-[14px]">
-              <div class="relative w-1/2">
+            <div
+              class="flex 750:flex-nowrap flex-wrap gap-[10px] 750:gap-[14px] mb-[10px] 750:mb-[14px]"
+            >
+              <div class="relative w-full 750:w-1/2">
                 <input
                   type="text"
                   id="address"
@@ -373,7 +379,7 @@
                 </label>
               </div>
 
-              <div class="relative w-1/2">
+              <div class="relative w-full 750:w-1/2">
                 <input
                   type="text"
                   id="postalCode"
@@ -454,9 +460,11 @@
               </div>
             </div>
 
-            <div class="flex gap-[14px]">
+            <div
+              class="flex 750:flex-nowrap flex-wrap gap-[10px] 750:gap-[14px]"
+            >
               <div
-                class="relative flex items-center h-[50px] bg-white border border-[#00000033] text-black text-[15px] rounded-full focus-within:border-[#000000] w-1/2"
+                class="relative flex items-center h-[50px] bg-white border border-[#00000033] text-black text-[15px] rounded-full focus-within:border-[#000000] w-full 750:w-1/2"
               >
                 <select
                   id="countryCode"
@@ -476,7 +484,7 @@
                 </svg>
               </div>
 
-              <div class="relative w-1/2">
+              <div class="relative w-full 750:w-1/2">
                 <input
                   type="text"
                   id="city"
@@ -530,11 +538,13 @@
             <!-- Payment -->
 
             <h2
-              class="text-[22px] mt-[44px] mb-[24px] text-left font-[Visby] font-bold text-[#000000]"
+              class="text-[18px] 750:text-[22px] mb-[10px] 750:mb-[24px] mt-[30px] 750:mt-[44px] text-left font-[Visby] font-bold text-[#000000]"
             >
               Payment
             </h2>
-            <div class="flex gap-[14px] w-full flex-wrap gap-y-[14px]">
+            <div
+              class="flex gap-[14px] w-full flex-wrap gap-y-[10px] 750:gap-y-[14px]"
+            >
               <!-- First div (Selected by default) -->
               <div
                 class="flex-1 min-w-[240px] w-1/2 p-[20px] bg-white rounded-[24px] border-[1.5px] border-black shadow-[0_0_25px_rgba(0,0,0,0.1)] cursor-pointer"
@@ -565,7 +575,7 @@
                     class="ml-[20px] flex flex-col justify-between h-[90px] text-left"
                   >
                     <p
-                      class="text-[22px] font-medium leading-[110%] font-[Visby]"
+                      class="text-[22px] font-medium leading-[110%] text-black font-[Visby]"
                     >
                       Payment on delivery
                     </p>
@@ -617,7 +627,7 @@
           <!-- Continue Button (2/3) -->
           <button
             ref="continueButton"
-            class="flex items-center justify-center px-6 py-[10px] text-black text-[18px] border border-black w-full rounded-[24px] hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white font-medium"
+            class="flex items-center justify-center mx-6 750:mx-0 px-6 py-[10px] text-black text-[18px] border border-black w-full rounded-[24px] hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white font-medium"
             @click="handleSubmit"
           >
             Continue
@@ -799,21 +809,24 @@
     </div>
   </div>
   <div
-    v-if="isModalVisible"
+    v-show="isModalVisible || isModalClosing"
     @click="closeModal"
-    class="fixed inset-0 bg-black bg-opacity-[0.035] backdrop-blur-[30px] flex justify-center items-center z-50 transition-opacity duration-300 ease-in-out"
-    :class="{ 'opacity-0': !isModalVisible, 'opacity-100': isModalVisible }"
+    class="fixed inset-0 bg-black bg-opacity-[0.035] backdrop-blur-[30px] flex justify-center items-center z-50 transition-opacity duration-500 ease-in-out"
+    :class="{ 'opacity-0': isModalClosing, 'opacity-100': isModalVisible }"
   >
-    <div
-      @click.stop
-      class="bg-[#F9F9F9] border border-black/50 rounded-[32px] w-full max-w-2xl shadow-[0_0_25px_rgba(0,0,0,0.1)] relative flex flex-col justify-between space-y-[24px] transform transition-transform duration-300 ease-in-out"
-      :class="{
-        'animate-open': isModalVisible,
-        'animate-close': isModalClosing,
-      }"
-    >
+  <div
+    @click.stop
+    class="bg-[#F9F9F9] border border-black/20 450:border-black/50 rounded-t-[24px] 450:rounded-[24px] 750:rounded-[32px] 450:mx-3 750:m-0 w-full 750:max-w-2xl shadow-[0_0_25px_rgba(0,0,0,0.1)] flex flex-col justify-between space-y-[14px] 750:space-y-[24px] transform transition-transform duration-500 750:duration-300 ease-in-out"
+    :class="{
+      'translate-y-full fixed bottom-0 left-0': isModalClosing && !isOneStep, // Mobile - hidden state
+      'translate-y-0 fixed bottom-0 left-0': isModalVisible && !isModalClosing && !isOneStep,    // Mobile - visible state
+      'animate-open': isModalVisible && isOneStep,      // Desktop open animation
+      'animate-close': isModalClosing && isOneStep,     // Desktop close animation
+    }"
+    style="will-change: transform"
+  >
       <button
-        class="absolute top-[30px] right-[30px] text-2xl"
+        class="absolute top-[20px] right-[20px] 750:top-[30px] 750:right-[30px] text-2xl"
         @click="closeModal"
       >
         <svg
@@ -841,25 +854,29 @@
           />
         </svg>
       </button>
-      <div class="p-[32px] pt-[8px]">
-        <h2 class="text-[26px] font-bold font-[visby] leading-none text-black">
+      <div class="p-[20px] 750:p-[32px] pt-[12px] 750:pt-[8px]">
+        <h2
+          class="text-[22px] 750:text-[26px] text-left 750:text-center font-bold font-[visby] leading-none text-black"
+        >
           Check Information
         </h2>
       </div>
 
       <!-- Content goes here -->
-      <div class="flex-grow space-y-[10px] p-[24px] pb-0">
+      <div class="flex-grow space-y-[10px] p-[20px] 750:p-[24px] pb-0">
         <div
-          class="flex justify-between items-center border border-black/10 bg-white p-[20px] rounded-[24px]"
+          class="flex flex-1 justify-between items-center border border-black/10 bg-white p-[20px] rounded-[24px]"
         >
           <div class="flex flex-col justify-center space-y-[5px] text-left">
             <div class="text-[12px] text-black/80 leading-none">Email</div>
-            <div class="text-[16px] text-black font-medium leading-none">
+            <div
+              class="text-[14px] 750:text-[16px] text-black font-medium leading-none text-wrap"
+            >
               {{ savedEmail }}
             </div>
           </div>
           <button
-            class="bg-white border border-black/80 py-[12px] px-[16px] rounded-[14px] text-[16px] text-black/80 font-normal leading-none hover:bg-[#f9f9f9] hover:border-black hover:text-black"
+            class="flex-shrink-0 bg-white border border-black/80 py-[12px] px-[16px] rounded-[14px] text-[14px] 750:text-[16px] text-black/80 font-normal leading-none hover:bg-[#f9f9f9] hover:border-black hover:text-black"
             @click="handleChange('email')"
           >
             Change
@@ -869,17 +886,23 @@
         <div
           class="flex justify-between items-center border border-black/10 bg-white p-[20px] rounded-[24px]"
         >
-          <div class="flex flex-col justify-center space-y-[5px] text-left">
-            <div class="text-[12px] text-black/80 leading-none">
+          <div
+            class="flex flex-1 flex-col justify-center space-y-[5px] text-left"
+          >
+            <div
+              class="text-[12px] text-black/80 break-words whitespace-normal leading-none"
+            >
               Phone Number
             </div>
-            <div class="text-[16px] text-black font-medium leading-none">
+            <div
+              class="text-[14px] break-words whitespace-normal 750:text-[16px] text-black font-medium leading-none text-wrap"
+            >
               +212 {{ savedPhone }}
             </div>
           </div>
           <button
             @click="handleChange('phone')"
-            class="bg-white border border-black/80 py-[12px] px-[16px] rounded-[14px] text-[16px] text-black/80 font-normal leading-none hover:bg-[#f9f9f9] hover:border-black hover:text-black"
+            class="flex-shrink-0 bg-white border border-black/80 py-[12px] px-[16px] rounded-[14px] text-[14px] 750:text-[16px] text-black/80 font-normal leading-none hover:bg-[#f9f9f9] hover:border-black hover:text-black"
           >
             Change
           </button>
@@ -887,15 +910,23 @@
         <div
           class="flex justify-between items-center border border-black/10 bg-white p-[20px] rounded-[24px]"
         >
-          <div class="flex flex-col justify-center space-y-[5px] text-left">
-            <div class="text-[12px] text-black/80 leading-none">Ship to</div>
-            <div class="text-[16px] text-black font-medium leading-none">
+          <div
+            class="flex flex-1 flex-col justify-center space-y-[5px] text-left"
+          >
+            <div
+              class="text-[12px] text-black/80 leading-none break-words whitespace-normal"
+            >
+              Ship to
+            </div>
+            <div
+              class="text-[14px] 750:text-[16px] break-words whitespace-normal text-black font-medium leading-none"
+            >
               {{ savedAddress }}
             </div>
           </div>
           <button
             @click="handleChange('address')"
-            class="bg-white border border-black/80 py-[12px] px-[16px] rounded-[14px] text-[16px] text-black/80 font-normal leading-none hover:bg-[#f9f9f9] hover:border-black hover:text-black"
+            class="flex-shrink-0 bg-white border border-black/80 py-[12px] px-[16px] rounded-[14px] text-[14px] 750:text-[16px] text-black/80 font-normal leading-none hover:bg-[#f9f9f9] hover:border-black hover:text-black"
           >
             Change
           </button>
@@ -924,10 +955,10 @@
               </svg>
             </div>
             <div
-              class="ml-[10px] flex flex-col justify-between h-[45px] text-left"
+              class="ml-[10px] flex flex-col justify-between gap-y-1 750:gap-y-2 text-left"
             >
               <p
-                class="text-[17px] font-medium leading-[110%] font-[Visby] text-black"
+                class="text-[15px] 750:text-[17px] font-medium leading-[110%] font-[Visby] text-black"
               >
                 Payment on delivery
               </p>
@@ -946,14 +977,14 @@
       </div>
       <!-- Bottom section -->
       <div
-        class="bg-white p-[24px] rounded-b-[32px] flex justify-between items-center"
+        class="bg-white p-[24px] 450:rounded-b-[32px] flex justify-between items-center"
       >
-        <div class="ml-[10px] text-[17px] text-black">
+        <div class="750:ml-[10px] text-[15px] 750:text-[17px] text-black">
           Total: MAD {{ total }}
         </div>
         <button
           @click="confirmOrder"
-          class="border-[1.5px] border-black text-black font-semibold py-3 px-[17.5px] text-[17px] rounded-[20px] hover:bg-black hover:text-white hover:shadow-[0_0_35px_rgba(0,0,0,0.2)]"
+          class="border-[1.5px] border-black text-black font-semibold py-3 px-[17.5px] text-[15px] 750:text-[17px] rounded-[20px] hover:bg-black hover:text-white hover:shadow-[0_0_35px_rgba(0,0,0,0.2)]"
         >
           Confirm Order
         </button>
@@ -1007,7 +1038,6 @@ export default {
     handleResize() {
       this.isOneStep = window.innerWidth >= 1024;
     },
-
 
     goToStep(step) {
       this.currentStep = step;
