@@ -5,25 +5,25 @@
         <div class="relative col-span-12 750:col-span-7">
           <div class="mb-[24px] pl-[2px] block 750:hidden">
             <h1
-              class="text-black text-left font-[Visby] font-bold text-[26px] 450:text-[28px] mb-[10px] leading-[100%]"
+              class="text-black text-left font-[Visby] font-bold text-[24px] 450:text-[28px] mb-[8px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
               {{this.products[this.id].title }}
             </h1>
             <h2
-              class="text-black text-left font-[Visby] font-semibold text-[20px] 450:text-[21px] mb-[8px] leading-[100%]"
+              class="text-black text-left font-[Visby] font-semibold text-[18px] 450:text-[21px] mb-[6px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
               {{ this.products[this.id].type }}
             </h2>
             <h3
-              class="text-black text-left text-[16px] 450:text-[18px] mb-[10px] leading-[100%]"
+              class="text-black text-left text-[16px] 450:text-[18px] mb-[8px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
               MAD {{ this.products[this.id].price }}
             </h3>
             <h4
-              class="text-gray-500 text-left text-[15px] 450:text-[14px] leading-[100%]"
+              class="text-gray-500 text-left text-[14px] 450:text-[14px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
               By {{ this.products[this.id].designer }}
