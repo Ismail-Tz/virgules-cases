@@ -1,14 +1,14 @@
 <template>
   <div class="flex justify-center mb-[40px] mt-[84px] 750:mt-[148px]">
     <div class="max-w-[1188px] w-full mx-auto px-6 box-border select-none">
-      <div class="grid grid-cols-12 gap-y-[24px] 750:gap-[40px]">
+      <div class="grid grid-cols-12 gap-y-[24px] 750:gap-[30px] 1056:gap-[40px]">
         <div class="relative col-span-12 750:col-span-7">
           <div class="mb-[24px] pl-[2px] block 750:hidden">
             <h1
               class="text-black text-left font-[Visby] font-bold text-[26px] 450:text-[28px] mb-[10px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
-              {{ colorTitle + " " + this.products[this.id].title }}
+              {{this.products[this.id].title }}
             </h1>
             <h2
               class="text-black text-left font-[Visby] font-semibold text-[20px] 450:text-[21px] mb-[8px] leading-[100%]"
@@ -72,19 +72,19 @@
         <div class="col-span-12 750:col-span-5">
           <div class="mb-[24px] pl-[2px] hidden 750:block">
             <h1
-              class="text-black text-left font-[Visby] font-bold text-[28px] mb-[10px] leading-[100%]"
+              class="text-black text-left font-[Visby] font-bold text-[24px] 1056:text-[28px] mb-[8px] 1056:mb-[10px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
               {{ colorTitle + " " + this.products[this.id].title }}
             </h1>
             <h2
-              class="text-black text-left font-[Visby] font-semibold text-[21px] mb-[8px] leading-[100%]"
+              class="text-black text-left font-[Visby] font-semibold text-[19px] 1056:text-[21px] mb-[6px] 1056:mb-[8px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
               {{ this.products[this.id].type }}
             </h2>
             <h3
-              class="text-black text-left text-[18px] mb-[10px] leading-[100%]"
+              class="text-black text-left text-[17px] 1056:text-[18px] mb-[8px] 1056:mb-[10px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
               MAD {{ this.products[this.id].price }}
@@ -105,7 +105,7 @@
               }"
             >
               <h2
-                class="text-black text-left font-[Visby] font-extrabold text-[20px] mb-[24px] leading-[100%] after"
+                class="text-black text-left font-[Visby] font-bold text-[20px] mb-[24px] leading-[100%] after"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
                 Select Device
@@ -161,7 +161,7 @@
               <!-- Customize section (only in customizable products) -->
               <div v-if="products[id].isCustomizable">
                 <h2
-                  class="text-black text-left font-[Visby] font-extrabold text-[20px] my-[24px] leading-[100%] after"
+                  class="text-black text-left font-[Visby] font-bold text-[20px] my-[24px] leading-[100%] after"
                   :style="{ color: darkColor, borderColor: darkColor }"
                 >
                   Customize
@@ -227,7 +227,7 @@
               </div>
               <!-- Color/Style Selection -->
               <h4
-                class="text-black text-left font-[Visby] font-extrabold text-[15px] mt-[24px] mb-[10px] leading-[100%] after"
+                class="text-black text-left font-[Visby] font-bold text-[15px] mt-[24px] mb-[10px] leading-[100%] after"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
                 Other colors
@@ -272,16 +272,16 @@
             </div>
             <div>
               <button
-                class="w-full mt-[24px] bg-black text-white py-[17.5px] px-[20px] text-[21px] font-medium border rounded-full leading-[100%] hover:bg-[white] hover:text-black hover:border-black hover:border"
+                class="w-full transition-colors ease-in-out duration-300 mt-[24px] bg-black text-white py-[17.5px] px-[20px] text-[21px] font-medium border rounded-full leading-[100%] hover:bg-[white] hover:text-black hover:border-black hover:border"
                 :class="{
                   'hover:bg-lightColor hover:text-black hover:border-lightColor': true,
                 }"
                 :style="
                   isAddToCartHovered
                     ? {
-                        backgroundColor: lightColor,
-                        color: darkColor,
+                        backgroundColor: darkColor+'CC',
                         borderColor: darkColor,
+                        color: lightColor,
                       }
                     : {
                         backgroundColor: darkColor,
@@ -300,6 +300,41 @@
               >
                 Add to Bag
               </button>
+              <div
+                class="flex items-center justify-center p-[10px] text-black space-x-[6px] opacity-60"
+                :style="{
+                        color: darkColor,
+                      }"
+              >
+                <svg
+                  width="20"
+                  height="16"
+                  viewBox="0 0 20 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_708_1360)">
+                    <path
+                      d="M18.74 8.18902L16.34 5.54902C16.16 5.33902 15.93 5.18902 15.69 5.09902C15.45 4.98902 15.19 4.94902 14.92 4.96912H13.45V3.05912C13.45 2.46912 13.22 1.91912 12.81 1.49912C12.39 1.07912 11.83 0.849121 11.24 0.849121H2.2C1.62 0.849021 1.06 1.07902 0.64 1.49902C0.23 1.91902 0 2.46902 0 3.05902V11.079C0 11.669 0.23 12.229 0.64 12.639C1.05 13.049 1.61 13.279 2.2 13.279H2.52C2.65 13.799 2.92 14.249 3.32 14.579C3.7501 14.949 4.3 15.149 4.87 15.149H4.96C5.48 15.149 5.97 14.989 6.36 14.689C6.76 14.389 7.05 13.959 7.18 13.489H12.45C12.61 13.969 12.91 14.389 13.32 14.689C13.7501 15.009 14.29 15.169 14.84 15.149C15.38 15.129 15.91 14.919 16.32 14.559C16.7 14.239 16.96 13.799 17.08 13.299H17.55C17.77 13.319 17.99 13.299 18.2 13.229C18.4 13.1591 18.59 13.029 18.75 12.869C18.92 12.719 19.04 12.529 19.11 12.319C19.19 12.109 19.22 11.889 19.21 11.679V9.37902C19.21 8.92902 19.04 8.50902 18.74 8.18902ZM17.56 12.179H17.08C17 11.809 16.83 11.469 16.58 11.179C16.29 10.849 15.94 10.609 15.56 10.479C15.16 10.329 14.73 10.289 14.3199 10.369C14.0099 10.429 13.7199 10.539 13.4499 10.709V6.08912H14.9499C15.0299 6.08912 15.1399 6.07912 15.2599 6.12912C15.3399 6.15912 15.4199 6.20912 15.5099 6.29912L17.6199 8.62912L17.9199 8.94912C18.0199 9.05912 18.0799 9.20912 18.0799 9.37912V11.6791C18.0799 11.8791 18.0399 12.0091 17.9699 12.0691C17.9199 12.1191 17.81 12.179 17.56 12.179ZM13.5 12.399L13.5099 12.389L13.5199 12.359C13.5499 12.219 13.6299 12.069 13.7399 11.919C13.8499 11.789 13.9799 11.679 14.1299 11.589C14.2999 11.509 14.4599 11.459 14.6099 11.439C14.7999 11.429 14.9699 11.449 15.1099 11.489C15.2899 11.549 15.4399 11.629 15.5599 11.729C15.6898 11.839 15.7999 11.979 15.8798 12.119C15.9598 12.299 16.0098 12.449 16.0198 12.599C16.0398 12.769 16.0198 12.939 15.9598 13.099V13.109C15.8898 13.369 15.7298 13.599 15.5098 13.769C15.0398 14.109 14.4398 14.109 13.9698 13.779C13.7498 13.5989 13.5898 13.379 13.4998 13.0989C13.4698 12.9789 13.4498 12.8589 13.4498 12.7389C13.4498 12.6289 13.47 12.499 13.5 12.399ZM1.12 3.05902C1.12 2.76902 1.23 2.48902 1.4399 2.29902C1.6299 2.09902 1.9099 1.97902 2.1999 1.97902H11.24C11.53 1.97902 11.8 2.08902 12.01 2.29902C12.21 2.48902 12.33 2.76902 12.33 3.05902V12.369H7.22C7.14 11.849 6.9 11.359 6.51 10.989C6.09 10.599 5.54 10.359 4.97 10.329C4.37 10.309 3.83 10.489 3.38 10.849C2.95 11.169 2.66 11.639 2.53 12.1591H2.2C1.91 12.1591 1.63 12.0491 1.44 11.8391C1.23 11.6391 1.1201 11.3691 1.1201 11.0791L1.12 3.05902ZM3.64 12.359C3.73 12.099 3.89 11.869 4.11 11.699C4.33 11.539 4.6 11.449 4.87 11.449C5.15 11.449 5.41 11.539 5.6299 11.699C5.8599 11.869 6.0199 12.099 6.0899 12.359C6.1399 12.479 6.1599 12.599 6.1599 12.739C6.1599 12.849 6.1399 12.969 6.0999 13.079V13.109C6.0199 13.359 5.8599 13.599 5.6499 13.769C5.4199 13.939 5.1499 14.029 4.8699 14.029C4.5899 14.029 4.3199 13.939 4.0999 13.769C3.8699 13.599 3.7099 13.359 3.6399 13.109L3.6299 13.079C3.56 12.859 3.57 12.609 3.64 12.359Z"
+                      fill="currentColor"
+                      style="fill: currentColor; fill-opacity: 1"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_708_1360">
+                      <rect
+                        width="19.2118"
+                        height="14.3017"
+                        fill="white"
+                        style="fill: white; fill-opacity: 1"
+                        transform="translate(0 0.849121)"
+                      />
+                    </clipPath>
+                  </defs>
+                </svg>
+
+                <span class="text-[14px] leading-none">Enjoy Free Shipping on Every Case!</span>
+              </div>
             </div>
           </div>
         </div>
