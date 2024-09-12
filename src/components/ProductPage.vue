@@ -1,14 +1,16 @@
 <template>
   <div class="flex justify-center mb-[40px] mt-[84px] 750:mt-[148px]">
     <div class="max-w-[1188px] w-full mx-auto px-6 box-border select-none">
-      <div class="grid grid-cols-12 gap-y-[24px] 750:gap-[30px] 1056:gap-[40px]">
+      <div
+        class="grid grid-cols-12 gap-y-[24px] 750:gap-[30px] 1056:gap-[40px]"
+      >
         <div class="relative col-span-12 750:col-span-7">
           <div class="mb-[24px] pl-[2px] block 750:hidden">
             <h1
               class="text-black text-left font-[Visby] font-bold text-[24px] 450:text-[28px] mb-[8px] leading-[100%]"
               :style="{ color: darkColor, borderColor: darkColor }"
             >
-              {{this.products[this.id].title }}
+              {{ this.products[this.id].title }}
             </h1>
             <h2
               class="text-black text-left font-[Visby] font-semibold text-[18px] 450:text-[21px] mb-[6px] leading-[100%]"
@@ -98,34 +100,36 @@
           </div>
           <div class="col-span-12 750:col-span-5">
             <div
-              class="bg-[#F5F7F6] text-white border p-[24px] rounded-[32px]"
+              class="relative bg-[#F5F7F6] text-white border p-[24px] rounded-[32px] overflow-hidden"
               :style="{
                 backgroundColor: lightColor,
                 borderColor: darkColor + '26',
               }"
-            >
+            > <div class="mask-container m-[-24px] p-[24px]">
               <h2
-                class="text-black text-left font-[Visby] font-bold text-[20px] mb-[24px] leading-[100%] after"
+                class="text-black text-left font-[Visby] font-bold text-[20px] mb-[24px] leading-[100%]"
                 :style="{ color: darkColor, borderColor: darkColor }"
               >
                 Select Device
               </h2>
-              <div class="flex gap-[8px] mb-[8px] flex-wrap">
+
+              <!-- Container for buttons, using negative margins to span full width -->
+              <div
+                class="flex gap-[8px] mb-[8px] flex-nowrap overflow-x-auto hide-scrollbar mx-[-24px] px-[24px]"
+              >
                 <button
                   v-for="device in availableBrands"
                   :key="device"
-                  class="border border-black text-black py-[17.5px] px-[17.5px] 450:px-[20px] text-[15px] rounded-full leading-[100%] flex-shrink-0"
+                  class="border border-black text-black py-[17px] px-[17px] 450:px-[20px] text-[15px] rounded-full leading-[100%] flex-shrink-0"
                   @mouseenter="hoveredButton = device"
                   @mouseleave="hoveredButton = null"
                   @click="selectBrand(device)"
                   :style="buttonStyles(device)"
-                  :class="{
-                    'text-[13px] px-[16px] py-[14px]': isParentDivSmall, // Adjust sizes when container is small
-                  }"
                 >
                   {{ device }}
                 </button>
               </div>
+
               <div class="flex">
                 <label for="device-model-dropdown"></label>
                 <div class="select-wrapper w-full">
@@ -269,6 +273,7 @@
                   ></div>
                 </div>
               </div>
+              </div>
             </div>
             <div>
               <button
@@ -279,7 +284,7 @@
                 :style="
                   isAddToCartHovered
                     ? {
-                        backgroundColor: darkColor+'CC',
+                        backgroundColor: darkColor + 'CC',
                         borderColor: darkColor,
                         color: lightColor,
                       }
@@ -303,8 +308,8 @@
               <div
                 class="flex items-center justify-center p-[10px] text-black space-x-[6px] opacity-60"
                 :style="{
-                        color: darkColor,
-                      }"
+                  color: darkColor,
+                }"
               >
                 <svg
                   width="20"
@@ -333,7 +338,9 @@
                   </defs>
                 </svg>
 
-                <span class="text-[14px] leading-none">Enjoy Free Shipping on Every Case!</span>
+                <span class="text-[14px] leading-none"
+                  >Enjoy Free Shipping on Every Case!</span
+                >
               </div>
             </div>
           </div>
@@ -742,5 +749,13 @@ export default {
 .hide-scrollbar {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+.mask-container {
+  position: relative;
+  /* Apply a linear gradient mask to create the fade-out effect */
+  mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 24px, rgba(0, 0, 0, 1) calc(100% - 24px), rgba(0, 0, 0, 0) 100%);
+  -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 24px, rgba(0, 0, 0, 1) calc(100% - 24px), rgba(0, 0, 0, 0) 100%);
+  overflow: hidden; /* Ensure the mask effect is contained within this container */
 }
 </style>
