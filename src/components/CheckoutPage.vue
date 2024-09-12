@@ -115,9 +115,9 @@
                 </template>
               </label>
             </div>
-            <div class="flex flex-wrap gap-[10px] 750:gap-[14px]">
+            <div class="flex flex-wrap 750:flex-nowrap gap-[10px] 750:gap-[14px]">
               <div
-                class="relative flex items-center h-[50px] bg-white border border-[#00000033] text-black text-[15px] rounded-full focus-within:border-[#000000] transition-all duration-300 ease-in-out w-full 750:w-auto"
+                class="relative flex items-center h-[50px] bg-white border border-[#00000033] text-black text-[15px] rounded-full focus-within:border-[#000000] transition-all duration-300 ease-in-out w-full 750:flex-grow 750:w-3/12"
               >
                 <select
                   id="countryCode"
@@ -630,7 +630,7 @@
             class="flex items-center justify-center mx-6 750:mx-0 px-6 py-[10px] text-black text-[18px] border border-black w-full rounded-[24px] hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white font-medium"
             @click="handleSubmit"
           >
-            Continue
+            Checkout
             <svg
               class="ml-[8px] w-[15px] h-[15px]"
               fill="currentColor"
@@ -786,7 +786,7 @@
               class="flex items-center justify-center px-6 py-[10px] text-black text-[18px] border border-black w-full rounded-[20px] hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white font-medium"
               @click="handleSubmit"
             >
-              Continue
+            {{ isOneStep ? 'Checkout' : 'Proceed to Checkout' }}
               <svg
                 class="ml-[8px] w-[15px] h-[15px]"
                 fill="currentColor"
@@ -818,10 +818,11 @@
     @click.stop
     class="bg-[#F9F9F9] border border-black/20 450:border-black/50 rounded-t-[24px] 450:rounded-[24px] 750:rounded-[32px] 450:mx-3 750:m-0 w-full 750:max-w-2xl shadow-[0_0_25px_rgba(0,0,0,0.1)] flex flex-col justify-between space-y-[14px] 750:space-y-[24px] transform transition-transform duration-500 750:duration-300 ease-in-out"
     :class="{
-      'translate-y-full fixed bottom-0 left-0': isModalClosing && !isOneStep, // Mobile - hidden state
-      'translate-y-0 fixed bottom-0 left-0': isModalVisible && !isModalClosing && !isOneStep,    // Mobile - visible state
-      'animate-open': isModalVisible && isOneStep,      // Desktop open animation
-      'animate-close': isModalClosing && isOneStep,     // Desktop close animation
+      'translate-y-full fixed bottom-0 left-0': isModalClosing && isMobile, // Mobile - hidden state
+      'translate-y-0 fixed bottom-0 left-0': isModalVisible && !isModalClosing && isMobile,    // Mobile - visible state
+      'transition-all duration-300': isMobile, // Mobile transition duration
+      'animate-open': isModalVisible && !isMobile,      // Desktop open animation
+      'animate-close': isModalClosing && !isMobile,     // Desktop close animation
     }"
     style="will-change: transform"
   >
@@ -999,6 +1000,7 @@ export default {
   data() {
     return {
       isOneStep: window.innerWidth >= 1024,
+      isMobile: window.innerWidth < 450,
       currentStep: 1, // 1 for Order Review, 2 for Checkout Info
 
       // Your data properties go here
@@ -1037,6 +1039,7 @@ export default {
   methods: {
     handleResize() {
       this.isOneStep = window.innerWidth >= 1024;
+      this.isMobile = window.innerWidth < 450;
     },
 
     goToStep(step) {
@@ -1125,8 +1128,10 @@ export default {
       // Save the data if all fields are valid
       this.saveData();
 
-      // Trigger the overlay
-      this.openModal();
+      // Use $nextTick to ensure DOM updates happen before opening modal
+  this.$nextTick(() => {
+    this.openModal(); // Ensure the modal opening is smooth
+  });
     },
 
     clearFields() {
@@ -1162,8 +1167,15 @@ export default {
       });
     },
     openModal() {
+    // Ensure the closing state is reset before opening
+    this.isModalClosing = false;
+
+    // Small delay to ensure the CSS class for the transition is applied
+    this.$nextTick(() => {
       this.isModalVisible = true;
-    },
+    });
+  },
+  
     closeModal() {
       this.isModalClosing = true;
       setTimeout(() => {
@@ -1207,9 +1219,15 @@ export default {
       this.isEmailInvalid = this.email && !emailRegex.test(this.email);
     },
     validatePhone() {
-      const phoneRegex = /^(0[67]\d{8}|0[58]\d{8}|[67]\d{8}|[58]\d{8})$/;
-      this.isPhoneInvalid = this.phone && !phoneRegex.test(this.phone);
-    },
+  // Normalize phone number by removing spaces
+  const normalizedPhone = this.phone.replace(/\s+/g, '');
+  
+  // Regex to match Moroccan phone numbers, with optional spaces
+  const phoneRegex = /^(0[67]\d{8}|0[58]\d{8}|[67]\d{8}|[58]\d{8})$/;
+  
+  // Validate the normalized phone number
+  this.isPhoneInvalid = normalizedPhone && !phoneRegex.test(normalizedPhone);
+},
     validatePostalCode() {
       const postalCodeRegex = /^[1-9]\d{4}$/;
       this.isPostalCodeInvalid =
