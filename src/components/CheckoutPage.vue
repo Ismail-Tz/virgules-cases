@@ -381,7 +381,7 @@
 
               <div class="relative w-full 750:w-1/2">
                 <input
-                  type="text"
+                  type="tel"
                   id="postalCode"
                   ref="postalCode"
                   v-model="postalCode"
@@ -811,16 +811,15 @@
   <div
     v-show="isModalVisible || isModalClosing"
     @click="closeModal"
-    class="fixed inset-0 bg-black bg-opacity-[0.035] backdrop-blur-[30px] flex justify-center items-center z-50 transition-opacity duration-500 ease-in-out"
+    class="fixed inset-0 bg-black bg-opacity-[0.035] backdrop-blur-[30px] flex justify-center items-center z-50 transition-opacity duration-300 ease-in-out"
     :class="{ 'opacity-0': isModalClosing, 'opacity-100': isModalVisible }"
   >
   <div
     @click.stop
-    class="bg-[#F9F9F9] border border-black/20 450:border-black/50 rounded-t-[24px] 450:rounded-[24px] 750:rounded-[32px] 450:mx-3 750:m-0 w-full 750:max-w-2xl shadow-[0_0_25px_rgba(0,0,0,0.1)] flex flex-col justify-between space-y-[14px] 750:space-y-[24px] transform transition-transform duration-500 750:duration-300 ease-in-out"
+    class="bg-[#F9F9F9] border border-black/15 450:border-black/20 rounded-t-[24px] 450:rounded-[24px] 750:rounded-[32px] 450:mx-3 750:m-0 w-full 750:max-w-2xl 450:shadow-[0_0_25px_rgba(0,0,0,0.1)] flex flex-col justify-between space-y-[14px] 750:space-y-[24px] transform transition-transform duration-500 750:duration-300 ease-in-out max-h-[calc(100vh-2rem)] overflow-hidden"
     :class="{
-      'translate-y-full fixed bottom-0 left-0': isModalClosing && isMobile, // Mobile - hidden state
-      'translate-y-0 fixed bottom-0 left-0': isModalVisible && !isModalClosing && isMobile,    // Mobile - visible state
-      'transition-all duration-300': isMobile, // Mobile transition duration
+      'animate-mobile-open fixed bottom-0 left-0': isModalVisible && isMobile,    // Mobile open animation
+      'animate-mobile-close fixed bottom-0 left-0': isModalClosing && isMobile,
       'animate-open': isModalVisible && !isMobile,      // Desktop open animation
       'animate-close': isModalClosing && !isMobile,     // Desktop close animation
     }"
@@ -864,7 +863,7 @@
       </div>
 
       <!-- Content goes here -->
-      <div class="flex-grow space-y-[10px] p-[20px] 750:p-[24px] pb-0">
+      <div class="flex-grow space-y-[10px] m-[20px] 750:m-[24px] overflow-y-auto rounded-[24px] ">
         <div
           class="flex flex-1 justify-between items-center border border-black/10 bg-white p-[20px] rounded-[24px]"
         >
@@ -1347,4 +1346,35 @@ export default {
 .animate-close {
   animation: modalClose 0.3s forwards;
 }
+
+@keyframes mobileModalOpen {
+  0% {
+    transform: translateY(100%);
+
+  }
+  100% {
+    transform: translateY(0);
+
+  }
+}
+
+@keyframes mobileModalClose {
+  0% {
+    transform: translateY(0);
+
+  }
+  100% {
+    transform: translateY(100%);
+
+  }
+}
+
+.animate-mobile-open {
+  animation: mobileModalOpen 0.5s forwards;
+}
+
+.animate-mobile-close {
+  animation: mobileModalClose 0.3s forwards;
+}
+
 </style>
