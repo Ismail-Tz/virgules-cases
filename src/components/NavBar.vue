@@ -392,7 +392,7 @@
                   <input
                     :value="item.quantity"
                     @input="validateQuantity(index, $event.target.value)"
-                    type="number"
+                    type="tel"
                     min="1"
                     max="99"
                     class="text-center w-[35px] rounded-[4px] text-black text-[15px] no-arrows focus:outline-none bg-transparent"
@@ -747,6 +747,7 @@
                   <input
                     :value="item.quantity"
                     @input="validateQuantity(index, $event.target.value)"
+                    @click="$event.target.select()"
                     type="number"
                     min="1"
                     max="99"
