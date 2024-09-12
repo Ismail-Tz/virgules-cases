@@ -19,8 +19,7 @@
       backgroundColor: lightColorTp,
       borderColor: navBarDarkColor + '26',
       overflowY: isBagOpen || isDevicesOpen || menuOpen ? 'auto' : 'hidden', // Enables scroll if content overflows
-      willChange: !isDesktop && (isBagOpen || menuOpen) ? 'height' : 'auto' // Optimize height changes on mobile
-
+      willChange: !isDesktop && (isBagOpen || menuOpen) ? 'height' : 'auto', // Optimize height changes on mobile
     }"
     @mouseleave="
       closeBag();
@@ -77,7 +76,9 @@
       </div>
 
       <!-- Right-aligned section (Symbol buttons) -->
-      <div class="flex justify-end items-center space-x-[22px] 750:space-x-4 w-1/3">
+      <div
+        class="flex justify-end items-center space-x-[22px] 750:space-x-4 w-1/3"
+      >
         <a
           v-if="!isCheckoutPage && !menuOpen"
           :style="{ color: navBarDarkColor }"
@@ -287,8 +288,11 @@
     <!-- Mobile Bag Content -->
     <div
       ref="bagContentMobile"
-      class="block 750:hidden relative w-full  p-[24px] pt-[12px] 750:pt-[24px] overflow-y-hidden select-none transition-all duration-[400ms] 750:duration-500 ease-in-out"
-      :style="{ height: isBagOpen ? `${bagContentHeight}px` : '0px hidden', willChange: 'height' }"
+      class="block 750:hidden relative w-full p-[24px] pt-[12px] 750:pt-[24px] overflow-y-hidden select-none transition-all duration-[400ms] 750:duration-500 ease-in-out"
+      :style="{
+        height: isBagOpen ? `${bagContentHeight}px` : '0px hidden',
+        willChange: 'height',
+      }"
     >
       <h2
         class="text-[26px] text-left font-[Visby] font-bold text-[#000000]"
@@ -371,6 +375,10 @@
                 >
                   <button
                     @click="decrementQuantity(index)"
+                    :disabled="item.quantity <= 1"
+                    :class="
+                      item.quantity <= 1 ? 'opacity-30 pointer-events-none' : ''
+                    "
                     class="text-black rounded-full pl-[8px] pr-[5px] text-[14px] font-bold h-full"
                   >
                     <svg
@@ -392,6 +400,9 @@
                   <input
                     :value="item.quantity"
                     @input="validateQuantity(index, $event.target.value)"
+                    @click="$event.target.select()"
+                    @focus="handleFocus"
+                    @blur="handleBlur"
                     type="tel"
                     min="1"
                     max="99"
@@ -399,6 +410,12 @@
                   />
                   <button
                     @click="incrementQuantity(index)"
+                    :disabled="item.quantity >= 99"
+                    :class="
+                      item.quantity >= 99
+                        ? 'opacity-30 pointer-events-none'
+                        : ''
+                    "
                     class="text-black rounded-full pl-[5px] pr-[8px] text-[14px] font-bold h-full"
                   >
                     <svg
@@ -726,6 +743,10 @@
                 >
                   <button
                     @click="decrementQuantity(index)"
+                    :disabled="item.quantity <= 1"
+                    :class="
+                      item.quantity <= 1 ? 'opacity-30 pointer-events-none' : ''
+                    "
                     class="text-black rounded-full pl-[8px] pr-[5px] text-[14px] font-bold h-full"
                   >
                     <svg
@@ -748,6 +769,8 @@
                     :value="item.quantity"
                     @input="validateQuantity(index, $event.target.value)"
                     @click="$event.target.select()"
+                    @focus="handleFocus"
+                    @blur="handleBlur"
                     type="number"
                     min="1"
                     max="99"
@@ -755,7 +778,13 @@
                   />
                   <button
                     @click="incrementQuantity(index)"
-                    class=" touch-manipulation text-black rounded-full pl-[5px] pr-[8px] text-[14px] font-bold h-full"
+                    :disabled="item.quantity >= 99"
+                    :class="
+                      item.quantity >= 99
+                        ? 'opacity-30 pointer-events-none'
+                        : ''
+                    "
+                    class="touch-manipulation text-black rounded-full pl-[5px] pr-[8px] text-[14px] font-bold h-full"
                   >
                     <svg
                       width="13"
@@ -922,6 +951,8 @@ export default {
       showScrollIndicator: false,
 
       closeTimeout: null, // Variable to store the timeout ID
+
+      isKeyboardOpen: false, // Check if the keyboard is open
     };
   },
 
@@ -995,7 +1026,9 @@ export default {
     this.checkIfOnProductPage(this.$route);
     this.updateNavBarColors();
 
-    window.addEventListener('scroll', this.handleWindowScroll, { passive: true });
+    window.addEventListener("scroll", this.handleWindowScroll, {
+      passive: true,
+    });
     window.addEventListener("resize", this.overlaysCloseOnResize);
     // Wait for the DOM to be fully updated
     this.$nextTick(() => {
@@ -1026,8 +1059,7 @@ export default {
     }
     window.removeEventListener("resize", this.handleResize);
     window.removeEventListener("resize", this.overlaysCloseOnResize);
-    window.removeEventListener('scroll', this.handleWindowScroll);
-
+    window.removeEventListener("scroll", this.handleWindowScroll);
   },
 
   computed: {
@@ -1088,11 +1120,17 @@ export default {
     handleWindowScroll() {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
 
-      // Only close if vertical scroll occurs (ignore X-axis scrolls)
-      if (scrollTop > 0) {
+      // Only close if vertical scroll occurs and the keyboard is not open
+      if (!this.isKeyboardOpen && scrollTop > 0) {
         this.closeBag();
         this.closeDevices();
       }
+    },
+    handleFocus() {
+      this.isKeyboardOpen = true;
+    },
+    handleBlur() {
+      this.isKeyboardOpen = false;
     },
     handleScroll(event) {
       const scrollTop = event.target.scrollTop;
@@ -1125,19 +1163,19 @@ export default {
         this.bagContentHeight = window.innerHeight - 60;
       }
       // Close the bag if switching between mobile and desktop
-      if (wasDesktop !== this.isDesktop && (this.isBagOpen)) {
-        
+      if (wasDesktop !== this.isDesktop && this.isBagOpen) {
         this.closeBag();
         if (!this.isDesktop) {
-          this.$refs.bagContent.classList.add('hidden');}else{
-            this.$refs.bagContent.classList.add('remove')
-          }
+          this.$refs.bagContent.classList.add("hidden");
+        } else {
+          this.$refs.bagContent.classList.add("remove");
+        }
       }
-      if (wasDesktop !== this.isDesktop && (this.isDevicesOpen)) {
+      if (wasDesktop !== this.isDesktop && this.isDevicesOpen) {
         this.devicesContentHeight = 0;
         this.closeDevices();
       }
-      if (wasDesktop !== this.isDesktop && (this.menuOpen)) {
+      if (wasDesktop !== this.isDesktop && this.menuOpen) {
         this.toggleMenu();
       }
     },

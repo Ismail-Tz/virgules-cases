@@ -27,9 +27,9 @@
           {{ currentStep === 1 ? "Order Review" : "Checkout Info" }}
         </span>
       </button>
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-y-[24px] gap-[40px]">
+      <div class="parent-grid auto-rows-min grid grid-cols-1 lg:grid-cols-3 gap-y-[24px] gap-[40px]">
         <div
-          class="relative col-span-1 lg:col-span-2 750:bg-[#F9F9F9] 750:border border-[#00000010] rounded-[32px] px-[24px] 750:p-[24px]"
+          class="first-child self-start relative col-span-1 lg:col-span-2 lg:sticky lg:top-0 750:bg-[#F9F9F9] 750:border border-[#00000010] rounded-[32px] px-[24px] 750:p-[24px]"
           v-if="currentStep === 2 || isOneStep"
         >
           <div>
@@ -649,13 +649,13 @@
           </button>
         </div>
         <div
-          class="overflow-y-hidden 750:relative col-span-1 750:bg-[#F9F9F9] 750:border border-[#00000010] rounded-[32px] px-[24px] 750:p-[24px]"
+          class="overflow-y-hidden 750:relative col-span-1 750:bg-[#F9F9F9] 750:border border-[#00000010] rounded-[32px] px-[24px] pb-[10px] 750:p-[24px]"
           v-if="currentStep === 1 || isOneStep"
         >
           <div
             @scroll="handleScroll"
             class="overflow-y-scroll 750:h-[674px] rounded-[18px]"
-            :style="{ height: `calc(100vh - 154px)` }"
+            :style="{ height: `calc(100vh - 170px)` }"
           >
             <div
               v-for="(item, index) in bagItems"
