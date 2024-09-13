@@ -226,6 +226,96 @@
         </a>
       </div>
     </div>
+
+    <!-- Devices Content Mobile -->
+    <div
+      :style="{ height: menuOpen && !isDesktop ? `100vh` : '0px' }"
+      class="block 750:hidden relative w-full p-[24px] pt-[12px] 750:pt-[24px] overflow-y-hidden select-none transition-all duration-[400ms] 750:duration-500 ease-in-out"
+    >
+      <p class="text-black/60 text-[16px] leading-none text-left mb-[24px]">
+        Shop cases for :
+      </p>
+
+      <!-- Mobile View: Brands and Models Animation -->
+      <div
+        :style="{
+          transform: selectedBrand && !isTransitioning ? 'translateX(-100%)' : 'translateX(0)',
+          opacity: selectedBrand && !isTransitioning ? 0 : 1,
+          top: '36px', // Ensuring consistent top positioning
+        }"
+        class="absolute left-[24px] w-[calc(100%-48px)] transition-all duration-500 ease-in-out"
+      >
+        <!-- Display Brands -->
+        <div class="flex flex-col justify-start">
+          <div
+            v-for="(models, brand) in availableDevices"
+            :key="brand"
+            @click="selectBrand(brand)"
+            class="cursor-pointer transition-transform duration-500 text-left"
+          >
+            <h3
+              class="font-bold font-[visby] text-black/75 active:text-black text-[40px]"
+            >
+              {{ brand }}
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      <div
+        :style="{
+          transform:
+            selectedBrand && !isTransitioning
+              ? 'translateX(0)'
+              : 'translateX(100%)',
+          opacity: selectedBrand && !isTransitioning ? 1 : 0,
+          top: '36px',
+        }"
+        class="absolute left-[24px] w-[calc(100%-48px)] transition-all duration-500 ease-in-out"
+      >
+        <!-- Display Models -->
+        <div class="flex items-center space-x-4">
+          <button
+            @click="backToBrands"
+            class="flex space-x-2 justify-left items-center text-black/80 active:text-black"
+          >
+            <svg
+              class="rotate-90"
+              width="19.5"
+              height="12"
+              viewBox="0 0 13 8"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M0.497812 1.64518C0.218392 1.34935 0.218363 0.886876 0.497746 0.591005V0.591005C0.800665 0.27021 1.31101 0.270169 1.61398 0.590916L6.13652 5.37882C6.33382 5.58771 6.66618 5.58771 6.86348 5.37882L11.386 0.590916C11.689 0.27017 12.1993 0.27021 12.5023 0.591005V0.591005C12.7816 0.886876 12.7816 1.34935 12.5022 1.64518L7.22699 7.2303C6.83237 7.6481 6.16763 7.6481 5.77301 7.2303L0.497812 1.64518Z"
+                fill="currentColor"
+                style="fill: currentColor; fill-opacity: 1"
+              />
+            </svg>
+            <h3
+              class="font-bold font-[visby] text-black/75 active:text-black text-[40px]"
+            >
+            {{ selectedBrand ? selectedBrand : '\u00A0' }} <!-- Non-breaking space when selectedBrand is null -->
+          </h3>
+          </button>
+        </div>
+
+        <ul class="text-left mt-2">
+          <li
+            v-for="(model, idx) in availableDevices[selectedBrand]"
+            :key="idx"
+            @click="goToModelPage(selectedBrand, model)"
+            class="cursor-pointer transition-colors text-black/65 active:text-black text-[26px] space-y-[10px] py-[7px] font-medium"
+          >
+            {{ model }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
     <!-- Devices Content -->
     <div
       ref="devicesContent"
@@ -953,6 +1043,9 @@ export default {
       closeTimeout: null, // Variable to store the timeout ID
 
       isKeyboardOpen: false, // Check if the keyboard is open
+
+      selectedBrand: null,
+      isTransitioning: false, // Add this to handle the animation state
     };
   },
 
@@ -1117,6 +1210,22 @@ export default {
   },
 
   methods: {
+    selectBrand(brand) {
+      this.selectedBrand = brand;
+    },
+    backToBrands() {
+      // Set the transition flag to true to indicate the animation has started
+      this.isTransitioning = true;
+
+      this.$nextTick(() => {
+    // Then use setTimeout to delay the null assignment
+    setTimeout(() => {
+      this.selectedBrand = null;
+      this.isTransitioning = false; // Reset the flag after the animation
+    }, 500);
+  });
+    },
+
     handleWindowScroll() {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
 
@@ -1255,6 +1364,9 @@ export default {
     },
 
     goToModelPage(brand, model) {
+      if (this.menuOpen) {
+        this.toggleMenu();
+      }
       this.closeDevices();
       this.$router.push(`/model/${brand}/${model}`);
     },
