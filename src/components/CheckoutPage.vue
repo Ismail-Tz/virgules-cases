@@ -1063,7 +1063,7 @@ export default {
 
       // Combine the checkout data with the bag items to create the order
       const newOrder = {
-        id: Date.now(), // Unique ID for the order
+        id: `${(Date.now() % 1e8).toString(36)}-${Math.random().toString(36).substring(2, 6)}`.toUpperCase(),
         items: this.$store.state.bag, // The items in the current bag
         checkoutInfo: checkoutData, // The checkout information (phone, email, etc.)
         date: new Date(), // Current date and time
