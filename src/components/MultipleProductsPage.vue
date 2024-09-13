@@ -13,7 +13,15 @@
         >
           <button
             @click="toggleFilter"
-            class="py-[5px] flex px-[5px] text-[15px] 450:text-[16px] font-medium text-black/60 active:text-black z-20 relative"
+            :class="{
+              ' text-blue-600 opacity-100': Object.values(selectedOptions).some(
+                (arr) => arr.length > 0
+              ),
+              'text-black opacity-60': !Object.values(selectedOptions).some(
+                (arr) => arr.length > 0
+              ),
+            }"
+            class="py-[5px] flex px-[5px] text-[15px] 450:text-[16px] font-medium active:opacity-100 z-20 relative"
           >
             <svg
               class="inline-block mr-[5px] w-[1em] h-[1em] align-middle"
