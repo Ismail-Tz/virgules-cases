@@ -241,7 +241,10 @@
       <!-- Mobile View: Brands and Models Animation -->
       <div
         :style="{
-          transform: selectedBrand && !isTransitioning ? 'translateX(-100%)' : 'translateX(0)',
+          transform:
+            selectedBrand && !isTransitioning
+              ? 'translateX(-100%)'
+              : 'translateX(0)',
           opacity: selectedBrand && !isTransitioning ? 0 : 1,
           top: '36px', // Ensuring consistent top positioning
         }"
@@ -300,8 +303,9 @@
             <h3
               class="font-bold font-[visby] text-black/75 active:text-black text-[40px]"
             >
-            {{ selectedBrand ? selectedBrand : '\u00A0' }} <!-- Non-breaking space when selectedBrand is null -->
-          </h3>
+              {{ selectedBrand ? selectedBrand : "\u00A0" }}
+              <!-- Non-breaking space when selectedBrand is null -->
+            </h3>
           </button>
         </div>
 
@@ -386,12 +390,35 @@
         willChange: 'height',
       }"
     >
-      <h2
-        class="text-[26px] text-left font-[Visby] font-bold text-[#000000]"
-        @click="clearBag"
-      >
-        {{ $store.state.bag.length === 0 ? "Your Bag is empty" : "Bag" }}
-      </h2>
+      <div class="flex justify-between items-baseline py-[1px]">
+        <h2
+          class="text-[26px] text-left font-[Visby] font-bold text-[#000000]"
+          @click="clearBag"
+        >
+          {{ $store.state.bag.length === 0 ? "Your Bag is empty" : "Bag" }}
+        </h2>
+        <div
+          @click="goToOrders"
+          class="flex items-center justify-center px-[8px] py-[5px] border border-black/45 text-black/55 hover:border-black hover:text-black hover:cursor-pointer font-medium bg-white rounded-full space-x-[6px]"
+        >
+          <svg
+            width="14"
+            height="16"
+            viewBox="0 0 14 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M13.9094 4.8303C13.7132 4.19909 13.2947 3.66105 12.7322 3.31653L8.22458 0.765728C7.84946 0.55811 7.42801 0.449219 6.99958 0.449219C6.57115 0.449219 6.14971 0.55811 5.77458 0.765728L1.26701 3.31653C1.02433 3.45928 0.808134 3.64311 0.627999 3.85988C0.222017 4.30658 -0.00208379 4.88983 1.46041e-05 5.49431V10.5002C0.000489351 10.9432 0.118075 11.3782 0.340783 11.7607C0.563491 12.1433 0.883353 12.4598 1.26776 12.6779L5.77533 15.2287C6.14927 15.44 6.57118 15.5509 7.00033 15.5509C7.42947 15.5509 7.85138 15.44 8.22532 15.2287L12.7329 12.6779C13.1172 12.4597 13.4369 12.1432 13.6595 11.7606C13.8821 11.3781 13.9996 10.9431 14 10.5002V5.49431C13.9999 5.26988 13.9694 5.04651 13.9094 4.8303ZM6.36364 8.47101V14.0962L1.8933 11.5662C1.70518 11.4594 1.54865 11.3045 1.43966 11.1172C1.33066 10.9299 1.27311 10.717 1.27285 10.5002L1.27592 5.59272L6.36364 8.47101ZM7.00001 7.36451L1.85289 4.45431C1.86604 4.44494 1.87967 4.43628 1.89372 4.42835L3.76283 3.37068L8.95449 6.26013L7.00001 7.36451ZM12.7273 5.59198V10.5002C12.727 10.717 12.6695 10.9299 12.5605 11.1172C12.4515 11.3045 12.2949 11.4594 12.1068 11.5662L7.63637 14.0962V8.47101L12.7273 5.59198ZM7.59914 1.87744L12.1067 4.42824C12.1208 4.43617 12.1344 4.44484 12.1475 4.4542L10.2552 5.52442L5.0626 2.63497L6.40087 1.87744C6.58446 1.77625 6.79054 1.7232 7.00001 1.7232C7.20948 1.7232 7.41556 1.77625 7.59914 1.87744Z"
+              fill="currentColor"
+              fill-opacity="0.45"
+              style="fill: currentColor; fill-opacity: 1"
+            />
+          </svg>
+
+          <span class="text-[14px] leading-none">Orders</span>
+        </div>
+      </div>
       <div
         @scroll="handleScroll"
         class="overflow-y-scroll hide-scrollbar h-full rounded-[18px] mt-[24px]"
@@ -461,7 +488,9 @@
                 </p>
               </div>
               <div class="flex justify-between items-end mt-2">
-                <span class="text-sm text-black/80 font-normal">MAD {{ item.price }}</span>
+                <span class="text-sm text-black/80 font-normal"
+                  >MAD {{ item.price }}</span
+                >
                 <div
                   class="flex items-center justify-center px-[3px] py-[3px] h-6 border border-[#00000099] text-[#00000099] rounded-full ml-2"
                 >
@@ -1064,24 +1093,24 @@ export default {
       deep: true, // Ensure deep watch for arrays
     },
     totalQuantity: {
-  handler(newQuantity) {
-    this.$nextTick(() => {
-      // Check if the quantity changed from 0 to 1
-      if (this._previousQuantity === 0 && newQuantity === 1) {
-        this.toggleBag(); // Open the bag when quantity changes from 0 to 1
-      }
+      handler(newQuantity) {
+        this.$nextTick(() => {
+          // Check if the quantity changed from 0 to 1
+          if (this._previousQuantity === 0 && newQuantity === 1) {
+            this.toggleBag(); // Open the bag when quantity changes from 0 to 1
+          }
 
-      // Trigger jump if the new quantity is greater than the previous one
-      if (newQuantity > this._previousQuantity) {
-        this.triggerJump();
-      }
+          // Trigger jump if the new quantity is greater than the previous one
+          if (newQuantity > this._previousQuantity) {
+            this.triggerJump();
+          }
 
-      // Update previous quantity
-      this._previousQuantity = newQuantity;
-    });
-  },
-  immediate: true, // Ensure it works immediately
-},
+          // Update previous quantity
+          this._previousQuantity = newQuantity;
+        });
+      },
+      immediate: true, // Ensure it works immediately
+    },
 
     hoveredModel() {
       this.$nextTick(() => {
@@ -1228,12 +1257,12 @@ export default {
       this.isTransitioning = true;
 
       this.$nextTick(() => {
-    // Then use setTimeout to delay the null assignment
-    setTimeout(() => {
-      this.selectedBrand = null;
-      this.isTransitioning = false; // Reset the flag after the animation
-    }, 500);
-  });
+        // Then use setTimeout to delay the null assignment
+        setTimeout(() => {
+          this.selectedBrand = null;
+          this.isTransitioning = false; // Reset the flag after the animation
+        }, 500);
+      });
     },
 
     handleWindowScroll() {
@@ -1252,7 +1281,6 @@ export default {
       setTimeout(() => {
         this.isKeyboardOpen = false;
       }, 300);
-      
     },
     handleScroll(event) {
       const scrollTop = event.target.scrollTop;
