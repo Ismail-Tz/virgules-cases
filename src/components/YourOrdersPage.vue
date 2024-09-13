@@ -32,7 +32,8 @@
           </svg>
         </p>
       </div>
-      <div v-if="orders.length > 0">
+      <!-- Orders Desktop -->
+      <div v-if="orders.length > 0 && !isMobile">
         <div
           v-for="(order, index) in orders.slice().reverse()"
           :key="index"
@@ -237,6 +238,109 @@
           </div>
         </div>
       </div>
+      <!-- Orders Mobile -->
+      <div v-if="orders.length > 0 && isMobile">
+        <div
+          v-for="(order, index) in orders.slice().reverse()"
+          :key="index"
+          class="mx-auto mt-[24px] w-full rounded-[32px] border border-black/45 py-[24px] overflow-hidden"
+        >
+          <!-- Order Header -->
+          <div
+            class="flex justify-between flex-wrap space-y-2 items-center mb-[24px] px-[24px] py-[1px]"
+          >
+            <h2
+              class="text-[22px] leading-none text-left font-normal text-[#000000]"
+            >
+              Order n°{{ order.id }}
+            </h2>
+            <div class="flex items-center space-x-[12px]">
+              <div
+                class="flex items-center justify-center px-[10px] py-[7px] border border-black text-black rounded-full"
+              >
+                <span class="text-[12px] leading-none"
+                  >MAD {{ order.checkoutInfo.total }}</span
+                >
+              </div>
+              <div
+                class="flex items-center justify-center px-[10px] py-[7px] border border-black text-black rounded-full space-x-[6px]"
+              >
+                <!-- SVG Icon and Status -->
+                <svg
+                  width="16"
+                  height="12"
+                  viewBox="0 0 20 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <!-- SVG content omitted for brevity -->
+                </svg>
+                <span class="text-[12px] leading-none">On Its Way</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stack of Items -->
+          <div class="relative overflow-x-auto whitespace-nowrap py-[1px]">
+            <div
+              class="relative min-h-[171px] h-fit max-h-[500px] rounded-[18px] px-[24px] space-y-[10px] cursor-pointer"
+              @click="toggleExpanded(order.id)"
+            >
+              <div
+                v-for="(item, itemIndex) in order.items"
+                :key="itemIndex"
+                :class="[
+                  'p-4 rounded-[18px] border bg-[#F9F9F9] 750:bg-white border-[#00000010] transition-transform duration-300 ease-in-out',
+                  expandedOrder === order.id
+                    ? ''
+                    : getStackedClass(itemIndex),
+                ]"
+                :style="getZIndexStyle(itemIndex)"
+              >
+                <!-- Item Content -->
+                <div class="flex">
+                  <img
+                    :src="item.image"
+                    :alt="item.title"
+                    class="w-[55px] h-[110px] object-cover mr-4"
+                  />
+                  <div
+                    class="flex flex-col flex-grow justify-between text-left min-w-0"
+                  >
+                    <div>
+                      <h2
+                        class="text-base text-black truncate font-semibold flex-grow mr-2"
+                      >
+                        {{ item.title }}
+                      </h2>
+                      <p class="text-[13px] text-black/60 mb-1">
+                        {{ item.model }}
+                      </p>
+                      <p class="text-[13px] text-black/60 mb-1">
+                        {{ item.type }}
+                      </p>
+                      <p class="text-xs text-black/60">
+                        {{ item.color }}
+                        {{ item.customizations ? "- Customized" : "" }}
+                      </p>
+                    </div>
+                    <div class="flex justify-between items-end mt-2">
+                      <span class="text-sm text-black/80"
+                        >MAD {{ item.price }}</span
+                      >
+                      <div
+                        class="flex items-center justify-center px-[8px] h-6 border border-[#00000099] text-[#00000099] rounded-full ml-2"
+                      >
+                        <span class="text-sm">x{{ item.quantity }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- No Orders Message -->
       <div v-else class="flex justify-center items-center h-64 mt-8">
         <h2
@@ -269,6 +373,9 @@ export default {
       scrolling: false,
       canScrollLeft: [], // Initialize as an empty array to track each container's state
       canScrollRight: [], // Initialize as an empty array to track each container's state
+
+      isMobile: window.innerWidth < 750,
+      expandedOrder: null,
     };
   },
 
@@ -314,10 +421,16 @@ export default {
         window.addEventListener("resize", this.handleResize);
       }
     });
+    window.addEventListener("resize", () => {
+      this.isMobile = window.innerWidth < 750;
+    });
   },
 
   beforeUnmount() {
     window.removeEventListener("resize", this.handleResize);
+    window.removeEventListener("resize", () => {
+      this.isMobile = window.innerWidth < 750;
+    });
   },
 
   computed: {
@@ -340,6 +453,41 @@ export default {
     },
   },
   methods: {
+    toggleExpanded(orderId) {
+      // Toggle the expansion of the clicked order
+      this.expandedOrder = this.expandedOrder === orderId ? null : orderId;
+    },
+    getStackedClass(index) {
+  // Default styles for the top item
+  let translateY = 'translate-y-0';  // No vertical translation for the top item
+  let scale = 'scale-100';  // No scaling for the top item
+  let opacity = 'opacity-100';  // Full opacity for the top item
+  let width = 'w-fill';  // Maintain full width for scaling
+  let margin = 'mx-[24px]';  // Center the item horizontally
+  let height = 'h-fit';  // Maintain full height for scaling
+
+  // Adjust styles based on index
+  if (index === 0) {
+    translateY = 'translate-y-0';  // No translation for the top item
+    scale = 'scale-100';  // No scaling
+    opacity = 'opacity-100';  // Full opacity
+  } else if (index === 1) {
+    translateY = 'translate-y-2';  // Move down for the second item
+    scale = 'scale-[0.9]';  // Scale down slightly
+    opacity = 'opacity-80';  // Reduce opacity
+  } else if (index === 2) {
+    translateY = 'translate-y-6';  // Move down further for the third item
+    scale = 'scale-[0.80]';  // Scale down more
+    opacity = 'opacity-60';  // Further reduce opacity
+  } else if (index >= 3) {
+    return 'hidden';  // Hide items beyond the third when not expanded
+  }
+
+  return `absolute inset-0 ${translateY} ${scale} ${opacity} ${width} ${height} ${margin}`;  // Ensure the absolute position
+},
+getZIndexStyle(index) {
+  return { zIndex: `${10 - index}` };  // Use inline style to guarantee z-index control
+},
     handleResize() {
       // Update the scroll buttons for all containers on resize
       this.$refs.scrollOrderContainer.forEach((_, index) => {
