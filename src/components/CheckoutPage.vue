@@ -1037,11 +1037,16 @@ export default {
       isPostalCodeInvalid: false, // Tracks if the postal code is invalid
       showScrollIndicator: false,
       submitAttempted: false, // New flag
+
+      disableWatcher: false, // New flag
     };
   },
   watch: {
     bagItems: {
       handler(newVal) {
+        // Don't run the watcher if the flag is set to disable it
+        if (this.disableWatcher) return;
+
         // Existing functionality: Show scroll indicator if bagItems > 3
         this.showScrollIndicator = newVal.length > 3;
 
@@ -1050,7 +1055,7 @@ export default {
           if (window.history.length > 1) {
             this.$router.go(-1); // Go back in history
           } else {
-            this.$router.push('/'); // Go to home if no history
+            this.$router.push("/"); // Go to home if no history
           }
         }
       },
@@ -1098,6 +1103,8 @@ export default {
       this.$store.commit("ADD_ORDER", newOrder);
       localStorage.setItem("orders", JSON.stringify(this.$store.state.orders));
 
+      this.disableWatcher = true; // Disable the watcher to prevent navigation
+      
       // Clear the bag and form fields after confirming the order
       this.$store.commit("clearBag"); // Existing mutation
       this.clearFields();
@@ -1106,7 +1113,10 @@ export default {
       //this.closeModal();
 
       // Redirect to YourOrdersPage
-      this.$router.push("/your-orders");
+      this.$router.push("/your-orders").finally(() => {
+        // Re-enable the watcher after the route change
+        this.disableWatcher = false;
+      });
     },
 
     clearValidation(field) {

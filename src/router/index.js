@@ -13,9 +13,16 @@ const routes = [
   { path: '/your-orders', component: YourOrdersPage },
 ];
 
+
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
+  scrollBehavior() {
+    // Always scroll to the top when navigating
+    return { top: 0 };
+  },
+
+  
 });
 
 export default router;
