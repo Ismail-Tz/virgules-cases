@@ -674,7 +674,7 @@
                   <div>
                     <div class="flex justify-between items-center mb-1">
                       <h2
-                        class="text-base text-black truncate font-[Visby] font-bold flex-grow mr-2"
+                        class="text-base text-black truncate font-[Visby] font-semibold flex-grow mr-2"
                       >
                         {{ item.title }}
                       </h2>
@@ -722,7 +722,7 @@
                     </p>
                   </div>
                   <div class="flex justify-between items-end mt-2">
-                    <span class="text-sm font-normal"
+                    <span class="text-sm text-black/80 font-normal"
                       >MAD {{ item.price }}</span
                     >
                     <div

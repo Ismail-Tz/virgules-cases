@@ -229,6 +229,8 @@
 
     <!-- Devices Content Mobile -->
     <div
+      ref="devicesContentMobile"
+      v-show="menuOpen && !isDesktop && !isCheckoutPage"
       :style="{ height: menuOpen && !isDesktop ? `100vh` : '0px' }"
       class="block 750:hidden relative w-full p-[24px] pt-[12px] 750:pt-[24px] overflow-y-hidden select-none transition-all duration-[400ms] 750:duration-500 ease-in-out"
     >
@@ -411,7 +413,7 @@
               <div>
                 <div class="flex justify-between items-center mb-1">
                   <h2
-                    class="text-base truncate font-[Visby] font-bold flex-grow mr-2"
+                    class="text-base text-black truncate font-[Visby] font-semibold flex-grow mr-2"
                   >
                     {{ item.title }}
                   </h2>
@@ -459,7 +461,7 @@
                 </p>
               </div>
               <div class="flex justify-between items-end mt-2">
-                <span class="text-sm font-normal">MAD {{ item.price }}</span>
+                <span class="text-sm text-black/80 font-normal">MAD {{ item.price }}</span>
                 <div
                   class="flex items-center justify-center px-[3px] py-[3px] h-6 border border-[#00000099] text-[#00000099] rounded-full ml-2"
                 >
