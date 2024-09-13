@@ -27,7 +27,9 @@
           {{ currentStep === 1 ? "Order Review" : "Checkout Info" }}
         </span>
       </button>
-      <div class="parent-grid auto-rows-min grid grid-cols-1 lg:grid-cols-3 gap-y-[24px] gap-[40px]">
+      <div
+        class="parent-grid auto-rows-min grid grid-cols-1 lg:grid-cols-3 gap-y-[24px] gap-[40px]"
+      >
         <div
           class="first-child self-start relative col-span-1 lg:col-span-2 lg:sticky lg:top-0 750:bg-[#F9F9F9] 750:border border-[#00000010] rounded-[32px] px-[24px] 750:p-[24px]"
           v-if="currentStep === 2 || isOneStep"
@@ -115,7 +117,9 @@
                 </template>
               </label>
             </div>
-            <div class="flex flex-wrap 750:flex-nowrap gap-[10px] 750:gap-[14px]">
+            <div
+              class="flex flex-wrap 750:flex-nowrap gap-[10px] 750:gap-[14px]"
+            >
               <div
                 class="relative flex items-center h-[50px] bg-white border border-[#00000033] text-black text-[15px] rounded-full focus-within:border-[#000000] transition-all duration-300 ease-in-out w-full 750:flex-grow 750:w-3/12"
               >
@@ -783,10 +787,16 @@
             </div>
             <button
               ref="continueButton"
-              class="flex items-center justify-center px-6 py-[10px] text-black text-[18px] border border-black w-full rounded-[20px] hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white font-medium"
+              :disabled="bagItems.length === 0"
+              :class="[
+                'flex items-center justify-center px-6 py-[10px] text-black text-[18px] border border-black w-full rounded-[20px] font-medium',
+                bagItems.length === 0
+                  ? 'opacity-50 cursor-not-allowed'
+                  : 'hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white',
+              ]"
               @click="handleSubmit"
             >
-            {{ isOneStep ? 'Checkout' : 'Proceed to Checkout' }}
+              {{ isOneStep ? "Checkout" : "Proceed to Checkout" }}
               <svg
                 class="ml-[8px] w-[15px] h-[15px]"
                 fill="currentColor"
@@ -814,17 +824,18 @@
     class="fixed inset-0 bg-black bg-opacity-[0.035] backdrop-blur-[30px] flex justify-center items-center z-50 transition-opacity duration-300 ease-in-out"
     :class="{ 'opacity-0': isModalClosing, 'opacity-100': isModalVisible }"
   >
-  <div
-    @click.stop
-    class="bg-[#F9F9F9] border border-black/15 450:border-black/20 rounded-t-[24px] 450:rounded-[24px] 750:rounded-[32px] 450:mx-3 750:m-0 w-full 750:max-w-2xl 450:shadow-[0_0_25px_rgba(0,0,0,0.1)] flex flex-col justify-between space-y-[14px] 750:space-y-[24px] transform transition-transform duration-500 750:duration-300 ease-in-out max-h-[calc(100vh-2rem)] overflow-hidden"
-    :class="{
-      'animate-mobile-open fixed bottom-0 left-0': isModalVisible && isMobile,    // Mobile open animation
-      'animate-mobile-close fixed bottom-0 left-0': isModalClosing && isMobile,
-      'animate-open': isModalVisible && !isMobile,      // Desktop open animation
-      'animate-close': isModalClosing && !isMobile,     // Desktop close animation
-    }"
-    style="will-change: transform"
-  >
+    <div
+      @click.stop
+      class="bg-[#F9F9F9] border border-black/15 450:border-black/20 rounded-t-[24px] 450:rounded-[24px] 750:rounded-[32px] 450:mx-3 750:m-0 w-full 750:max-w-2xl 450:shadow-[0_0_25px_rgba(0,0,0,0.1)] flex flex-col justify-between space-y-[14px] 750:space-y-[24px] transform transition-transform duration-500 750:duration-300 ease-in-out max-h-[calc(100vh-2rem)] overflow-hidden"
+      :class="{
+        'animate-mobile-open fixed bottom-0 left-0': isModalVisible && isMobile, // Mobile open animation
+        'animate-mobile-close fixed bottom-0 left-0':
+          isModalClosing && isMobile,
+        'animate-open': isModalVisible && !isMobile, // Desktop open animation
+        'animate-close': isModalClosing && !isMobile, // Desktop close animation
+      }"
+      style="will-change: transform"
+    >
       <button
         class="absolute top-[20px] right-[20px] 750:top-[30px] 750:right-[30px] text-2xl"
         @click="closeModal"
@@ -863,7 +874,9 @@
       </div>
 
       <!-- Content goes here -->
-      <div class="flex-grow space-y-[10px] m-[20px] 750:m-[24px] overflow-y-auto rounded-[24px] ">
+      <div
+        class="flex-grow space-y-[10px] m-[20px] 750:m-[24px] overflow-y-auto rounded-[24px]"
+      >
         <div
           class="flex flex-1 justify-between items-center border border-black/10 bg-white p-[20px] rounded-[24px]"
         >
@@ -1029,9 +1042,19 @@ export default {
   watch: {
     bagItems: {
       handler(newVal) {
+        // Existing functionality: Show scroll indicator if bagItems > 3
         this.showScrollIndicator = newVal.length > 3;
+
+        // New functionality: Navigate back or go home if bagItems becomes empty
+        if (newVal.length === 0) {
+          if (window.history.length > 1) {
+            this.$router.go(-1); // Go back in history
+          } else {
+            this.$router.push('/'); // Go to home if no history
+          }
+        }
       },
-      immediate: true, // Trigger the watch when the component mounts
+      immediate: true, // Trigger when the component mounts
       deep: true, // Ensure deep watch for arrays
     },
   },
@@ -1063,7 +1086,9 @@ export default {
 
       // Combine the checkout data with the bag items to create the order
       const newOrder = {
-        id: `${(Date.now() % 1e8).toString(36)}-${Math.random().toString(36).substring(2, 6)}`.toUpperCase(),
+        id: `${(Date.now() % 1e8).toString(36)}-${Math.random()
+          .toString(36)
+          .substring(2, 6)}`.toUpperCase(),
         items: this.$store.state.bag, // The items in the current bag
         checkoutInfo: checkoutData, // The checkout information (phone, email, etc.)
         date: new Date(), // Current date and time
@@ -1128,9 +1153,9 @@ export default {
       this.saveData();
 
       // Use $nextTick to ensure DOM updates happen before opening modal
-  this.$nextTick(() => {
-    this.openModal(); // Ensure the modal opening is smooth
-  });
+      this.$nextTick(() => {
+        this.openModal(); // Ensure the modal opening is smooth
+      });
     },
 
     clearFields() {
@@ -1166,15 +1191,15 @@ export default {
       });
     },
     openModal() {
-    // Ensure the closing state is reset before opening
-    this.isModalClosing = false;
+      // Ensure the closing state is reset before opening
+      this.isModalClosing = false;
 
-    // Small delay to ensure the CSS class for the transition is applied
-    this.$nextTick(() => {
-      this.isModalVisible = true;
-    });
-  },
-  
+      // Small delay to ensure the CSS class for the transition is applied
+      this.$nextTick(() => {
+        this.isModalVisible = true;
+      });
+    },
+
     closeModal() {
       this.isModalClosing = true;
       setTimeout(() => {
@@ -1218,15 +1243,16 @@ export default {
       this.isEmailInvalid = this.email && !emailRegex.test(this.email);
     },
     validatePhone() {
-  // Normalize phone number by removing spaces
-  const normalizedPhone = this.phone.replace(/\s+/g, '');
-  
-  // Regex to match Moroccan phone numbers, with optional spaces
-  const phoneRegex = /^(0[67]\d{8}|0[58]\d{8}|[67]\d{8}|[58]\d{8})$/;
-  
-  // Validate the normalized phone number
-  this.isPhoneInvalid = normalizedPhone && !phoneRegex.test(normalizedPhone);
-},
+      // Normalize phone number by removing spaces
+      const normalizedPhone = this.phone.replace(/\s+/g, "");
+
+      // Regex to match Moroccan phone numbers, with optional spaces
+      const phoneRegex = /^(0[67]\d{8}|0[58]\d{8}|[67]\d{8}|[58]\d{8})$/;
+
+      // Validate the normalized phone number
+      this.isPhoneInvalid =
+        normalizedPhone && !phoneRegex.test(normalizedPhone);
+    },
     validatePostalCode() {
       const postalCodeRegex = /^[1-9]\d{4}$/;
       this.isPostalCodeInvalid =
@@ -1350,22 +1376,18 @@ export default {
 @keyframes mobileModalOpen {
   0% {
     transform: translateY(100%);
-
   }
   100% {
     transform: translateY(0);
-
   }
 }
 
 @keyframes mobileModalClose {
   0% {
     transform: translateY(0);
-
   }
   100% {
     transform: translateY(100%);
-
   }
 }
 
@@ -1376,5 +1398,4 @@ export default {
 .animate-mobile-close {
   animation: mobileModalClose 0.3s forwards;
 }
-
 </style>
