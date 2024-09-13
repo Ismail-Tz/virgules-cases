@@ -9,13 +9,49 @@
       <div class="grid grid-cols-12 gap-[24px] 750:gap-[30px] lg:gap-[40px]">
         <!-- Filter button (visible on mobile) -->
         <div
-          class="750:hidden flex col-span-12 bg-[#f9f9f9] border border-black/15 items-center rounded-[24px] px-[10px] py-[8px]"
+          class="750:hidden flex col-span-12 bg-[#f9f9f9] border border-black/15 items-center justify-between rounded-[24px] px-[10px] py-[8px]"
         >
           <button
             @click="toggleFilter"
-            class="py-[5px] px-[10px] text-[15px] 450:text-[16px] font-normal font-black/70 z-20 relative"
+            class="py-[5px] flex px-[5px] text-[15px] 450:text-[16px] font-medium text-black/60 active:text-black z-20 relative"
           >
-            Filter
+            <svg
+              class="inline-block mr-[5px] w-[1em] h-[1em] align-middle"
+              id="Layer_2"
+              data-name="Layer 2"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 19.5 19.5"
+              fill="currentColor"
+            >
+              <g id="Layer_1-2" data-name="Layer 1">
+                <path
+                  d="M9.75,19.5C4.374,19.5,0,15.126,0,9.75S4.374,0,9.75,0s9.75,4.374,9.75,9.75-4.374,9.75-9.75,9.75ZM9.75,1.5C5.2012,1.5,1.5,5.2012,1.5,9.75s3.7012,8.25,8.25,8.25,8.25-3.7012,8.25-8.25S14.2988,1.5,9.75,1.5Zm1.4912,14.5181c-.4131,0-.749-.3345-.75-.748l-.0137-5.6138c-.001-.2104,.0869-.4111,.2422-.5537l3.6758-3.3862c.3037-.2798,.7773-.2607,1.0596,.0435,.2803,.3047,.2607,.7793-.0439,1.0601l-3.4326,3.1626,.0127,5.2837c.001,.4146-.334,.751-.748,.752h-.002Zm-2.9824,0h-.002c-.4141-.001-.749-.3374-.748-.752l.0127-5.2837-3.4326-3.1626c-.3047-.2808-.3242-.7554-.0439-1.0601,.2822-.3042,.7568-.3232,1.0596-.0435l3.6758,3.3862c.1553,.1426,.2432,.3433,.2422,.5537l-.0137,5.6138c-.001,.4136-.3369,.748-.75,.748Z"
+                />
+              </g>
+            </svg>
+            <p class="inline-block align-middle leading-none">Filter</p>
+          </button>
+          <button
+            class="py-[5px] flex px-[5px] text-[15px] 450:text-[16px] font-medium text-black/60 active:text-black z-20 relative"
+          >
+            <p class="inline-block align-middle leading-none">Sort By</p>
+
+            <svg
+              class="inline-block ml-[5px] h-[1em] w-[0.7em] align-middle"
+              width="13"
+              height="8"
+              viewBox="0 0 13 8"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M0.497812 1.64518C0.218392 1.34935 0.218363 0.886876 0.497746 0.591005V0.591005C0.800665 0.27021 1.31101 0.270169 1.61398 0.590916L6.13652 5.37882C6.33382 5.58771 6.66618 5.58771 6.86348 5.37882L11.386 0.590916C11.689 0.27017 12.1993 0.27021 12.5023 0.591005V0.591005C12.7816 0.886876 12.7816 1.34935 12.5022 1.64518L7.22699 7.2303C6.83237 7.6481 6.16763 7.6481 5.77301 7.2303L0.497812 1.64518Z"
+                fill="currentColor"
+                style="fill: currentColor; fill-opacity: 1"
+              />
+            </svg>
           </button>
         </div>
 
@@ -353,7 +389,7 @@ export default {
     },
     closeFilter() {
       this.filterClosing = true;
-      
+
       this.$nextTick(() => {
         this.isFilterOpen = false; // Hide the overlay after the animation ends
       });

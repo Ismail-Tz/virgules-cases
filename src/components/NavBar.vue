@@ -1064,16 +1064,24 @@ export default {
       deep: true, // Ensure deep watch for arrays
     },
     totalQuantity: {
-      handler(newQuantity) {
-        this.$nextTick(() => {
-          if (newQuantity > this._previousQuantity) {
-            this.triggerJump();
-          }
-          this._previousQuantity = newQuantity;
-        });
-      },
-      immediate: true, // Ensure it works immediately
-    },
+  handler(newQuantity) {
+    this.$nextTick(() => {
+      // Check if the quantity changed from 0 to 1
+      if (this._previousQuantity === 0 && newQuantity === 1) {
+        this.toggleBag(); // Open the bag when quantity changes from 0 to 1
+      }
+
+      // Trigger jump if the new quantity is greater than the previous one
+      if (newQuantity > this._previousQuantity) {
+        this.triggerJump();
+      }
+
+      // Update previous quantity
+      this._previousQuantity = newQuantity;
+    });
+  },
+  immediate: true, // Ensure it works immediately
+},
 
     hoveredModel() {
       this.$nextTick(() => {
@@ -1241,7 +1249,10 @@ export default {
       this.isKeyboardOpen = true;
     },
     handleBlur() {
-      this.isKeyboardOpen = false;
+      setTimeout(() => {
+        this.isKeyboardOpen = false;
+      }, 300);
+      
     },
     handleScroll(event) {
       const scrollTop = event.target.scrollTop;
