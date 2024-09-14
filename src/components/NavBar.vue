@@ -231,8 +231,8 @@
     <div
       ref="devicesContentMobile"
       v-show="menuOpen && !isDesktop && !isCheckoutPage"
-      :style="{ height: menuOpen && !isDesktop ? `100vh` : '0px' }"
-      class="block 750:hidden relative w-full p-[24px] pt-[12px] 750:pt-[24px] overflow-y-hidden select-none transition-all duration-[400ms] 750:duration-500 ease-in-out"
+      :style="{ height: menuOpen && !isDesktop ? `calc(100vh - 60px)` : '0px' }"
+      class="block 750:hidden relative w-full p-[24px] pt-[12px] 750:pt-[24px] overflow-y-hidden overflow-x-hidden select-none transition-all duration-[400ms] 750:duration-500 ease-in-out"
     >
       <p class="text-black/60 text-[16px] leading-none text-left mb-[24px]">
         Shop cases for :
@@ -251,7 +251,7 @@
         class="absolute left-[24px] w-[calc(100%-48px)] transition-all duration-500 ease-in-out"
       >
         <!-- Display Brands -->
-        <div class="flex flex-col justify-start">
+        <div class="flex flex-col justify-start overflow-x-hidden">
           <div
             v-for="(models, brand) in availableDevices"
             :key="brand"
@@ -422,7 +422,7 @@
       <div
         @scroll="handleScroll"
         class="overflow-y-scroll hide-scrollbar h-full rounded-[18px] mt-[24px]"
-        :style="{ paddingBottom: `${overlayHeight+ 40}px` }"
+        :style="{ paddingBottom: `${overlayHeight + 40}px` }"
       >
         <div
           v-for="(item, index) in bagItems"
@@ -1073,7 +1073,6 @@ export default {
       showScrollIndicator: false,
       overlayHeight: 0, // To store the overlay height dynamically
 
-
       closeTimeout: null, // Variable to store the timeout ID
 
       isKeyboardOpen: false, // Check if the keyboard is open
@@ -1160,7 +1159,7 @@ export default {
     // Check on initial load
     this.checkIfOnProductPage(this.$route);
     this.updateNavBarColors();
-    
+
     this.$nextTick(() => {
       if (this.$refs.overlaySection) {
         this.calculateOverlayHeight();
@@ -1322,7 +1321,7 @@ export default {
       // Update the isDesktop flag based on the window width
       const wasDesktop = this.isDesktop;
       this.isDesktop = window.innerWidth >= 750;
-      this.calculateOverlayHeight
+      this.calculateOverlayHeight;
 
       // Update the bag content height based on the window height
       if (!this.isDesktop) {
