@@ -420,6 +420,7 @@
         </div>
       </div>
       <div
+        ref="scrollContainerMobile"
         @scroll="handleScroll"
         class="overflow-y-scroll hide-scrollbar h-full rounded-[18px] mt-[24px]"
         :style="{ paddingBottom: `${overlayHeight + 40}px` }"
@@ -427,7 +428,7 @@
         <div
           v-for="(item, index) in bagItems"
           :key="index"
-          class="p-4 bg-white rounded-[18px] relative border border-[#00000010] mb-[10px]"
+          class="p-4 bg-white rounded-[18px] relative border border-[#00000010] mb-[10px] scrollable-item"
         >
           <div class="flex">
             <img
@@ -1072,6 +1073,7 @@ export default {
 
       showScrollIndicator: false,
       overlayHeight: 0, // To store the overlay height dynamically
+      scrollTimeout: null, // Timer ID for delayed indicator display
 
       closeTimeout: null, // Variable to store the timeout ID
 
@@ -1088,11 +1090,14 @@ export default {
 
   watch: {
     bagItems: {
-      handler(newVal) {
-        this.showScrollIndicator = newVal.length > 3;
+      handler() {
+        this.needsUpdate = true;
+        this.$nextTick(() => {
+          this.updateScrollIndicator();
+        });
       },
-      immediate: true, // Trigger the watch when the component mounts
-      deep: true, // Ensure deep watch for arrays
+      deep: true, // Watch nested changes
+      immediate: true, // Run immediately on initialization
     },
     totalQuantity: {
       handler(newQuantity) {
@@ -1163,6 +1168,7 @@ export default {
     this.$nextTick(() => {
       if (this.$refs.overlaySection) {
         this.calculateOverlayHeight();
+        this.updateScrollIndicator();
       }
     });
 
@@ -1257,11 +1263,69 @@ export default {
   },
 
   methods: {
+    handleScroll() {
+    const container = this.$refs.scrollContainerMobile;
+    const scrollTop = container.scrollTop;
+
+    if (scrollTop > 5) { // User has scrolled down a little
+      // Hide the indicator and set scrollDown flag
+      this.showScrollIndicator = false;
+      this.scrollDown = true;
+    } else {
+      // User has scrolled back up
+      this.updateScrollIndicator(); // Show the indicator
+      this.scrollDown = false;
+    }
+  },
+
+    updateScrollIndicator() {
+      if (!this.isBagOpen) {
+        this.showScrollIndicator = false; // Hide the indicator if the bag is not open
+        return;
+      }
+
+      // Use Vue's nextTick to wait for DOM updates
+      this.$nextTick(() => {
+        // Delay calculation to ensure animation has completed
+        setTimeout(() => {
+          const container = this.$refs.scrollContainerMobile;
+          const scrollItems = container.querySelectorAll(".scrollable-item"); // Assuming scrollable items have this class
+
+          let totalItemsHeight = 0;
+
+          // Loop through each scrollable item to get its height and margin-bottom dynamically
+          scrollItems.forEach((item) => {
+            const itemStyles = window.getComputedStyle(item);
+            const itemHeight = item.offsetHeight; // Get actual height of the item
+            const itemMarginBottom = parseFloat(itemStyles.marginBottom); // Get the margin-bottom dynamically
+            totalItemsHeight += itemHeight + itemMarginBottom;
+          });
+
+          // Calculate the height of the scrollable container excluding padding
+          const containerStyles = window.getComputedStyle(container);
+          const containerPaddingTop = parseFloat(containerStyles.paddingTop);
+          const containerPaddingBottom = parseFloat(
+            containerStyles.paddingBottom
+          );
+          const visibleContainerHeight =
+            container.offsetHeight -
+            containerPaddingTop -
+            containerPaddingBottom;
+
+          // Determine if the total height of items exceeds the container height
+          this.showScrollIndicator = totalItemsHeight > visibleContainerHeight + 68;
+        }, 500); // Delay to match the animation duration
+      });
+    },
+
     calculateOverlayHeight() {
       const overlayElement = this.$refs.overlaySection;
-      if (overlayElement) {
-        this.overlayHeight = overlayElement.offsetHeight;
-      }
+      this.overlayHeight = overlayElement.offsetHeight;
+    },
+    handleResize() {
+      this.updateScrollIndicator();
+      // When the window is resized, re-evaluate the scroll buttons
+      this.updateScrollButtons();
     },
     selectBrand(brand) {
       this.selectedBrand = brand;
@@ -1296,32 +1360,16 @@ export default {
         this.isKeyboardOpen = false;
       }, 300);
     },
-    handleScroll(event) {
-      const scrollTop = event.target.scrollTop;
-
-      if (this.bagItems.length > 3) {
-        if (scrollTop > 10) {
-          this.showScrollIndicator = false;
-          clearTimeout(this.scrollTimeout);
-        } else {
-          clearTimeout(this.scrollTimeout);
-          this.scrollTimeout = setTimeout(() => {
-            if (scrollTop === 0) {
-              this.showScrollIndicator = true;
-            }
-          }, 5000); // 5 seconds pause before showing the indicator again
-        }
-      } else {
-        // If there are 3 or fewer items, always hide the scroll indicator
-        this.showScrollIndicator = false;
-        clearTimeout(this.scrollTimeout);
-      }
-    },
     overlaysCloseOnResize() {
       // Update the isDesktop flag based on the window width
       const wasDesktop = this.isDesktop;
       this.isDesktop = window.innerWidth >= 750;
       this.calculateOverlayHeight;
+
+      //switching from desktop to mobile recalculate overlay height
+      if (wasDesktop && !this.isDesktop) {
+        this.calculateOverlayHeight();
+      }
 
       // Update the bag content height based on the window height
       if (!this.isDesktop) {
@@ -1376,10 +1424,6 @@ export default {
         event.preventDefault(); // Prevent default scrolling
       }
       // If horizontal scroll, let it pass through
-    },
-    handleResize() {
-      // When the window is resized, re-evaluate the scroll buttons
-      this.updateScrollButtons();
     },
     updateScrollButtons() {
       const scrollContainer = this.$refs.scrollContainer;
@@ -1512,6 +1556,7 @@ export default {
           }
         }
       });
+      this.updateScrollIndicator();
     },
 
     closeBag() {

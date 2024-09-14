@@ -821,12 +821,12 @@
   <div
     v-show="isModalVisible || isModalClosing"
     @click="closeModal"
-    class="fixed inset-0 bg-black bg-opacity-[0.035] backdrop-blur-[30px] flex justify-center items-center z-50 transition-opacity duration-300 ease-in-out"
+    class="fixed inset-0 bg-black bg-opacity-[0.1] backdrop-blur-[30px] flex justify-center items-center z-50 transition-opacity duration-300 ease-in-out"
     :class="{ 'opacity-0': isModalClosing, 'opacity-100': isModalVisible }"
   >
     <div
       @click.stop
-      class="bg-[#F9F9F9] border border-black/15 450:border-black/20 rounded-t-[24px] 450:rounded-[24px] 750:rounded-[32px] 450:mx-3 750:m-0 w-full 750:max-w-2xl 450:shadow-[0_0_25px_rgba(0,0,0,0.1)] flex flex-col justify-between space-y-[14px] 750:space-y-[24px] transform transition-transform duration-500 750:duration-300 ease-in-out max-h-[calc(100vh-2rem)] overflow-hidden"
+      class="bg-[#F9F9F9] border border-black/15 450:border-black/35 rounded-t-[24px] 450:rounded-[24px] 750:rounded-[32px] 450:mx-3 750:m-0 w-full 750:max-w-2xl 450:shadow-[0_0_25px_rgba(0,0,0,0.1)] flex flex-col justify-between space-y-[14px] 750:space-y-[24px] transform transition-transform duration-500 750:duration-300 ease-in-out max-h-[calc(100vh-2rem)] overflow-hidden"
       :class="{
         'animate-mobile-open fixed bottom-0 left-0': isModalVisible && isMobile, // Mobile open animation
         'animate-mobile-close fixed bottom-0 left-0':
@@ -993,7 +993,7 @@
         class="bg-white p-[24px] 450:rounded-b-[32px] flex justify-between items-center"
       >
         <div class="750:ml-[10px] text-[15px] 750:text-[17px] text-black">
-          Total: MAD {{ total }}
+          Total: <span class="font-semibold">MAD {{ total }}</span> 
         </div>
         <button
           @click="confirmOrder"
