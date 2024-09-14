@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center mb-[40px] mt-[84px] 750:mt-[148px]">
+  <div class="flex justify-center mb-[40px] mt-[84px] 750:mt-[90px] 1056:mt-[100px]">
     <div class="max-w-[1188px] w-full mx-auto px-6 box-border select-none">
       <!-- Hidden Full Resolution Copy -->
       <div
