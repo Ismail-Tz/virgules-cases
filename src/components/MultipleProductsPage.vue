@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center mb-[40px] mt-[84px] 450:mt-[108px]">
+  <div class="flex justify-center mb-[40px] mt-[84px] 750:mt-[90px] 1056:mt-[100px]">
     <div class="max-w-[1188px] w-full mx-auto px-6 box-border">
       <h2
         class="text-[26px] mb-[24px] 750:mb-[30px] lg:mb-[40px] text-left font-[Visby] font-bold text-[#000000] leading-none"
