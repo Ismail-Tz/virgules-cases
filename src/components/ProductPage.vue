@@ -594,7 +594,10 @@ export default {
           });
       }
     },
-
+    //!!!!!!!!Temporary solution until we have a backend!!!!!!!!
+    //!!!!!!!!Temporary solution until we have a backend!!!!!!!!
+    //!!!!!!!!Temporary solution until we have a backend!!!!!!!!
+    //!!!!!!!!Temporary solution until we have a backend!!!!!!!!
     updateProductImageInBag(baggedProduct, newImage) {
       // Find the product in the bag
       const productIndex = this.$store.state.bag.findIndex(
