@@ -1,6 +1,45 @@
 <template>
   <div class="flex justify-center mb-[40px] mt-[84px] 750:mt-[148px]">
     <div class="max-w-[1188px] w-full mx-auto px-6 box-border select-none">
+      <!-- Hidden Full Resolution Copy -->
+      <div
+        ref="fullResolutionContainer"
+        class="left-[-9999px] absolute top-0 z-[100] no-borders"
+        :style="{
+          width: naturalImageWidth + 'px',
+          height: naturalImageHeight + 'px',
+        }"
+      >
+        <img
+          ref="fullResImage"
+          :src="imageSrc"
+          alt="Full Resolution Case Image"
+          class="w-full h-auto object-cover no-borders"
+          @load="updateFullResolution"
+        />
+        <!-- Customizing Cases for Full Resolution Image -->
+        <div
+          v-if="products[id].isCustomizable && isFullResolutionLoaded"
+          class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none no-borders"
+          :style="{
+            transform: `scale(${getFullResolutionScale()})`,
+            marginTop: getFullResolutionMarginTop(), // Adjusted for full resolution
+          }"
+        >
+          <span
+            class="custom-text name-text leading-[100%] font-semibold no-borders"
+            :style="{ color: darkColor, fontFamily: customFont }"
+          >
+            {{ customName || "NAME" }}
+          </span>
+          <span
+            class="custom-text number-text leading-[100%] font-bold no-borders"
+            :style="{ color: darkColor, fontFamily: customFont }"
+          >
+            {{ customNumber || "10" }}
+          </span>
+        </div>
+      </div>
       <div
         class="grid grid-cols-12 gap-y-[24px] 750:gap-[30px] 1056:gap-[40px]"
       >
@@ -31,6 +70,7 @@
               By {{ this.products[this.id].designer }}
             </h4>
           </div>
+
           <div
             class="relative w-full flex justify-center border rounded-[32px] p-[40px] overflow-hidden"
             :style="{
@@ -105,174 +145,175 @@
                 backgroundColor: lightColor,
                 borderColor: darkColor + '26',
               }"
-            > <div class="mask-container m-[-24px] p-[24px]">
-              <h2
-                class="text-black text-left font-[Visby] font-bold text-[20px] mb-[24px] leading-[100%]"
-                :style="{ color: darkColor, borderColor: darkColor }"
-              >
-                Select Device
-              </h2>
-
-              <!-- Container for buttons, using negative margins to span full width -->
-              <div
-                class="flex gap-[8px] mb-[8px] flex-nowrap overflow-x-auto hide-scrollbar mx-[-24px] px-[24px]"
-              >
-                <button
-                  v-for="device in availableBrands"
-                  :key="device"
-                  class="border border-black text-black py-[17px] px-[17px] 450:px-[20px] text-[15px] rounded-full leading-[100%] flex-shrink-0"
-                  @mouseenter="hoveredButton = device"
-                  @mouseleave="hoveredButton = null"
-                  @click="selectBrand(device)"
-                  :style="buttonStyles(device)"
-                >
-                  {{ device }}
-                </button>
-              </div>
-
-              <div class="flex">
-                <label for="device-model-dropdown"></label>
-                <div class="select-wrapper w-full">
-                  <select
-                    v-model="selectedModel"
-                    id="device-model-dropdown"
-                    class="border border-black text-black bg-transparent py-[17.5px] px-[20px] text-[15px] leading-[100%] rounded-full focus:outline-none appearance-none focus:ring-indigo-500 focus:border-indigo-500"
-                    :style="{ borderColor: darkColor, color: darkColor }"
-                  >
-                    <option
-                      v-for="model in currentBrandModels"
-                      :key="model"
-                      :value="model"
-                    >
-                      {{ model }}
-                    </option>
-                  </select>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    class="w-[15px] h-[15px] text-black absolute right-[20px] top-1/2 transform -translate-y-1/2 pointer-events-none"
-                    :style="{ borderColor: darkColor, color: darkColor }"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M10 12.293l4.293-4.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L10 12.293z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <!-- Customize section (only in customizable products) -->
-              <div v-if="products[id].isCustomizable">
+            >
+              <div class="mask-container m-[-24px] p-[24px]">
                 <h2
-                  class="text-black text-left font-[Visby] font-bold text-[20px] my-[24px] leading-[100%] after"
+                  class="text-black text-left font-[Visby] font-bold text-[20px] mb-[24px] leading-[100%]"
                   :style="{ color: darkColor, borderColor: darkColor }"
                 >
-                  Customize
+                  Select Device
                 </h2>
-                <div class="flex gap-[14px]">
-                  <div class="relative w-[35%]">
-                    <input
-                      type="text"
-                      id="customNumber"
-                      class="w-full h-[52px] bg-transparent border border-black text-black py-[17.5px] px-[20px] text-[15px] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] transition-all duration-300 ease-in-out rounded-full leading-[100%] focus:ring-1 focus:ring-[#0000006e]"
-                      placeholder=" "
-                      v-model="customNumber"
-                      :style="{
-                        borderColor: darkColor,
-                        color: darkColor,
-                        focusBorderColor: darkColor,
-                      }"
-                    />
-                    <label
-                      for="customNumber"
-                      :class="[
-                        'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
-                        customNumber
-                          ? 'top-[13px] text-[10px] text-black opacity-80'
-                          : 'text-[15px] text-black opacity-80',
-                      ]"
-                      :style="{
-                        color: darkColor,
-                      }"
-                      class="flex items-center"
-                      >Number
-                    </label>
-                  </div>
-                  <div class="relative w-[65%]">
-                    <input
-                      type="text"
-                      id="customName"
-                      class="w-full h-[52px] bg-transparent border border-black text-black py-[17.5px] px-[20px] text-[15px] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] transition-all duration-300 ease-in-out rounded-full leading-[100%] focus:ring-1 focus:ring-[#0000006e]"
-                      placeholder=" "
-                      v-model="customName"
-                      :style="{
-                        borderColor: darkColor,
-                        color: darkColor,
-                        focusBorderColor: darkColor,
-                      }"
-                    />
-                    <label
-                      for="customName"
-                      :class="[
-                        'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
-                        customName
-                          ? 'top-[13px] text-[10px] text-black opacity-80'
-                          : 'text-[15px] text-black opacity-80',
-                      ]"
-                      :style="{
-                        color: darkColor,
-                      }"
-                      class="flex items-center"
-                      >Name
-                    </label>
+
+                <!-- Container for buttons, using negative margins to span full width -->
+                <div
+                  class="flex gap-[8px] mb-[8px] flex-nowrap overflow-x-auto hide-scrollbar mx-[-24px] px-[24px]"
+                >
+                  <button
+                    v-for="device in availableBrands"
+                    :key="device"
+                    class="border border-black text-black py-[17px] px-[17px] 450:px-[20px] text-[15px] rounded-full leading-[100%] flex-shrink-0"
+                    @mouseenter="hoveredButton = device"
+                    @mouseleave="hoveredButton = null"
+                    @click="selectBrand(device)"
+                    :style="buttonStyles(device)"
+                  >
+                    {{ device }}
+                  </button>
+                </div>
+
+                <div class="flex">
+                  <label for="device-model-dropdown"></label>
+                  <div class="select-wrapper w-full">
+                    <select
+                      v-model="selectedModel"
+                      id="device-model-dropdown"
+                      class="border border-black text-black bg-transparent py-[17.5px] px-[20px] text-[15px] leading-[100%] rounded-full focus:outline-none appearance-none focus:ring-indigo-500 focus:border-indigo-500"
+                      :style="{ borderColor: darkColor, color: darkColor }"
+                    >
+                      <option
+                        v-for="model in currentBrandModels"
+                        :key="model"
+                        :value="model"
+                      >
+                        {{ model }}
+                      </option>
+                    </select>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      class="w-[15px] h-[15px] text-black absolute right-[20px] top-1/2 transform -translate-y-1/2 pointer-events-none"
+                      :style="{ borderColor: darkColor, color: darkColor }"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 12.293l4.293-4.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L10 12.293z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
                   </div>
                 </div>
-              </div>
-              <!-- Color/Style Selection -->
-              <h4
-                class="text-black text-left font-[Visby] font-bold text-[15px] mt-[24px] mb-[10px] leading-[100%] after"
-                :style="{ color: darkColor, borderColor: darkColor }"
-              >
-                Other colors
-              </h4>
-              <p
-                class="text-black text-left text-[12px] mb-[6px]"
-                :style="{ color: darkColor, borderColor: darkColor }"
-              >
-                Selected: <span class="font-bold">{{ colorTitle }}</span>
-              </p>
-              <div
-                class="grid grid-cols-5 450:grid-cols-8 750:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-[10px] 750:gap-[6px]"
-              >
-                <div
-                  v-for="color in products[this.id].colors"
-                  :key="color.id"
-                  @click="handleClick(color)"
-                  :class="[
-                    'bg-[#ffffff] border border-black/20 aspect-square rounded-[8px] cursor-pointer flex justify-center items-center',
-                  ]"
-                  :style="
-                    selectedColor === color.id
-                      ? {
+                <!-- Customize section (only in customizable products) -->
+                <div v-if="products[id].isCustomizable">
+                  <h2
+                    class="text-black text-left font-[Visby] font-bold text-[20px] my-[24px] leading-[100%] after"
+                    :style="{ color: darkColor, borderColor: darkColor }"
+                  >
+                    Customize
+                  </h2>
+                  <div class="flex gap-[14px]">
+                    <div class="relative w-[35%]">
+                      <input
+                        type="text"
+                        id="customNumber"
+                        class="w-full h-[52px] bg-transparent border border-black text-black py-[17.5px] px-[20px] text-[15px] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] transition-all duration-300 ease-in-out rounded-full leading-[100%] focus:ring-1 focus:ring-[#0000006e]"
+                        placeholder=" "
+                        v-model="customNumber"
+                        :style="{
                           borderColor: darkColor,
-                          boxShadow: '0 0 20px rgba(0,0,0,0.10)',
-                        }
-                      : {}
-                  "
+                          color: darkColor,
+                          focusBorderColor: darkColor,
+                        }"
+                      />
+                      <label
+                        for="customNumber"
+                        :class="[
+                          'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
+                          customNumber
+                            ? 'top-[13px] text-[10px] text-black opacity-80'
+                            : 'text-[15px] text-black opacity-80',
+                        ]"
+                        :style="{
+                          color: darkColor,
+                        }"
+                        class="flex items-center"
+                        >Number
+                      </label>
+                    </div>
+                    <div class="relative w-[65%]">
+                      <input
+                        type="text"
+                        id="customName"
+                        class="w-full h-[52px] bg-transparent border border-black text-black py-[17.5px] px-[20px] text-[15px] focus:outline-none focus:ring-none peer pt-[22.5px] pb-[12.5px] transition-all duration-300 ease-in-out rounded-full leading-[100%] focus:ring-1 focus:ring-[#0000006e]"
+                        placeholder=" "
+                        v-model="customName"
+                        :style="{
+                          borderColor: darkColor,
+                          color: darkColor,
+                          focusBorderColor: darkColor,
+                        }"
+                      />
+                      <label
+                        for="customName"
+                        :class="[
+                          'absolute left-[20px] transition-all duration-300 ease-in-out top-1/2 -translate-y-1/2 peer-focus:top-[13px] peer-focus:text-[10px]',
+                          customName
+                            ? 'top-[13px] text-[10px] text-black opacity-80'
+                            : 'text-[15px] text-black opacity-80',
+                        ]"
+                        :style="{
+                          color: darkColor,
+                        }"
+                        class="flex items-center"
+                        >Name
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <!-- Color/Style Selection -->
+                <h4
+                  class="text-black text-left font-[Visby] font-bold text-[15px] mt-[24px] mb-[10px] leading-[100%] after"
+                  :style="{ color: darkColor, borderColor: darkColor }"
                 >
-                  <!-- <svg
+                  Other colors
+                </h4>
+                <p
+                  class="text-black text-left text-[12px] mb-[6px]"
+                  :style="{ color: darkColor, borderColor: darkColor }"
+                >
+                  Selected: <span class="font-bold">{{ colorTitle }}</span>
+                </p>
+                <div
+                  class="grid grid-cols-5 450:grid-cols-8 750:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-[10px] 750:gap-[6px]"
+                >
+                  <div
+                    v-for="color in products[this.id].colors"
+                    :key="color.id"
+                    @click="handleClick(color)"
+                    :class="[
+                      'bg-[#ffffff] border border-black/20 aspect-square rounded-[8px] cursor-pointer flex justify-center items-center',
+                    ]"
+                    :style="
+                      selectedColor === color.id
+                        ? {
+                            borderColor: darkColor,
+                            boxShadow: '0 0 20px rgba(0,0,0,0.10)',
+                          }
+                        : {}
+                    "
+                  >
+                    <!-- <svg
                 class="full-size-svg" 
                 viewBox="0 0 100 100"
                 preserveAspectRatio="xMidYMid meet">
                 <circle  cx="50" cy="50" r="50" :fill="color.colorHex" />
               </svg> -->
-                  <div
-                    class="w-[65%] aspect-square rounded-full inner-shadow"
-                    :style="{ backgroundColor: color.colorHex }"
-                  ></div>
+                    <div
+                      class="w-[65%] aspect-square rounded-full inner-shadow"
+                      :style="{ backgroundColor: color.colorHex }"
+                    ></div>
+                  </div>
                 </div>
-              </div>
               </div>
             </div>
             <div>
@@ -353,7 +394,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { lightenColor, darkenColor } from "@/utils";
-
+import domtoimage from "dom-to-image-more";
 export default {
   name: "ProductPage",
   props: ["id"], // Add id prop to receive the product ID
@@ -380,6 +421,9 @@ export default {
       imageScale: 1, // Holds the image scale
       scaleFactor: 2.5, // Allows you to adjust the text scaling factor
       isImageLoaded: false, // Flag to check if the image has been loaded
+      isFullResolutionLoaded: false,
+      naturalImageWidth: 0, // Store natural width
+      naturalImageHeight: 0, // Store natural height
     };
   },
 
@@ -467,43 +511,139 @@ export default {
         ? `${scaleAdjustedSamsungMargin}px`
         : `${scaleAdjustedOtherMargin}px`;
     },
+    updateFullResolution() {
+      const fullResImage = this.$refs.fullResImage;
+      if (fullResImage) {
+        this.naturalImageWidth = fullResImage.naturalWidth;
+        this.naturalImageHeight = fullResImage.naturalHeight;
+        this.isFullResolutionLoaded = true;
+      }
+    },
+    getFullResolutionScale() {
+      // Inverse of the scale applied to the visible image, to match full resolution scaling
+      return 2.5;
+    },
+    getFullResolutionMarginTop() {
+      const samsungMargin = 120;
+      const otherMargin = 40;
+      const scaledSamsungMargin = samsungMargin * this.getFullResolutionScale();
+      const scaledOtherMargin = otherMargin * this.getFullResolutionScale();
+      return this.selectedBrand === "Samsung"
+        ? `${scaledSamsungMargin}px`
+        : `${scaledOtherMargin}px`;
+    },
+
     goBack() {
       this.$router.back(); // Navigate back to the previous page
     },
     addToBag() {
-      // Create the product object to be added to the shopping bag
+      const product = this.products[this.id];
+
+      // Create a placeholder image initially
+      const placeholderImage = this.imageSrc; // or a transparent placeholder
       const baggedProduct = {
-        image: this.imageSrc,
-        title: this.products[this.id].title,
+        image: placeholderImage, // Use the placeholder image
+        title: product.title,
         model: this.selectedModel,
-        type: this.products[this.id].type,
-        price: this.products[this.id].price,
-        color: this.products[this.id].colors[this.selectedColor - 1].colorName,
-        colorHex:
-          this.products[this.id].colors[this.selectedColor - 1].colorHex,
+        type: product.type,
+        price: product.price,
+        color: product.colors[this.selectedColor - 1].colorName,
+        colorHex: product.colors[this.selectedColor - 1].colorHex,
         device: this.selectedModel,
-        customizations: this.products[this.id].isCustomizable,
-        quantity: 1, // Initialize quantity to 1 by default
+        quantity: 1,
+        customizations: product.isCustomizable
+          ? {
+              customName: this.customName || "NAME",
+              customNumber: this.customNumber || "10",
+            }
+          : null,
       };
 
-      // Check if the product with the same model and color already exists in the bag
+      // Immediately finalize the addition of the product to the bag
+      this.finalizeAddToBag(baggedProduct);
+
+      // Defer the screenshot generation to avoid UI blocking
+      if (product.isCustomizable) {
+        // Use setTimeout to delay the screenshot process by 500ms (or any delay)
+        setTimeout(() => {
+          this.generateProductScreenshot(baggedProduct);
+        }, 500); // Adjust the delay based on your animation duration
+      }
+    },
+
+    generateProductScreenshot(baggedProduct) {
+      const fullResolutionContainer = this.$refs.fullResolutionContainer;
+
+      if (fullResolutionContainer) {
+        fullResolutionContainer.classList.add("no-borders");
+
+        // Capture the screenshot in the background after the delay
+        domtoimage
+          .toPng(fullResolutionContainer, {
+            bgcolor: null, // Ensure transparent background
+          })
+          .then((dataUrl) => {
+            // Update the product image in the bag once the screenshot is ready
+            this.updateProductImageInBag(baggedProduct, dataUrl);
+
+            fullResolutionContainer.classList.remove("no-borders");
+          })
+          .catch((error) => {
+            console.error("Error capturing screenshot:", error);
+            fullResolutionContainer.classList.remove("no-borders");
+          });
+      }
+    },
+
+    updateProductImageInBag(baggedProduct, newImage) {
+      // Find the product in the bag
+      const productIndex = this.$store.state.bag.findIndex(
+        (item) =>
+          item.model === baggedProduct.model &&
+          item.color === baggedProduct.color &&
+          (!item.customizations ||
+            !baggedProduct.customizations ||
+            (item.customizations.customName ===
+              baggedProduct.customizations.customName &&
+              item.customizations.customNumber ===
+                baggedProduct.customizations.customNumber))
+      );
+
+      if (productIndex !== -1) {
+        // Update the product's image without triggering reactivity issues
+        this.$store.dispatch("updateProductImage", {
+          productIndex,
+          newImage,
+        });
+
+        // Optionally save the updated bag to local storage
+        this.saveBagToLocalStorage();
+      }
+    },
+
+    finalizeAddToBag(baggedProduct) {
       const existingProductIndex = this.$store.state.bag.findIndex(
         (item) =>
           item.model === baggedProduct.model &&
-          item.color === baggedProduct.color
+          item.color === baggedProduct.color &&
+          (!item.customizations ||
+            !baggedProduct.customizations ||
+            (item.customizations.customName ===
+              baggedProduct.customizations.customName &&
+              item.customizations.customNumber ===
+                baggedProduct.customizations.customNumber))
       );
 
       if (existingProductIndex !== -1) {
-        // If it exists, check if the quantity is less than 99 before increasing
         if (this.$store.state.bag[existingProductIndex].quantity < 99) {
           this.$store.state.bag[existingProductIndex].quantity += 1;
         }
       } else {
-        // If it doesn't exist, add the product to the bag
+        // Dispatch Vuex action to add the product to the bag
         this.$store.dispatch("addToBag", baggedProduct);
       }
 
-      // Save the bag to local storage
+      // Save the bag to local storage immediately
       this.saveBagToLocalStorage();
       console.log("Product added to bag:", baggedProduct);
     },
@@ -754,8 +894,31 @@ export default {
 .mask-container {
   position: relative;
   /* Apply a linear gradient mask to create the fade-out effect */
-  mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 24px, rgba(0, 0, 0, 1) calc(100% - 24px), rgba(0, 0, 0, 0) 100%);
-  -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 24px, rgba(0, 0, 0, 1) calc(100% - 24px), rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 24px,
+    rgba(0, 0, 0, 1) calc(100% - 24px),
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 24px,
+    rgba(0, 0, 0, 1) calc(100% - 24px),
+    rgba(0, 0, 0, 0) 100%
+  );
   overflow: hidden; /* Ensure the mask effect is contained within this container */
+}
+
+/* Apply a class to remove borders */
+/* Force no border and anti-aliasing adjustments */
+.no-borders {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  image-rendering: crisp-edges; /* Adjusts how images are rendered */
+  -webkit-font-smoothing: antialiased; /* Improves font rendering */
+  background-color: none !important; /* Match your desired background */
 }
 </style>

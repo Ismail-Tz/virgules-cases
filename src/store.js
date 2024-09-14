@@ -399,6 +399,10 @@ export const store = createStore({
         options.splice(index, 1);
       }
     },
+
+    updateProductImage(state, { productIndex, newImage }) {
+      state.bag[productIndex].image = newImage;
+    },
   },
   actions: {
     addToBag({ commit }, product) {
@@ -411,6 +415,9 @@ export const store = createStore({
 
     toggleOption({ commit }, payload) {
       commit("setSelectedOption", payload);
+    },
+    updateProductImage({ commit }, { productIndex, newImage }) {
+      commit('updateProductImage', { productIndex, newImage });
     },
   },
   getters: {
