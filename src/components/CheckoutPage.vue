@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex justify-center mb-[24px] 750:mb-[40px] mt-[84px] 750:mt-[90px] 1056:mt-[100px]"
+    class="flex justify-center h-[calc(100vh-84px)] 750:mb-[24px] lg:mb-[40px] mt-[84px] 750:mt-[90px] 1056:mt-[100px]"
   >
     <div class="max-w-[1188px] w-full mx-auto 750:px-6 box-border">
       <button
@@ -653,18 +653,19 @@
           </button>
         </div>
         <div
-          class="overflow-y-hidden 750:relative col-span-1 750:bg-[#F9F9F9] 750:border border-[#00000010] rounded-[32px] px-[24px] pb-[10px] 750:p-[24px]"
+          class="overflow-y-hidden 750:relative h-[calc(100vh-130px)] col-span-1 750:bg-[#F9F9F9] lg:max-h-[734px] 750:border border-[#00000010] rounded-[32px] px-[24px] pb-[0] 750:p-[24px] 750:pb-0"
           v-if="currentStep === 1 || isOneStep"
         >
           <div
+            ref="scrollContainerMobile"
             @scroll="handleScroll"
-            class="overflow-y-scroll 750:h-[674px] rounded-[18px]"
-            :style="{ height: `calc(100vh - 170px)` }"
+            class="overflow-y-scroll hide-scrollbar rounded-[18px] h-full"
+            :style="{ paddingBottom: `${overlayHeight}px` }"
           >
             <div
               v-for="(item, index) in bagItems"
               :key="index"
-              class="p-4 rounded-[18px] relative border bg-[#F9F9F9] 750:bg-white border-[#00000010] mb-[10px]"
+              class="p-4 rounded-[18px] relative border bg-[#F9F9F9] 750:bg-white border-[#00000010] mb-[10px] scrollable-item"
             >
               <div class="flex">
                 <img
@@ -738,12 +739,11 @@
                 </div>
               </div>
             </div>
-            <div class="h-[210px]">&nbsp;</div>
           </div>
           <!-- Scroll Indicator -->
           <div
             v-if="showScrollIndicator"
-            class="scroll-indicator flex items-baseline justify-center absolute left-1/2 transform -translate-x-1/2 bottom-[236px] px-3 py-1 bg-[#fff] text-black/80 text-xs rounded-full opacity-80 border border-black/20 shadow-[0_0_25px_rgba(0,0,0,0.2)]"
+            class="scroll-indicator flex items-baseline justify-center absolute left-1/2 transform -translate-x-1/2 bottom-[236px] px-3 py-1 bg-[#fff] text-black/60 text-xs rounded-full border border-black/20 shadow-[0_0_25px_rgba(0,0,0,0.2)]"
           >
             Scroll down for more
             <svg
@@ -764,6 +764,7 @@
           </div>
           <!-- Bottom section -->
           <div
+            ref="overlaySection"
             class="absolute bottom-0 left-0 right-0 p-[24px] backdrop-blur-[30px] bg-[#ffffffcc] rounded-b-[32px] z-[29] border-t border-[#00000033] 750:border-[#00000015]"
           >
             <div class="flex justify-between mb-[10px]">
@@ -993,7 +994,7 @@
         class="bg-white p-[24px] 450:rounded-b-[32px] flex justify-between items-center"
       >
         <div class="750:ml-[10px] text-[15px] 750:text-[17px] text-black">
-          Total: <span class="font-semibold">MAD {{ total }}</span> 
+          Total: <span class="font-semibold">MAD {{ total }}</span>
         </div>
         <button
           @click="confirmOrder"
@@ -1035,36 +1036,96 @@ export default {
       isEmailInvalid: false, // Tracks if the email is invalid
       isPhoneInvalid: false, // Tracks if the phone number is invalid
       isPostalCodeInvalid: false, // Tracks if the postal code is invalid
-      showScrollIndicator: false,
       submitAttempted: false, // New flag
 
       disableWatcher: false, // New flag
+
+      showScrollIndicator: false,
+      overlayHeight: 0, // To store the overlay height dynamically
     };
   },
   watch: {
     bagItems: {
-      handler(newVal) {
-        // Don't run the watcher if the flag is set to disable it
-        if (this.disableWatcher) return;
-
-        // Existing functionality: Show scroll indicator if bagItems > 3
-        this.showScrollIndicator = newVal.length > 3;
-
-        // New functionality: Navigate back or go home if bagItems becomes empty
-        if (newVal.length === 0) {
-          if (window.history.length > 1) {
-            this.$router.go(-1); // Go back in history
-          } else {
-            this.$router.push("/"); // Go to home if no history
-          }
-        }
+      handler() {
+        this.needsUpdate = true;
+        this.$nextTick(() => {
+          this.updateScrollIndicator();
+        });
       },
-      immediate: true, // Trigger when the component mounts
-      deep: true, // Ensure deep watch for arrays
+      deep: true, // Watch nested changes
+      immediate: true, // Run immediately on initialization
     },
   },
   methods: {
+    handleScroll() {
+      if(this.currentStep === 2){
+        return
+      }
+      const container = this.$refs.scrollContainerMobile;
+      const scrollTop = container.scrollTop;
+
+      if (scrollTop > 5) {
+        // User has scrolled down a little
+        // Hide the indicator and set scrollDown flag
+        this.showScrollIndicator = false;
+        this.scrollDown = true;
+      } else {
+        // User has scrolled back up
+        this.updateScrollIndicator();
+        this.scrollDown = false;
+      }
+    },
+
+    updateScrollIndicator() {
+      if(this.currentStep === 2){
+        return
+      }
+      const container = this.$refs.scrollContainerMobile;
+      const scrollTop = container.scrollTop;
+      if (scrollTop > 0) {
+        return
+      }
+
+      // Use Vue's nextTick to wait for DOM updates
+      this.$nextTick(() => {
+        // Delay calculation to ensure animation has completed
+        setTimeout(() => {
+          const container = this.$refs.scrollContainerMobile;
+          const scrollItems = container.querySelectorAll(".scrollable-item"); // Assuming scrollable items have this class
+
+          let totalItemsHeight = 0;
+
+          // Loop through each scrollable item to get its height and margin-bottom dynamically
+          scrollItems.forEach((item) => {
+            const itemStyles = window.getComputedStyle(item);
+            const itemHeight = item.offsetHeight; // Get actual height of the item
+            const itemMarginBottom = parseFloat(itemStyles.marginBottom); // Get the margin-bottom dynamically
+            totalItemsHeight += itemHeight + itemMarginBottom;
+          });
+
+          // Calculate the height of the scrollable container excluding padding
+          const containerStyles = window.getComputedStyle(container);
+          const containerPaddingTop = parseFloat(containerStyles.paddingTop);
+          const containerPaddingBottom = parseFloat(
+            containerStyles.paddingBottom
+          );
+          const visibleContainerHeight =
+            container.offsetHeight -
+            containerPaddingTop -
+            containerPaddingBottom;
+
+          // Determine if the total height of items exceeds the container height
+          this.showScrollIndicator = totalItemsHeight > visibleContainerHeight + 68;
+        }, 500); // Delay to match the animation duration
+      });
+    },
+
+    calculateOverlayHeight() {
+      const overlayElement = this.$refs.overlaySection;
+      this.overlayHeight = overlayElement.offsetHeight;
+    },
     handleResize() {
+      this.updateScrollIndicator();
       this.isOneStep = window.innerWidth >= 1024;
       this.isMobile = window.innerWidth < 450;
     },
@@ -1104,7 +1165,7 @@ export default {
       localStorage.setItem("orders", JSON.stringify(this.$store.state.orders));
 
       this.disableWatcher = true; // Disable the watcher to prevent navigation
-      
+
       // Clear the bag and form fields after confirming the order
       this.$store.commit("clearBag"); // Existing mutation
       this.clearFields();
@@ -1219,28 +1280,6 @@ export default {
         this.isModalClosing = false;
       }, 300);
     },
-
-    handleScroll(event) {
-      const scrollTop = event.target.scrollTop;
-
-      if (this.bagItems.length > 3) {
-        if (scrollTop > 10) {
-          this.showScrollIndicator = false;
-          clearTimeout(this.scrollTimeout);
-        } else {
-          clearTimeout(this.scrollTimeout);
-          this.scrollTimeout = setTimeout(() => {
-            if (scrollTop === 0) {
-              this.showScrollIndicator = true;
-            }
-          }, 5000); // 5 seconds pause before showing the indicator again
-        }
-      } else {
-        // If there are 3 or fewer items, always hide the scroll indicator
-        this.showScrollIndicator = false;
-        clearTimeout(this.scrollTimeout);
-      }
-    },
     goBack() {
       if (this.currentStep === 2) {
         this.goToStep(1); // Go back to order review
@@ -1275,6 +1314,10 @@ export default {
     },
   },
   mounted() {
+    this.$nextTick(() => {
+      this.calculateOverlayHeight();
+      this.updateScrollIndicator();
+    });
     // Code to run when the component is mounted goes here
     window.addEventListener("resize", this.handleResize);
   },

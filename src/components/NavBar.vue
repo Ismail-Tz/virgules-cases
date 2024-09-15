@@ -1042,6 +1042,7 @@
 </template>
 
 <script>
+import { nextTick } from "vue";
 import { mapGetters } from "vuex";
 export default {
   name: "NavBar",
@@ -1073,7 +1074,6 @@ export default {
 
       showScrollIndicator: false,
       overlayHeight: 0, // To store the overlay height dynamically
-      scrollTimeout: null, // Timer ID for delayed indicator display
 
       closeTimeout: null, // Variable to store the timeout ID
 
@@ -1264,23 +1264,29 @@ export default {
 
   methods: {
     handleScroll() {
-    const container = this.$refs.scrollContainerMobile;
-    const scrollTop = container.scrollTop;
+      const container = this.$refs.scrollContainerMobile;
+      const scrollTop = container.scrollTop;
 
-    if (scrollTop > 5) { // User has scrolled down a little
-      // Hide the indicator and set scrollDown flag
-      this.showScrollIndicator = false;
-      this.scrollDown = true;
-    } else {
-      // User has scrolled back up
-      this.updateScrollIndicator(); // Show the indicator
-      this.scrollDown = false;
-    }
-  },
+      if (scrollTop > 5) {
+        // User has scrolled down a little
+        // Hide the indicator and set scrollDown flag
+        this.showScrollIndicator = false;
+        this.scrollDown = true;
+      } else {
+        // User has scrolled back up
+        this.updateScrollIndicator(); // Show the indicator
+        this.scrollDown = false;
+      }
+    },
 
     updateScrollIndicator() {
       if (!this.isBagOpen) {
         this.showScrollIndicator = false; // Hide the indicator if the bag is not open
+        return;
+      }
+      const container = this.$refs.scrollContainerMobile;
+      const scrollTop = container.scrollTop;
+      if (scrollTop > 0) {
         return;
       }
 
@@ -1313,7 +1319,8 @@ export default {
             containerPaddingBottom;
 
           // Determine if the total height of items exceeds the container height
-          this.showScrollIndicator = totalItemsHeight > visibleContainerHeight + 68;
+          this.showScrollIndicator =
+            totalItemsHeight > visibleContainerHeight + 68;
         }, 500); // Delay to match the animation duration
       });
     },
@@ -1556,6 +1563,11 @@ export default {
           }
         }
       });
+      nextTick(() => {
+        const container = this.$refs.scrollContainerMobile;
+        container.scrollTop = 0;
+      });
+
       this.updateScrollIndicator();
     },
 
