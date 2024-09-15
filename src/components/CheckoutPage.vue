@@ -653,7 +653,7 @@
           </button>
         </div>
         <div
-          class="overflow-y-hidden 750:relative h-[calc(100vh-130px)] col-span-1 750:bg-[#F9F9F9] lg:max-h-[734px] 750:border border-[#00000010] rounded-[32px] px-[24px] pb-[0] 750:p-[24px] 750:pb-0"
+          class="overflow-y-hidden 750:relative h-[calc(100vh-130px)] col-span-1 750:bg-[#F9F9F9] lg:max-h-[734px] lg:min-h-[734px] 750:border border-[#00000010] rounded-[32px] px-[24px] pb-[0] 750:p-[24px] 750:pb-0"
           v-if="currentStep === 1 || isOneStep"
         >
           <div
@@ -1058,7 +1058,7 @@ export default {
   },
   methods: {
     handleScroll() {
-      if(this.currentStep === 2){
+      if(this.currentStep === 2 && !this.isOneStep){
         return
       }
       const container = this.$refs.scrollContainerMobile;
@@ -1077,11 +1077,12 @@ export default {
     },
 
     updateScrollIndicator() {
-      if(this.currentStep === 2){
-        return
-      }
+      
       const container = this.$refs.scrollContainerMobile;
       const scrollTop = container.scrollTop;
+      if(this.currentStep === 2 && !this.container){
+        return
+      }
       if (scrollTop > 0) {
         return
       }
@@ -1125,9 +1126,16 @@ export default {
       this.overlayHeight = overlayElement.offsetHeight;
     },
     handleResize() {
-      this.updateScrollIndicator();
+      const wasOneStep = this.isOneStep;
       this.isOneStep = window.innerWidth >= 1024;
       this.isMobile = window.innerWidth < 450;
+      this.updateScrollIndicator();
+
+      //switching from desktop to mobile set step to 1
+      if (wasOneStep && !this.isOneStep) {
+        this.currentStep = 1;
+      }
+      
     },
 
     goToStep(step) {
