@@ -653,13 +653,13 @@
           </button>
         </div>
         <div
-          class="overflow-y-hidden 750:relative col-span-1 750:bg-[#F9F9F9] lg:max-h-[734px] lg:min-h-[734px] 750:border border-[#00000010] rounded-[32px] px-[24px] pb-[0] 750:p-[24px] 750:pb-0"
+          class="overflow-y-hidden 750:relative col-span-1 750:bg-[#F9F9F9] 750:border border-[#00000010] rounded-[32px] px-[24px] pb-[0] 750:p-[24px] 750:pb-0"
           v-if="currentStep === 1 || isOneStep"
         >
           <div
             ref="scrollContainerMobile"
             @scroll="handleScroll"
-            class="scrollContainerMobile overflow-y-scroll hide-scrollbar rounded-[18px] h-full"
+            class="scrollContainerMobile overflow-y-scroll hide-scrollbar lg:h-[734px] rounded-[18px] h-full"
             :style="{ paddingBottom: `${overlayHeight}px` }"
           >
             <div
@@ -1015,6 +1015,7 @@ export default {
       isOneStep: window.innerWidth >= 1024,
       isMobile: window.innerWidth < 450,
       currentStep: 1, // 1 for Order Review, 2 for Checkout Info
+      scrollIndicatorTimeout: null,
 
       // Your data properties go here
       isModalVisible: false, // Controls visibility of the modal
@@ -1046,6 +1047,11 @@ export default {
     };
   },
   watch: {
+    currentStep(newStep) {
+      if (newStep === 2 && this.scrollIndicatorTimeout) {
+        clearTimeout(this.scrollIndicatorTimeout); // Cancel the timeout
+      }
+    },
     bagItems: {
       handler() {
         this.needsUpdate = true;
@@ -1082,40 +1088,52 @@ export default {
     },
 
     updateScrollIndicator() {
-      // Use Vue's nextTick to wait for DOM updates
-      this.$nextTick(() => {
-        // Delay calculation to ensure animation has completed
-        setTimeout(() => {
-          const container = this.$refs.scrollContainerMobile;
-          const scrollItems = container.querySelectorAll(".scrollable-item"); // Assuming scrollable items have this class
+    // Clear any previous timeout if it exists
+    if (this.scrollIndicatorTimeout) {
+      clearTimeout(this.scrollIndicatorTimeout);
+    }
 
-          let totalItemsHeight = 0;
+    // Use Vue's nextTick to wait for DOM updates
+    this.$nextTick(() => {
+      if (this.currentStep === 2 && !this.isOneStep) {
+        return;
+      }
 
-          // Loop through each scrollable item to get its height and margin-bottom dynamically
-          scrollItems.forEach((item) => {
-            const itemStyles = window.getComputedStyle(item);
-            const itemHeight = item.offsetHeight; // Get actual height of the item
-            const itemMarginBottom = parseFloat(itemStyles.marginBottom); // Get the margin-bottom dynamically
-            totalItemsHeight += itemHeight + itemMarginBottom;
-          });
+      // Delay calculation to ensure animation has completed
+      this.scrollIndicatorTimeout = setTimeout(() => {
+        // If currentStep changes to 2 during the timeout, stop execution
+        if (this.currentStep === 2 && !this.isOneStep) {
+          return;
+        }
 
-          // Calculate the height of the scrollable container excluding padding
-          const containerStyles = window.getComputedStyle(container);
-          const containerPaddingTop = parseFloat(containerStyles.paddingTop);
-          const containerPaddingBottom = parseFloat(
-            containerStyles.paddingBottom
-          );
-          const visibleContainerHeight =
-            container.offsetHeight -
-            containerPaddingTop -
-            containerPaddingBottom;
+        const container = this.$refs.scrollContainerMobile;
+        const scrollItems = container.querySelectorAll(".scrollable-item");
 
-          // Determine if the total height of items exceeds the container height
-          this.showScrollIndicator =
-            totalItemsHeight > visibleContainerHeight + 68;
-        }, 500); // Delay to match the animation duration
-      });
-    },
+        let totalItemsHeight = 0;
+
+        // Loop through each scrollable item to get its height and margin-bottom dynamically
+        scrollItems.forEach((item) => {
+          const itemStyles = window.getComputedStyle(item);
+          const itemHeight = item.offsetHeight;
+          const itemMarginBottom = parseFloat(itemStyles.marginBottom);
+          totalItemsHeight += itemHeight + itemMarginBottom;
+        });
+
+        // Calculate the height of the scrollable container excluding padding
+        const containerStyles = window.getComputedStyle(container);
+        const containerPaddingTop = parseFloat(containerStyles.paddingTop);
+        const containerPaddingBottom = parseFloat(containerStyles.paddingBottom);
+        const visibleContainerHeight =
+          container.offsetHeight -
+          containerPaddingTop -
+          containerPaddingBottom;
+
+        // Determine if the total height of items exceeds the container height
+        this.showScrollIndicator = totalItemsHeight > visibleContainerHeight + 68;
+
+      }, 500); // Delay to match the animation duration
+    });
+  },
 
     calculateOverlayHeight() {
       const overlayElement = this.$refs.overlaySection;
