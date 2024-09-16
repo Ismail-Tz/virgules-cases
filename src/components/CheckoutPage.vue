@@ -1071,21 +1071,13 @@ export default {
         this.scrollDown = true;
       } else {
         // User has scrolled back up
-        this.updateScrollIndicator();
+        this.showScrollIndicator = true;
         this.scrollDown = false;
       }
     },
 
     updateScrollIndicator() {
       
-      const container = this.$refs.scrollContainerMobile;
-      const scrollTop = container.scrollTop;
-      if(this.currentStep === 2 && !this.container){
-        return
-      }
-      if (scrollTop > 0) {
-        return
-      }
 
       // Use Vue's nextTick to wait for DOM updates
       this.$nextTick(() => {
