@@ -1042,6 +1042,7 @@ export default {
 
       showScrollIndicator: false,
       overlayHeight: 0, // To store the overlay height dynamically
+      scrollDown: false, // To track if the user has scrolled down
     };
   },
   watch: {
@@ -1058,26 +1059,25 @@ export default {
   },
   methods: {
     handleScroll() {
-      if(this.currentStep === 2 && !this.isOneStep){
-        return
+      if (this.currentStep === 2 && !this.isOneStep) {
+        return;
       }
+
       const container = this.$refs.scrollContainerMobile;
       const scrollTop = container.scrollTop;
 
       if (scrollTop > 5) {
-        // User has scrolled down a little
-        // Hide the indicator and set scrollDown flag
+        // User has scrolled down a little, hide the indicator
         this.showScrollIndicator = false;
         this.scrollDown = true;
-      } else {
-        // User has scrolled back up
-        this.showScrollIndicator = true;
+      } else if (scrollTop === 0 && this.scrollDown) {
+        // User has scrolled all the way back to the top, show the indicator
+        this.updateScrollIndicator();
         this.scrollDown = false;
       }
     },
 
     updateScrollIndicator() {
-      
 
       // Use Vue's nextTick to wait for DOM updates
       this.$nextTick(() => {
@@ -1108,7 +1108,8 @@ export default {
             containerPaddingBottom;
 
           // Determine if the total height of items exceeds the container height
-          this.showScrollIndicator = totalItemsHeight > visibleContainerHeight + 68;
+          this.showScrollIndicator =
+            totalItemsHeight > visibleContainerHeight + 68;
         }, 500); // Delay to match the animation duration
       });
     },
@@ -1127,7 +1128,6 @@ export default {
       if (wasOneStep && !this.isOneStep) {
         this.currentStep = 1;
       }
-      
     },
 
     goToStep(step) {
