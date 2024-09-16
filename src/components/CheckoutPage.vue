@@ -631,7 +631,7 @@
           <!-- Continue Button (2/3) -->
           <button
             ref="continueButton"
-            class="flex items-center justify-center mx-6 750:mx-0 px-6 py-[10px] text-black text-[18px] border border-black w-full rounded-[24px] hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white font-medium"
+            class="flex items-center justify-center mx-6 mb-[24px] lg:mb-[0px] 750:mx-0 px-6 py-[10px] text-black text-[18px] border border-black w-full rounded-[24px] hover:bg-[#000000cc] hover:border-[#00000000] hover:text-white font-medium"
             @click="handleSubmit"
           >
             Checkout
@@ -653,13 +653,13 @@
           </button>
         </div>
         <div
-          class="overflow-y-hidden 750:relative col-span-1 750:bg-[#F9F9F9] 750:border border-[#00000010] rounded-[32px] px-[24px] pb-[0] 750:p-[24px] 750:pb-0"
+          class="overflow-y-hidden 750:relative col-span-1 750:bg-[#F9F9F9] 750:border  border-[#00000010] rounded-[32px] px-[24px] pb-[0] 750:p-[24px] 750:pb-0"
           v-if="currentStep === 1 || isOneStep"
         >
           <div
             ref="scrollContainerMobile"
             @scroll="handleScroll"
-            class="scrollContainerMobile overflow-y-scroll hide-scrollbar lg:h-[734px] rounded-[18px] h-full"
+            class="scrollContainerMobile scrollContainerMobile750 overflow-y-scroll hide-scrollbar lg:h-[708px] rounded-[18px] h-full"
             :style="{ paddingBottom: `${overlayHeight}px` }"
           >
             <div
@@ -1488,6 +1488,15 @@ export default {
 }
 
 .scrollContainerMobile {
-  height: calc(var(--vh, 1vh) * 100 - 130px); /* Adjust height based on actual viewport */
+  height: calc(var(--vh, 1vh) * 100 - 130px);
 }
+
+@media (min-width: 750px) {
+  .scrollContainerMobile750 {
+    height: calc(var(--vh, 1vh) * 100 - 190px);
+  }
+}
+
+
+
 </style>
