@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex justify-center h-[calc(100vh-84px)] 750:mb-[24px] lg:mb-[40px] mt-[84px] 750:mt-[90px] 1056:mt-[100px]"
+    class="flex justify-center 750:mb-[24px] lg:mb-[40px] mt-[84px] 750:mt-[90px] 1056:mt-[100px]"
   >
     <div class="max-w-[1188px] w-full mx-auto 750:px-6 box-border">
       <button
@@ -653,13 +653,13 @@
           </button>
         </div>
         <div
-          class="overflow-y-hidden 750:relative h-[calc(100vh-130px)] col-span-1 750:bg-[#F9F9F9] lg:max-h-[734px] lg:min-h-[734px] 750:border border-[#00000010] rounded-[32px] px-[24px] pb-[0] 750:p-[24px] 750:pb-0"
+          class="overflow-y-hidden 750:relative col-span-1 750:bg-[#F9F9F9] lg:max-h-[734px] lg:min-h-[734px] 750:border border-[#00000010] rounded-[32px] px-[24px] pb-[0] 750:p-[24px] 750:pb-0"
           v-if="currentStep === 1 || isOneStep"
         >
           <div
             ref="scrollContainerMobile"
             @scroll="handleScroll"
-            class="overflow-y-scroll hide-scrollbar rounded-[18px] h-full"
+            class="scrollContainerMobile overflow-y-scroll hide-scrollbar rounded-[18px] h-full"
             :style="{ paddingBottom: `${overlayHeight}px` }"
           >
             <div
@@ -1058,6 +1058,10 @@ export default {
     },
   },
   methods: {
+    updateMobileViewportHeight() {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    },
     handleScroll() {
       if (this.currentStep === 2 && !this.isOneStep) {
         return;
@@ -1078,7 +1082,6 @@ export default {
     },
 
     updateScrollIndicator() {
-
       // Use Vue's nextTick to wait for DOM updates
       this.$nextTick(() => {
         // Delay calculation to ensure animation has completed
@@ -1319,11 +1322,15 @@ export default {
       this.updateScrollIndicator();
     });
     // Code to run when the component is mounted goes here
+    this.updateMobileViewportHeight();
+    window.addEventListener("resize", this.updateMobileViewportHeight);
+
     window.addEventListener("resize", this.handleResize);
   },
   beforeUnmount() {
     // Remove the event listener when the component is destroyed
     window.removeEventListener("resize", this.handleResize);
+    window.removeEventListener("resize", this.updateMobileViewportHeight);
   },
 
   computed: {
@@ -1460,5 +1467,9 @@ export default {
 .hide-scrollbar {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+.scrollContainerMobile {
+  height: calc(var(--vh, 1vh) * 100 - 130px); /* Adjust height based on actual viewport */
 }
 </style>
