@@ -9,7 +9,7 @@
       <div class="grid grid-cols-12 gap-[24px] 750:gap-[30px] lg:gap-[40px]">
         <!-- Filter button (visible on mobile) -->
         <div
-          class="750:hidden flex col-span-12 bg-[#f9f9f9] border border-black/15 items-center justify-between rounded-[24px] px-[10px] py-[8px]"
+          class="750:hidden flex col-span-12 bg-[#f9f9f9] border border-black/15 items-center justify-between rounded-[24px] px-[10px] py-[8px] select-none"
         >
           <button
             @click="toggleFilter"
@@ -196,7 +196,7 @@
                   />
                 </svg>
               </div>
-              <div v-if="openDropdowns[key]" class="py-2 text-left">
+              <div v-if="openDropdowns[key]" class="pb-2 text-left">
                 <div
                   v-for="(option, index) in dropdown.options"
                   :key="index"

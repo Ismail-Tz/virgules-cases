@@ -8,11 +8,13 @@
       height:
         !isDesktop && isBagOpen
           ? `${bagContentHeight + 60}px` // On mobile, use only bagContentHeight when the bag is open
-          : isBagOpen
+          : isDesktop && isBagOpen
           ? `min(${bagContentHeight + 60 + 24}px, 100vh)` // Limits height to the viewport height on desktop
           : isDevicesOpen
-          ? `min(${devicesContentHeight + 60 + 24}px, 100vh)` // Limits height to viewport if devices are open
-          : menuOpen
+          ? `min(${devicesContentHeight + 60 + 24}px, 100vh)`
+          : isSearchOpen && isDesktop
+          ? `min(${searchAreaHeight + 60 + 24}px, 100vh)` // Limits height to viewport if devices are open
+          : menuOpen || (isSearchOpen && !isDesktop)
           ? '100vh'
           : '60px', // Default height
 
@@ -82,8 +84,9 @@
         <a
           v-if="!isCheckoutPage && !menuOpen"
           :style="{ color: navBarDarkColor }"
+          @click="toggleSearch"
           class="cursor-pointer"
-          :class="{ hidden: isBagOpen, '750:inline-block': isBagOpen }"
+          :class="{ hidden: isBagOpen || isSearchOpen, '750:inline-block': isBagOpen || isSearchOpen }"
         >
           <svg
             id="Layer_2"
@@ -123,7 +126,7 @@
           v-if="!isCheckoutPage && !menuOpen"
           :class="[
             'text-[#0A332E] hover:text-black cursor-pointer transition-all duration-300 ease-in-out',
-            { hidden: isBagOpen, '750:inline-block': isBagOpen },
+            { hidden: isBagOpen || isSearchOpen, '750:inline-block': isBagOpen || isSearchOpen },
           ]"
           :style="{ color: navBarDarkColor }"
           @click="toggleBag"
@@ -196,7 +199,7 @@
             <!-- Top Line -->
             <path
               :class="
-                menuOpen || isBagOpen
+                menuOpen || isBagOpen || isSearchOpen
                   ? 'rotate-45 translate-x-[-6px] translate-y-[6px] scale-x-[1.31]'
                   : ''
               "
@@ -206,7 +209,7 @@
             />
             <!-- Middle Line (Fades out when open) -->
             <path
-              :class="menuOpen || isBagOpen ? 'scale-x-[-0]' : ''"
+              :class="menuOpen || isBagOpen || isSearchOpen ? 'scale-x-[-0]' : ''"
               class="transition-all duration-300 ease-in-out"
               d="M5.05926 10.2308H18.2692C18.6727 10.2308 19 9.90348 19 9.5C19 9.09652 18.6727 8.76923 18.2692 8.76923H5.05926C4.65578 8.76923 4.32849 9.09652 4.32849 9.5C4.32849 9.90348 4.65578 10.2308 5.05926 10.2308Z"
               fill="currentColor"
@@ -214,7 +217,7 @@
             <!-- Bottom Line -->
             <path
               :class="
-                menuOpen || isBagOpen
+                menuOpen || isBagOpen || isSearchOpen
                   ? '-rotate-45 translate-x-[-6px] translate-y-[-6px] scale-x-[1.31]'
                   : ''
               "
@@ -319,6 +322,34 @@
             {{ model }}
           </li>
         </ul>
+      </div>
+    </div>
+    <!-- Search -->
+    <div
+      ref="searchArea"
+      :style="{ height: isSearchOpen ? `${searchAreaHeight}px` : '0px' }"
+      class="w-full overflow-hidden select-none transition-all duration-500 ease-in-out"
+    >
+      <!-- Search Area -->
+      <div class="max-w-[1188px] w-full mx-auto px-6 box-border my-[24px]">
+        <div class="flex space-x-4 text-black/30 justify-center">
+          <svg
+            id="Layer_2"
+            data-name="Layer 2"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 19.2803 19.2808"
+            class="w-[35px]"
+          >
+            <g id="Layer_1-2" data-name="Layer 1">
+              <path
+                d="M18.2197,19.2808l-4.6904-4.6904c-1.48,1.2363-3.3281,1.9102-5.2793,1.9102-2.2031,0-4.2749-.8584-5.8335-2.417-1.5581-1.5576-2.4165-3.6294-2.4165-5.8335S.8584,3.9746,2.4165,2.4165,6.0464,0,8.25,0s4.2749,.8579,5.8335,2.4165,2.4165,3.6304,2.4165,5.8335c0,1.9517-.6733,3.8003-1.9097,5.2798l4.6899,4.6904-1.0605,1.0605ZM8.25,1.5c-1.8027,0-3.498,.7021-4.7729,1.9771s-1.9771,2.9702-1.9771,4.7729,.7021,3.4985,1.9771,4.7729c1.2754,1.2754,2.9702,1.9775,4.7729,1.9775s3.4971-.7021,4.7729-1.9775c1.2749-1.2754,1.9771-2.9702,1.9771-4.7729s-.7021-3.4976-1.9771-4.7729c-1.2754-1.2749-2.9707-1.9771-4.7729-1.9771Z"
+                fill="currentColor"
+              />
+            </g>
+          </svg>
+        <input type="text" placeholder="Search For a Case" class="w-full bg-transparent border-none text-[32px] text-black focus:outline-none focus:ring-none placeholder:text-black/30">
+
+        </div>
       </div>
     </div>
 
@@ -1030,11 +1061,12 @@
     @click="
       closeBag();
       closeDevices();
+      closeSearch();
     "
-    v-if="isBagOpen || isDevicesOpen"
+    v-if="isBagOpen || isDevicesOpen || isSearchOpen"
     class="fixed inset-0 bg-black bg-opacity-[0.035] z-40 transition-opacity duration-500 ease-in-out"
     :class="
-      isBagOpen || isDevicesOpen
+      isBagOpen || isDevicesOpen || isSearchOpen
         ? 'backdrop-blur-[50px] opacity-100'
         : 'opacity-0'
     "
@@ -1058,6 +1090,9 @@ export default {
       isDevicesOpen: false,
       isClosing: false,
       devicesContentHeight: 0,
+
+      isSearchOpen: false,
+      searchAreaHeight: 0,
 
       //for devices dropdown
       hoveredBrand: null,
@@ -1159,6 +1194,9 @@ export default {
       // Update navbar colors when bag state changes
       this.updateNavBarColors();
     },
+    isSearchOpen(){
+      this.updateNavBarColors();
+    }
   },
   mounted() {
     // Check on initial load
@@ -1383,8 +1421,10 @@ export default {
         this.bagContentHeight = window.innerHeight - 60;
       }
       // Close the bag if switching between mobile and desktop
+      if (wasDesktop !== this.isDesktop && this.isSearchOpen) this.closeSearch();
       if (wasDesktop !== this.isDesktop && this.isBagOpen) {
         this.closeBag();
+        
         if (!this.isDesktop) {
           this.$refs.bagContent.classList.add("hidden");
         } else {
@@ -1392,19 +1432,23 @@ export default {
         }
       }
       if (wasDesktop !== this.isDesktop && this.isDevicesOpen) {
+        this.searchAreaHeight = 0;
         this.devicesContentHeight = 0;
         this.closeDevices();
+        this.closeSearch();
       }
       if (wasDesktop !== this.isDesktop && this.menuOpen) {
         this.toggleMenu();
       }
     },
     xButton() {
-      console.log(this.bagContentHeight);
-      if (this.isBagOpen) {
+
+      if (this.isBagOpen || this.isSearchOpen) {
         this.$nextTick(() => {
           this.closeBag();
+          this.closeSearch();
         });
+        
       } else {
         this.$nextTick(() => {
           this.toggleMenu();
@@ -1538,9 +1582,8 @@ export default {
 
       this.isBagOpen = !this.isBagOpen;
 
-      if (this.isDevicesOpen) {
-        this.closeDevices(); // Close devices if open
-      }
+      if (this.isDevicesOpen) this.closeDevices(); // Close devices if open
+      if (this.isSearchOpen) this.closeSearch();
 
       this.$nextTick(() => {
         this.isDesktop = window.innerWidth >= 750; // Check if it's desktop size
@@ -1601,6 +1644,7 @@ export default {
       }
 
       if (this.isBagOpen) this.closeBag(); // Close bag if open
+      if (this.isSearchOpen) this.closeSearch();
 
       this.$nextTick(() => {
         const devicesContentEl = this.$refs.devicesContent;
@@ -1616,6 +1660,32 @@ export default {
       this.$nextTick(() => {
         // Set height to 0 to transition
         this.devicesContentHeight = 0;
+      });
+    },
+
+    toggleSearch() {
+      this.isSearchOpen = !this.isSearchOpen;
+
+
+      if (this.isBagOpen) this.closeBag(); // Close bag if open
+      if (this.isDevicesOpen) this.closeDevices();
+      if (!this.isDesktop) this.$refs.bagContentMobile.classList.add("hidden");
+
+
+      this.$nextTick(() => {
+        const searchAreaEl = this.$refs.searchArea;
+        if (searchAreaEl) {
+          this.searchAreaHeight = this.isSearchOpen 
+            ? searchAreaEl.scrollHeight
+            : 0;
+        }
+      });
+    },
+    closeSearch() {
+      this.isSearchOpen = false;
+      this.$nextTick(() => {
+        // Set height to 0 to transition
+        this.searchAreaHeight = 0;
       });
     },
     // closeDevicesNonHover() {
@@ -1687,7 +1757,7 @@ export default {
       }
     },
     updateNavBarColors() {
-      if (this.isBagOpen || this.isDevicesOpen || this.menuOpen) {
+      if (this.isBagOpen || this.isDevicesOpen || this.menuOpen || this.isSearchOpen) {
         // Either bag or devices dropdown is open, set default colors
         this.navBarLightColor = "#F9F9F9";
         this.navBarDarkColor = "#000000";
